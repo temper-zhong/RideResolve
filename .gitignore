@@ -3,6 +3,8 @@
 !.env.example
 var/
 dist/
+build/
+*.egg-info/
 __pycache__/
 *.pyc
 .pytest_cache/
