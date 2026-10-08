@@ -1,0 +1,126 @@
+{
+  "policy_id": "RIDER_DRIVER_DISPUTE_POLICY",
+  "policy_version": "DEMO_POLICY_V1",
+  "effective_from": "2026-01-01T00:00:00+08:00",
+  "effective_to": null,
+  "timezone": "Asia/Singapore",
+  "rules": [
+    {
+      "rule_id": "RD-001",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 10,
+      "evaluator": "route_deviation_required_evidence",
+      "parameters": {
+        "minimum_gps_coverage_percent": 90,
+        "required_source_types": ["PLATFORM_GPS", "ROUTE_BASELINE", "FARE_LEDGER"]
+      },
+      "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"}
+    },
+    {
+      "rule_id": "RD-002",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 20,
+      "evaluator": "route_deviation_within_tolerance",
+      "parameters": {"maximum_allowed_ratio": 1.2},
+      "allowed_outcome": {"action": "NO_ACTION"}
+    },
+    {
+      "rule_id": "RD-003",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 30,
+      "evaluator": "route_deviation_verified_exception",
+      "parameters": {
+        "verifiable_exception_sources": ["AUTHENTICATED_CHAT", "DEMO_TRAFFIC_FEED"]
+      },
+      "allowed_outcome": {"action": "NO_ACTION"}
+    },
+    {
+      "rule_id": "RD-004",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 40,
+      "evaluator": "route_deviation_unjustified_surcharge",
+      "parameters": {"fee_item": "distance_surcharge"},
+      "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"}
+    },
+    {
+      "rule_id": "RD-005",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 50,
+      "evaluator": "route_deviation_uncertain_exception",
+      "parameters": {},
+      "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"}
+    },
+    {
+      "rule_id": "RD-006",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 35,
+      "evaluator": "route_deviation_unverifiable_oral_claim",
+      "parameters": {},
+      "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"}
+    },
+    {
+      "rule_id": "NS-001",
+      "dispute_type": "NO_SHOW",
+      "priority": 10,
+      "evaluator": "no_show_required_evidence",
+      "parameters": {
+        "required_source_types": ["PLATFORM_GPS", "TRIP_EVENT_LOG", "CONTACT_LOG", "FARE_LEDGER"]
+      },
+      "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"}
+    },
+    {
+      "rule_id": "NS-002",
+      "dispute_type": "NO_SHOW",
+      "priority": 20,
+      "evaluator": "no_show_charge_valid",
+      "parameters": {
+        "maximum_pickup_distance_m": 150,
+        "minimum_wait_seconds": 300
+      },
+      "allowed_outcome": {"action": "NO_ACTION"}
+    },
+    {
+      "rule_id": "NS-003",
+      "dispute_type": "NO_SHOW",
+      "priority": 30,
+      "evaluator": "no_show_driver_outside_pickup_radius",
+      "parameters": {"fee_item": "cancellation_fee"},
+      "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"}
+    },
+    {
+      "rule_id": "NS-004",
+      "dispute_type": "NO_SHOW",
+      "priority": 40,
+      "evaluator": "no_show_wait_too_short",
+      "parameters": {"fee_item": "cancellation_fee"},
+      "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"}
+    },
+    {
+      "rule_id": "NS-005",
+      "dispute_type": "NO_SHOW",
+      "priority": 50,
+      "evaluator": "no_show_no_platform_contact",
+      "parameters": {"fee_item": "cancellation_fee"},
+      "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"}
+    },
+    {
+      "rule_id": "NS-006",
+      "dispute_type": "NO_SHOW",
+      "priority": 60,
+      "evaluator": "no_show_authoritative_conflict",
+      "parameters": {
+        "maximum_time_conflict_seconds": 60,
+        "maximum_position_conflict_m": 100
+      },
+      "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"}
+    },
+    {
+      "rule_id": "NS-007",
+      "dispute_type": "NO_SHOW",
+      "priority": 70,
+      "evaluator": "no_show_contact_coverage_incomplete",
+      "parameters": {},
+      "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"}
+    }
+  ]
+}

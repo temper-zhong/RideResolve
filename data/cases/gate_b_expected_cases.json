@@ -1,0 +1,74 @@
+[
+  {
+    "case_key": "RD_UNJUSTIFIED_DEVIATION",
+    "dispute_type": "ROUTE_DEVIATION",
+    "description": "GPS coverage is complete, deviation exceeds 20%, exception channels are complete, and no verifiable exception exists.",
+    "expected_business_status": "RESOLVED",
+    "expected_rule_id": "RD-004",
+    "expected_action": "REFUND_DISPUTED_FEE_FULL",
+    "expected_amount_cents": 325
+  },
+  {
+    "case_key": "RD_VERIFIED_ROAD_CLOSURE",
+    "dispute_type": "ROUTE_DEVIATION",
+    "description": "GPS coverage is complete and a relevant road closure is present in the demo traffic feed.",
+    "expected_business_status": "RESOLVED",
+    "expected_rule_id": "RD-003",
+    "expected_action": "NO_ACTION",
+    "expected_amount_cents": 0
+  },
+  {
+    "case_key": "RD_INCOMPLETE_GPS",
+    "dispute_type": "ROUTE_DEVIATION",
+    "description": "The main Decision Delta v1 case has less than 90% GPS coverage.",
+    "expected_business_status": "PENDING_HUMAN_REVIEW",
+    "expected_rule_id": "RD-001",
+    "expected_action": null,
+    "expected_amount_cents": 0
+  },
+  {
+    "case_key": "RD_BOUNDARY_20_PERCENT",
+    "dispute_type": "ROUTE_DEVIATION",
+    "description": "Actual distance is at the 20% policy boundary and therefore allowed.",
+    "expected_business_status": "RESOLVED",
+    "expected_rule_id": "RD-002",
+    "expected_action": "NO_ACTION",
+    "expected_amount_cents": 0
+  },
+  {
+    "case_key": "NS_VALID_CHARGE",
+    "dispute_type": "NO_SHOW",
+    "description": "Driver is within 150 m, waits at least 300 seconds, and makes a platform contact attempt.",
+    "expected_business_status": "RESOLVED",
+    "expected_rule_id": "NS-002",
+    "expected_action": "NO_ACTION",
+    "expected_amount_cents": 0
+  },
+  {
+    "case_key": "NS_DRIVER_TOO_FAR",
+    "dispute_type": "NO_SHOW",
+    "description": "Authoritative GPS places the driver outside the 150 m pickup radius.",
+    "expected_business_status": "RESOLVED",
+    "expected_rule_id": "NS-003",
+    "expected_action": "REFUND_DISPUTED_FEE_FULL",
+    "expected_amount_cents": 400
+  },
+  {
+    "case_key": "NS_WAIT_TOO_SHORT",
+    "dispute_type": "NO_SHOW",
+    "description": "The authoritative event log shows less than 300 seconds of waiting.",
+    "expected_business_status": "RESOLVED",
+    "expected_rule_id": "NS-004",
+    "expected_action": "REFUND_DISPUTED_FEE_FULL",
+    "expected_amount_cents": 400
+  },
+  {
+    "case_key": "NS_CONTACT_COVERAGE_INCOMPLETE",
+    "dispute_type": "NO_SHOW",
+    "description": "The contact log does not fully cover the waiting interval, so absence of contact cannot be proven.",
+    "expected_business_status": "PENDING_HUMAN_REVIEW",
+    "expected_rule_id": "NS-007",
+    "expected_action": null,
+    "expected_amount_cents": 0
+  }
+]

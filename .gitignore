@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+var/
+dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+coverage.xml
+*.log
+*.jsonl
+probe_credentials*.json
+run_registry*.json
