@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://REPLACE_WITH_DEPLOYED_HOST"
+      "url": "https://rideresolve-gate-a-probe-325140-12-1501522460.sh.run.tcloudbase.com"
     }
   ],
   "paths": {
