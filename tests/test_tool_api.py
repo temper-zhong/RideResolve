@@ -127,6 +127,25 @@ class RunRegistryTests(unittest.TestCase):
                 issued.tokens[AgentRole.RIDER_ADVOCATE]
             )
 
+    def test_run_ttl_allows_at_most_twenty_four_hours(self) -> None:
+        current = datetime(2026, 10, 9, tzinfo=UTC)
+        registry = RunRegistry(self.path, self.store, now=lambda: current)
+        issued = registry.create_run(
+            "CASE-RD-TOOL-001",
+            1,
+            ttl_seconds=24 * 3600,
+        )
+        self.assertEqual(
+            current + timedelta(hours=24),
+            issued.expires_at,
+        )
+        with self.assertRaisesRegex(ValueError, "between 60 and 86400"):
+            registry.create_run(
+                "CASE-RD-TOOL-001",
+                1,
+                ttl_seconds=24 * 3600 + 1,
+            )
+
 
 class ToolHttpTests(unittest.TestCase):
     @classmethod

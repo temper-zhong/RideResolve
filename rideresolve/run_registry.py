@@ -110,8 +110,8 @@ class RunRegistry:
         ttl_seconds: int = 3600,
         max_requests_per_role: int = 12,
     ) -> IssuedRun:
-        if ttl_seconds < 60 or ttl_seconds > 4 * 3600:
-            raise ValueError("ttl_seconds must be between 60 and 14400")
+        if ttl_seconds < 60 or ttl_seconds > 24 * 3600:
+            raise ValueError("ttl_seconds must be between 60 and 86400")
         if max_requests_per_role < 1 or max_requests_per_role > 30:
             raise ValueError("max_requests_per_role must be between 1 and 30")
         snapshot = self.store.get_snapshot(case_id, case_version)
