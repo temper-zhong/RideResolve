@@ -219,6 +219,30 @@ class ToolHttpTests(unittest.TestCase):
             "cancelled_at",
         ):
             self.assertIn(field, payload_properties)
+        policy_result = schema["paths"]["/tools/get_policy_rules"]["post"][
+            "responses"
+        ]["200"]["content"]["application/json"]["schema"]["properties"][
+            "result"
+        ]
+        policy_rule = policy_result["properties"]["rules"]["items"]
+        parameter_properties = policy_rule["properties"]["parameters"]["properties"]
+        for field in (
+            "minimum_gps_coverage_percent",
+            "required_source_types",
+            "maximum_allowed_ratio",
+            "verifiable_exception_sources",
+            "fee_item",
+            "maximum_pickup_distance_m",
+            "minimum_wait_seconds",
+            "maximum_time_conflict_seconds",
+            "maximum_position_conflict_m",
+        ):
+            self.assertIn(field, parameter_properties)
+        allowed_outcome_properties = policy_rule["properties"]["allowed_outcome"][
+            "properties"
+        ]
+        self.assertIn("business_status", allowed_outcome_properties)
+        self.assertIn("action", allowed_outcome_properties)
 
     def test_tool_requires_run_token(self) -> None:
         with self.assertRaises(HTTPError) as caught:

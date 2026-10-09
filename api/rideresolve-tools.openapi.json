@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "RideResolve Gate A Probe Tools",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Read-only tools for synthetic RideResolve cases. The secure connector credential is a short-lived, role-specific run token and must never appear in model input."
   },
   "servers": [
@@ -640,11 +640,54 @@
                               },
                               "parameters": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": false,
+                                "properties": {
+                                  "minimum_gps_coverage_percent": {
+                                    "type": "number"
+                                  },
+                                  "required_source_types": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "maximum_allowed_ratio": {
+                                    "type": "number"
+                                  },
+                                  "verifiable_exception_sources": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "fee_item": {
+                                    "type": "string"
+                                  },
+                                  "maximum_pickup_distance_m": {
+                                    "type": "number"
+                                  },
+                                  "minimum_wait_seconds": {
+                                    "type": "integer"
+                                  },
+                                  "maximum_time_conflict_seconds": {
+                                    "type": "integer"
+                                  },
+                                  "maximum_position_conflict_m": {
+                                    "type": "number"
+                                  }
+                                }
                               },
                               "allowed_outcome": {
                                 "type": "object",
-                                "additionalProperties": true
+                                "additionalProperties": false,
+                                "properties": {
+                                  "business_status": {
+                                    "type": "string"
+                                  },
+                                  "action": {
+                                    "type": "string"
+                                  }
+                                }
                               }
                             }
                           }

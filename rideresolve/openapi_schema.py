@@ -261,6 +261,35 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
             },
         },
     }
+    policy_parameters_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "minimum_gps_coverage_percent": {"type": "number"},
+            "required_source_types": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "maximum_allowed_ratio": {"type": "number"},
+            "verifiable_exception_sources": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "fee_item": {"type": "string"},
+            "maximum_pickup_distance_m": {"type": "number"},
+            "minimum_wait_seconds": {"type": "integer"},
+            "maximum_time_conflict_seconds": {"type": "integer"},
+            "maximum_position_conflict_m": {"type": "number"},
+        },
+    }
+    allowed_outcome_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "business_status": {"type": "string"},
+            "action": {"type": "string"},
+        },
+    }
     policy_result_schema = {
         "type": "object",
         "additionalProperties": False,
@@ -296,8 +325,8 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                         "dispute_type": {"type": "string"},
                         "priority": {"type": "integer"},
                         "evaluator": {"type": "string"},
-                        "parameters": {"type": "object", "additionalProperties": True},
-                        "allowed_outcome": {"type": "object", "additionalProperties": True},
+                        "parameters": policy_parameters_schema,
+                        "allowed_outcome": allowed_outcome_schema,
                     },
                 },
             },
@@ -307,7 +336,7 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "openapi": "3.0.3",
         "info": {
             "title": "RideResolve Gate A Probe Tools",
-            "version": "0.2.2",
+            "version": "0.2.3",
             "description": (
                 "Read-only tools for synthetic RideResolve cases. The secure connector credential "
                 "is a short-lived, role-specific run token and must never appear in model input."
