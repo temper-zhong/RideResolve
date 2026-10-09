@@ -188,6 +188,17 @@ class ToolHttpTests(unittest.TestCase):
             "X-RideResolve-Run-Token",
             schema["components"]["securitySchemes"]["RunToken"]["name"],
         )
+        for path in (
+            "/tools/get_case_snapshot",
+            "/tools/get_trip_evidence",
+            "/tools/get_policy_rules",
+        ):
+            response_schema = schema["paths"][path]["post"]["responses"]["200"][
+                "content"
+            ]["application/json"]["schema"]
+            self.assertEqual("object", response_schema["type"])
+            self.assertEqual(["result", "request_id"], response_schema["required"])
+            self.assertIn("properties", response_schema["properties"]["result"])
 
     def test_tool_requires_run_token(self) -> None:
         with self.assertRaises(HTTPError) as caught:

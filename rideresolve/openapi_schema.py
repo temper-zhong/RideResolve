@@ -19,11 +19,205 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "PARTY_STATEMENT",
     ]
     empty_object = {"type": "object", "additionalProperties": False, "properties": {}}
+
+    def successful_response(result_schema: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "description": "Successful run-scoped tool response",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "additionalProperties": False,
+                        "required": ["result", "request_id"],
+                        "properties": {
+                            "result": result_schema,
+                            "request_id": {"type": "string"},
+                        },
+                    }
+                }
+            },
+        }
+
+    common_result_properties = {
+        "run_id": {"type": "string"},
+        "tool_actor_role": {
+            "type": "string",
+            "enum": ["RIDER_ADVOCATE", "DRIVER_ADVOCATE", "JUDGE"],
+        },
+        "dataset_id": {"type": "string"},
+        "synthetic": {"type": "boolean"},
+    }
+    case_schema = {
+        "type": "object",
+        "additionalProperties": True,
+        "required": [
+            "case_id",
+            "case_version",
+            "dispute_type",
+            "policy_version",
+            "currency",
+            "claim_text",
+        ],
+        "properties": {
+            "case_id": {"type": "string"},
+            "case_version": {"type": "integer"},
+            "dispute_type": {"type": "string"},
+            "policy_version": {"type": "string"},
+            "currency": {"type": "string"},
+            "trip_started_at": {"type": "string", "format": "date-time"},
+            "trip_ended_at": {"type": "string", "format": "date-time"},
+            "claim_text": {"type": "string"},
+            "disputed_fee_item": {"type": "string"},
+            "disputed_amount_cents": {"type": "integer"},
+            "created_at": {"type": "string", "format": "date-time"},
+        },
+    }
+    snapshot_result_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "run_id",
+            "tool_actor_role",
+            "dataset_id",
+            "synthetic",
+            "case",
+            "evidence_reference_count",
+            "available_evidence_types",
+        ],
+        "properties": {
+            **common_result_properties,
+            "case": case_schema,
+            "evidence_reference_count": {"type": "integer"},
+            "available_evidence_types": {
+                "type": "array",
+                "items": {"type": "string", "enum": source_types},
+            },
+        },
+    }
+    evidence_item_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "evidence_id",
+            "source_record_id",
+            "source_type",
+            "trust_tier",
+            "observed_at",
+            "collected_at",
+            "record_role",
+            "related_evidence_ids",
+            "payload",
+            "checksum_verified",
+        ],
+        "properties": {
+            "evidence_id": {"type": "string"},
+            "source_record_id": {"type": "string"},
+            "source_type": {"type": "string", "enum": source_types},
+            "trust_tier": {"type": "string"},
+            "observed_at": {"type": "string", "format": "date-time"},
+            "collected_at": {"type": "string", "format": "date-time"},
+            "coverage": {
+                "type": "object",
+                "nullable": True,
+                "additionalProperties": True,
+            },
+            "record_role": {"type": "string"},
+            "related_evidence_ids": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "provenance_reason": {"type": "string", "nullable": True},
+            "payload": {"type": "object", "additionalProperties": True},
+            "checksum_verified": {"type": "boolean"},
+        },
+    }
+    evidence_result_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "run_id",
+            "tool_actor_role",
+            "dataset_id",
+            "synthetic",
+            "case_id",
+            "case_version",
+            "detail",
+            "evidence",
+        ],
+        "properties": {
+            **common_result_properties,
+            "case_id": {"type": "string"},
+            "case_version": {"type": "integer"},
+            "detail": {"type": "string", "enum": ["SUMMARY", "FULL"]},
+            "evidence": {"type": "array", "items": evidence_item_schema},
+            "gps_aggregate": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": [
+                    "coverage_percent",
+                    "actual_distance_m",
+                    "conflict",
+                    "conflict_reasons",
+                ],
+                "properties": {
+                    "coverage_percent": {"type": "number"},
+                    "actual_distance_m": {"type": "number"},
+                    "conflict": {"type": "boolean"},
+                    "conflict_reasons": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
+                },
+            },
+        },
+    }
+    policy_result_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "run_id",
+            "tool_actor_role",
+            "policy_id",
+            "policy_version",
+            "effective_from",
+            "timezone",
+            "rules",
+        ],
+        "properties": {
+            "run_id": {"type": "string"},
+            "tool_actor_role": common_result_properties["tool_actor_role"],
+            "policy_id": {"type": "string"},
+            "policy_version": {"type": "string"},
+            "effective_from": {"type": "string", "format": "date-time"},
+            "effective_to": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": True,
+            },
+            "timezone": {"type": "string"},
+            "rules": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": True,
+                    "required": ["rule_id", "dispute_type", "priority", "evaluator"],
+                    "properties": {
+                        "rule_id": {"type": "string"},
+                        "dispute_type": {"type": "string"},
+                        "priority": {"type": "integer"},
+                        "evaluator": {"type": "string"},
+                        "parameters": {"type": "object", "additionalProperties": True},
+                        "allowed_outcome": {"type": "object", "additionalProperties": True},
+                    },
+                },
+            },
+        },
+    }
     return {
         "openapi": "3.0.3",
         "info": {
             "title": "RideResolve Gate A Probe Tools",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "description": (
                 "Read-only tools for synthetic RideResolve cases. The secure connector credential "
                 "is a short-lived, role-specific run token and must never appear in model input."
@@ -44,7 +238,7 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                         "required": True,
                         "content": {"application/json": {"schema": empty_object}},
                     },
-                    "responses": {"200": {"description": "Run-scoped case summary"}},
+                    "responses": {"200": successful_response(snapshot_result_schema)},
                 }
             },
             "/tools/get_trip_evidence": {
@@ -81,7 +275,7 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                             }
                         },
                     },
-                    "responses": {"200": {"description": "Run-scoped evidence records"}},
+                    "responses": {"200": successful_response(evidence_result_schema)},
                 }
             },
             "/tools/get_policy_rules": {
@@ -109,7 +303,7 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                             }
                         },
                     },
-                    "responses": {"200": {"description": "Run-scoped policy rules"}},
+                    "responses": {"200": successful_response(policy_result_schema)},
                 }
             },
         },
