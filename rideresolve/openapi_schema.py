@@ -94,6 +94,100 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
             },
         },
     }
+    coverage_schema = {
+        "type": "object",
+        "nullable": True,
+        "additionalProperties": False,
+        "properties": {
+            "start_at": {"type": "string", "format": "date-time"},
+            "end_at": {"type": "string", "format": "date-time"},
+            "is_complete": {"type": "boolean"},
+            "scope": {"type": "string"},
+        },
+    }
+    evidence_payload_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "samples": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "timestamp": {"type": "string", "format": "date-time"},
+                        "latitude": {"type": "number"},
+                        "longitude": {"type": "number"},
+                    },
+                },
+            },
+            "sample_count": {"type": "integer"},
+            "first_sample_at": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": True,
+            },
+            "last_sample_at": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": True,
+            },
+            "arrival_distance_m": {"type": "number"},
+            "baseline_distance_m": {"type": "number"},
+            "currency": {"type": "string"},
+            "line_items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "fee_item": {"type": "string"},
+                        "amount_cents": {"type": "integer"},
+                    },
+                },
+            },
+            "total_paid_cents": {"type": "integer"},
+            "messages": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "tag": {"type": "string"},
+                        "text": {"type": "string"},
+                        "at": {"type": "string", "format": "date-time"},
+                    },
+                },
+            },
+            "events": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "type": {"type": "string"},
+                        "relevant": {"type": "boolean"},
+                        "at": {"type": "string", "format": "date-time"},
+                    },
+                },
+            },
+            "attempts": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "channel": {"type": "string"},
+                        "at": {"type": "string", "format": "date-time"},
+                    },
+                },
+            },
+            "arrived_at": {"type": "string", "format": "date-time"},
+            "cancelled_at": {"type": "string", "format": "date-time"},
+            "cancelled_by": {"type": "string"},
+            "claims_oral_stop_request": {"type": "boolean"},
+        },
+    }
     evidence_item_schema = {
         "type": "object",
         "additionalProperties": False,
@@ -116,18 +210,14 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
             "trust_tier": {"type": "string"},
             "observed_at": {"type": "string", "format": "date-time"},
             "collected_at": {"type": "string", "format": "date-time"},
-            "coverage": {
-                "type": "object",
-                "nullable": True,
-                "additionalProperties": True,
-            },
+            "coverage": coverage_schema,
             "record_role": {"type": "string"},
             "related_evidence_ids": {
                 "type": "array",
                 "items": {"type": "string"},
             },
             "provenance_reason": {"type": "string", "nullable": True},
-            "payload": {"type": "object", "additionalProperties": True},
+            "payload": evidence_payload_schema,
             "checksum_verified": {"type": "boolean"},
         },
     }
@@ -217,7 +307,7 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "openapi": "3.0.3",
         "info": {
             "title": "RideResolve Gate A Probe Tools",
-            "version": "0.2.1",
+            "version": "0.2.2",
             "description": (
                 "Read-only tools for synthetic RideResolve cases. The secure connector credential "
                 "is a short-lived, role-specific run token and must never appear in model input."

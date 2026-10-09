@@ -199,6 +199,26 @@ class ToolHttpTests(unittest.TestCase):
             self.assertEqual("object", response_schema["type"])
             self.assertEqual(["result", "request_id"], response_schema["required"])
             self.assertIn("properties", response_schema["properties"]["result"])
+        evidence_result = schema["paths"]["/tools/get_trip_evidence"]["post"][
+            "responses"
+        ]["200"]["content"]["application/json"]["schema"]["properties"][
+            "result"
+        ]
+        evidence_item = evidence_result["properties"]["evidence"]["items"]
+        self.assertIn("start_at", evidence_item["properties"]["coverage"]["properties"])
+        payload_properties = evidence_item["properties"]["payload"]["properties"]
+        for field in (
+            "samples",
+            "arrival_distance_m",
+            "baseline_distance_m",
+            "line_items",
+            "messages",
+            "events",
+            "attempts",
+            "arrived_at",
+            "cancelled_at",
+        ):
+            self.assertIn(field, payload_properties)
 
     def test_tool_requires_run_token(self) -> None:
         with self.assertRaises(HTTPError) as caught:
