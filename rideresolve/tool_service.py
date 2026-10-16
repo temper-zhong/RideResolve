@@ -226,17 +226,23 @@ class ToolService:
     def load_default(cls) -> "ToolService":
         return cls(CaseStore.load_default())
 
+    @staticmethod
+    def _case_is_synthetic(case_origin: str) -> bool:
+        """Return the case-level marker, not the merged-store dataset marker."""
+        return case_origin != "OFFICIAL_HACKATHON_SAMPLE"
+
     def get_case_snapshot(self, scope: ToolScope, request: CaseSnapshotRequest) -> dict[str, Any]:
         snapshot = self.store.get_snapshot(scope.case_id, scope.case_version)
         available = self.store.get_evidence(snapshot)
+        case_origin = self.store.case_origin(snapshot)
         case_payload = snapshot.model_dump(mode="json")
         evidence_reference_count = len(case_payload.pop("evidence_refs"))
         return {
             "run_id": scope.run_id,
             "tool_actor_role": scope.actor_role,
             "dataset_id": self.store.dataset_id,
-            "synthetic": self.store.synthetic,
-            "case_origin": self.store.case_origin(snapshot),
+            "synthetic": self._case_is_synthetic(case_origin),
+            "case_origin": case_origin,
             "case": case_payload,
             "evidence_reference_count": evidence_reference_count,
             "available_evidence_types": sorted({item.source_type.value for item in available}),
@@ -244,14 +250,15 @@ class ToolService:
 
     def get_trip_evidence(self, scope: ToolScope, request: TripEvidenceRequest) -> dict[str, Any]:
         snapshot = self.store.get_snapshot(scope.case_id, scope.case_version)
+        case_origin = self.store.case_origin(snapshot)
         filters = set(request.evidence_types) if request.evidence_types else None
         selected = self.store.get_evidence(snapshot, filters)
         response: dict[str, Any] = {
             "run_id": scope.run_id,
             "tool_actor_role": scope.actor_role,
             "dataset_id": self.store.dataset_id,
-            "synthetic": self.store.synthetic,
-            "case_origin": self.store.case_origin(snapshot),
+            "synthetic": self._case_is_synthetic(case_origin),
+            "case_origin": case_origin,
             "case_id": snapshot.case_id,
             "case_version": snapshot.case_version,
             "detail": request.detail,
@@ -279,7 +286,7 @@ class ToolService:
         ]
 
     @staticmethod
-    def _concise_message(evaluation: Any) -> str:
+    def _concise_message(evaluation: Any, case_origin: str) -> str:
         rules = ", ".join(evaluation.matched_rule_ids)
         if evaluation.allowed_action is None:
             reason = evaluation.review_reasons[0] if evaluation.review_reasons else "Policy requires human review."
@@ -291,10 +298,15 @@ class ToolService:
             amount = f"{action.currency} {action.amount_cents / 100:.2f}"
             qualifier = "partially refund" if action.type.value.endswith("PARTIAL") else "refund"
             outcome = f"Recommend to {qualifier} {amount} for {action.fee_item}."
-        return (
-            f"{outcome} Policy: {rules}. "
-            "Synthetic recommendation only; no refund, fee adjustment, or notification was executed."
-        )
+        if case_origin == "OFFICIAL_HACKATHON_SAMPLE":
+            disclaimer = (
+                "Recommendation only; no refund, fee adjustment, or notification was executed."
+            )
+        else:
+            disclaimer = (
+                "Synthetic recommendation only; no refund, fee adjustment, or notification was executed."
+            )
+        return f"{outcome} Policy: {rules}. {disclaimer}"
 
     def get_deterministic_evaluation(
         self,
@@ -305,12 +317,13 @@ class ToolService:
         evidence = self.store.get_evidence(snapshot)
         policy = self.store.get_policy(scope.policy_version)
         evaluation = evaluate_case(snapshot, evidence, policy)
+        case_origin = self.store.case_origin(snapshot)
         return {
             "run_id": scope.run_id,
             "tool_actor_role": scope.actor_role,
             "dataset_id": self.store.dataset_id,
-            "synthetic": self.store.synthetic,
-            "case_origin": self.store.case_origin(snapshot),
+            "synthetic": self._case_is_synthetic(case_origin),
+            "case_origin": case_origin,
             "case_id": snapshot.case_id,
             "case_version": snapshot.case_version,
             "dispute_type": snapshot.dispute_type.value,
@@ -318,7 +331,7 @@ class ToolService:
             "data_precedence": "OFFICIAL_OVER_LEGACY_MOCK",
             "decision_evidence_ids": self._decision_evidence_ids(evidence),
             "evaluation": evaluation.model_dump(mode="json"),
-            "message": self._concise_message(evaluation),
+            "message": self._concise_message(evaluation, case_origin),
         }
 
     def validate_recommendation(
@@ -332,6 +345,7 @@ class ToolService:
         evidence = self.store.get_evidence(snapshot)
         policy = self.store.get_policy(scope.policy_version)
         evaluation = evaluate_case(snapshot, evidence, policy)
+        case_origin = self.store.case_origin(snapshot)
         recommendation = request.recommendation
         valid_evidence_ids = set(self._decision_evidence_ids(evidence))
         cited_evidence_ids = set(recommendation.evidence_citations)
@@ -348,14 +362,14 @@ class ToolService:
             "run_id": scope.run_id,
             "tool_actor_role": scope.actor_role,
             "dataset_id": self.store.dataset_id,
-            "synthetic": self.store.synthetic,
-            "case_origin": self.store.case_origin(snapshot),
+            "synthetic": self._case_is_synthetic(case_origin),
+            "case_origin": case_origin,
             "case_id": snapshot.case_id,
             "case_version": snapshot.case_version,
             "policy_version": snapshot.policy_version,
             "validation_status": "PASSED",
             "validated_by": "PYTHON_DETERMINISTIC_GATE",
-            "message": self._concise_message(evaluation),
+            "message": self._concise_message(evaluation, case_origin),
             "recommendation": recommendation.model_dump(mode="json"),
             "authoritative_evaluation": evaluation.model_dump(mode="json"),
         }

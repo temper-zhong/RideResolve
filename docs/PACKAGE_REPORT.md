@@ -2,11 +2,11 @@
 
 Prepared: 2026-10-16
 
-Current archive: `dist/RR-submit-candidate-v0.6.0-r5-prompt-sync.zip`
+Current archive: `dist/RR-submit-final-v0.6.0-r6.zip`
 
-Status: **candidate only; do not submit until the official-case Synthetic label defect is fixed and a new final archive is generated**
+Status: **final; ready for submission after deploying the matching CloudBase package and completing the public smoke test**
 
-SHA-256: `ACA9657DB77ED1FBA1C2EB7D073AEEB2015AB6C33C8384E10ED5D5342D1CB6FA`
+SHA-256: `E6F0D068C3861D7BB319987309D4CC6D4C9C49A8BF5017DFDEA4171E0D1A445C`
 
 ## Canonical architecture
 
@@ -22,6 +22,8 @@ The user supplies a normal problem description containing an explicit official `
 
 - current v0.6 source, official/synthetic datasets, tests, and reproducibility lock file;
 - nine explicitly labeled synthetic public demos covering common Route Deviation, No-Show, and Fare Dispute outcomes;
+- case-level provenance output: official `DISP-*` cases return `synthetic: false`, while `DEMO-*`
+  cases retain `synthetic: true` and the explicit synthetic-only execution disclaimer;
 - the signed-session expiry precision fix that prevents valid Intake contexts with microseconds
   from being rejected by downstream tools as HTTP 401;
 - all six v0.6 OpenAPI documents: Intake plus Evidence, Rider, Driver, Policy, and Gate;
@@ -42,8 +44,8 @@ The user supplies a normal problem description containing an explicit official `
 
 ## Verification
 
-- candidate archive: 145 ZIP entries comprising 144 packaged files plus `SUBMISSION_MANIFEST.json`, with no duplicates and portable names;
-- 25 JSON entries parsed successfully;
+- final archive: 145 ZIP entries comprising 144 packaged files plus `SUBMISSION_MANIFEST.json`, with no duplicates and portable names;
+- 26 JSON entries (including `SUBMISSION_MANIFEST.json`) parsed successfully;
 - all six `api/adp/v0_6/*.json` OpenAPI files present;
 - every archived file matched the SHA-256 recorded in `SUBMISSION_MANIFEST.json`;
 - privacy/secret scan found no blocked Windows user path, private key, JWT-like token, or Tencent-style secret ID in included text files;
@@ -57,4 +59,4 @@ The user supplies a normal problem description containing an explicit official `
 
 ## Final status
 
-The mandatory WorkBuddy evidence gate was completed on 2026-10-16: three distinct, manually reviewed screenshots are present with a written development-process description and matching hashes in `privacy_review.json`. The r4 archive is retired because it predates the final ADP prompt synchronization and updated challenge mapping. The verified r5 archive is intentionally marked `CANDIDATE_NOT_FOR_SUBMISSION`; after the official-case Synthetic label defect is fixed, rerun the full tests, generate the next final archive with `--final`, and confirm that the GitHub repository is publicly readable without cached credentials.
+The mandatory WorkBuddy evidence gate was completed on 2026-10-16: three distinct, manually reviewed screenshots are present with a written development-process description and matching hashes in `privacy_review.json`. The r4 archive is retired because it predates the final ADP prompt synchronization and updated challenge mapping. The r5 candidate is also retired. The r6 archive includes the official-case provenance-label fix and was generated with the final-package gate enabled. Deploy `dist/rideresolve-cloudbase-v0.6.4-official-origin-fix.zip`, smoke-test one official and one synthetic public case, then submit r6.

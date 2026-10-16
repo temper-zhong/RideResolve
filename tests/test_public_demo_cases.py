@@ -10,6 +10,12 @@ from rideresolve.integrity import evidence_checksum_is_valid
 from rideresolve.intake import IntakeRequest, OfficialCaseResolver
 from rideresolve.models import CaseSnapshot, Evidence
 from rideresolve.policy import evaluate_case
+from rideresolve.tool_service import (
+    CaseSnapshotRequest,
+    DeterministicEvaluationRequest,
+    ToolScope,
+    ToolService,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +37,40 @@ class PublicDemoCaseTests(unittest.TestCase):
         self.assertEqual(9, len(demos))
         self.assertTrue(all(case_id.startswith("DEMO-") for case_id in demos))
         self.assertTrue(official.isdisjoint(demos))
+
+        service = ToolService(self.store)
+        official_scope = ToolScope(
+            run_id="RUN-OFFICIAL-ORIGIN",
+            actor_role="JUDGE",
+            case_id="DISP-001",
+            case_version=1,
+            policy_version="RYDE_POLICY_V2_1",
+        )
+        demo_scope = ToolScope(
+            run_id="RUN-DEMO-ORIGIN",
+            actor_role="JUDGE",
+            case_id="DEMO-102",
+            case_version=1,
+            policy_version="RYDE_POLICY_V2_1",
+        )
+        official_snapshot = service.get_case_snapshot(
+            official_scope, CaseSnapshotRequest()
+        )
+        demo_snapshot = service.get_case_snapshot(demo_scope, CaseSnapshotRequest())
+        self.assertFalse(official_snapshot["synthetic"])
+        self.assertEqual("OFFICIAL_HACKATHON_SAMPLE", official_snapshot["case_origin"])
+        self.assertTrue(demo_snapshot["synthetic"])
+        self.assertEqual("SYNTHETIC_DEMO", demo_snapshot["case_origin"])
+
+        official_evaluation = service.get_deterministic_evaluation(
+            official_scope, DeterministicEvaluationRequest()
+        )
+        demo_evaluation = service.get_deterministic_evaluation(
+            demo_scope, DeterministicEvaluationRequest()
+        )
+        self.assertNotIn("Synthetic recommendation only", official_evaluation["message"])
+        self.assertIn("Recommendation only", official_evaluation["message"])
+        self.assertIn("Synthetic recommendation only", demo_evaluation["message"])
 
     def test_demo_dataset_has_prominent_synthetic_markers(self) -> None:
         self.assertTrue(self.dataset["synthetic"])
