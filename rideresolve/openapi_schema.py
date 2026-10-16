@@ -55,6 +55,14 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         },
         "dataset_id": {"type": "string"},
         "synthetic": {"type": "boolean"},
+        "case_origin": {
+            "type": "string",
+            "enum": [
+                "OFFICIAL_HACKATHON_SAMPLE",
+                "SYNTHETIC_DEMO",
+                "INTERNAL_TEST_FIXTURE",
+            ],
+        },
     }
     case_schema = {
         "type": "object",
@@ -346,6 +354,7 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "properties": {
             "run_id": {"type": "string"},
             "tool_actor_role": common_result_properties["tool_actor_role"],
+            "case_origin": common_result_properties["case_origin"],
             "case_id": {"type": "string"},
             "case_version": {"type": "integer"},
             "dispute_type": {"type": "string"},

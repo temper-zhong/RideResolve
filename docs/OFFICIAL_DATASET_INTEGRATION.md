@@ -17,6 +17,12 @@ records SHA-256 hashes for all four source files.
   resolves to a SGD 3.44 partial refund. The result remains a simulated prototype ruling.
 - Historical examples supplied in policy section 7 are exposed as `ADVISORY_ONLY` precedents
   and cannot override current policy or determine an outcome by themselves.
+- Public fictional demonstrations are stored separately in
+  `data/cases/synthetic_demo_cases.json`, use only `DEMO-*` identities, and return
+  `case_origin=SYNTHETIC_DEMO`. The loader processes synthetic sources first and the official
+  source last; a conflicting official case key or evidence ID therefore replaces the synthetic
+  value. Any lower-priority case invalidated by such an evidence conflict is discarded rather
+  than allowed to consume official evidence across case boundaries.
 
 ## Normalized official cases
 

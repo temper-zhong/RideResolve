@@ -8,15 +8,17 @@ RideResolve
 
 ## Short blurb
 
-**Auditable multi-agent reasoning for ride dispute resolution.**
+**Auditable five-agent reasoning for ride dispute resolution.**
 
 Word count: 7.
 
 ## Project overview
 
-RideResolve is an evidence-grounded multi-agent prototype for resolving standard ride-hailing disputes quickly, consistently, and transparently. It currently handles two end-to-end dispute categories: Route Deviation and No-Show.
+RideResolve is an evidence-grounded multi-agent prototype for resolving standard ride-hailing disputes quickly, consistently, and transparently. It handles three end-to-end dispute categories: Route Deviation, No-Show, and Fare Dispute, exceeding the challenge's minimum expectation of two categories.
 
-The local target workflow models five specialist Agent roles. An Evidence Collection Agent prepares a shared immutable package; Rider and Driver Advocates produce separate cited arguments; a Policy & Precedent Agent retrieves reviewer-approved corrections as advisory context; and a Judge recommends an outcome. The language model never controls final case status or money: deterministic Python validates evidence integrity, evaluates versioned policy, checks the Judge's recommendation, derives any simulated refund from the authoritative fare ledger, and decides whether the case may be resolved or must be reviewed.
+The Tencent Cloud ADP workflow implements five specialist Agent roles. It includes the three required core Agents - Rider Advocate, Driver Advocate, and Judge - plus the official Evidence Collection and Policy & Precedent stretch-goal Agents. The Evidence Collection Agent prepares a shared immutable package; the Advocates produce separate cited arguments; the Policy & Precedent Agent supplies reviewer-approved corrections as advisory context; and the Judge explains the authoritative outcome. The language model never controls final case status or money: deterministic Python validates evidence integrity, evaluates versioned policy, checks the Judge's recommendation, derives any simulated refund from the authoritative fare ledger, and decides whether the case may be resolved or must be reviewed.
+
+The public demonstration contains 12 auditable cases: three official hackathon samples and nine clearly labelled synthetic scenarios across the three supported categories. Official and synthetic records are stored separately, and official records override conflicting synthetic identities. The separate internal regression dataset adds 16 synthetic policy cases for broader automated rule coverage; these internal fixtures are not presented as official or production data.
 
 The main differentiator is **Decision Delta**. Instead of merely showing that an AI changed its answer, RideResolve verifies the exact chain that changed under a fixed policy and fixed other inputs:
 
@@ -44,9 +46,9 @@ This design is intended for standard, policy-bounded disputes. It does not claim
 
 ### 1. Evidence Collection Agent - stretch goal
 
-A bounded fourth Agent selects the appropriate evidence-source plan from the dispute type, calls read-only case/evidence/policy tools, verifies returned record integrity, and prepares one version-pinned evidence package for both Advocates. For Route Deviation it requests GPS, route baseline, and fare ledger records, with relevant chat, traffic, and historical context. For No-Show it requests GPS, trip-event, contact, and fare-ledger records.
+A bounded fourth specialist Agent validates the workflow-supplied case, evidence, and policy results and prepares one version-pinned evidence package for both Advocates. For Route Deviation it validates GPS, route baseline, fare ledger, chat, and traffic records. For No-Show it validates GPS, trip-event, contact, and fare-ledger records. For Fare Dispute it validates fare-ledger, surge-pricing, and notification records.
 
-The collector reports missing or incomplete inputs but cannot judge either party, select an outcome, or calculate money. Its local implementation is executable and tested. The tool-free collector also completed the functional five-Agent Tencent Cloud ADP No-Show run using three explicit upstream workflow tool nodes. The local Streamlit output remains labelled `SYNTHETIC_OFFLINE` and is not presented as a replay of that cloud run.
+The collector reports missing or incomplete inputs but cannot judge either party, select an outcome, or calculate money. It is tool-free: explicit ADP workflow nodes own the API calls. The current global-debug evidence shows `READY` packages with empty gaps across Route Deviation, No-Show, and Fare Dispute runs. The local Streamlit output remains labelled `SYNTHETIC_OFFLINE` and is not presented as a replay of those cloud runs.
 
 ### 2. Rider Advocate and Driver Advocate
 
@@ -58,7 +60,7 @@ When a human reviewer genuinely overrides a Judge recommendation, RideResolve ca
 
 The fifth Agent retrieves only precedents from the same dispute category with overlapping policy rules. It supplies the Judge with cited `feedback_id` values and the historical condition to verify, but explicitly warns against copying the historical outcome. Feedback does not automatically retrain a model or edit company policy.
 
-The local feedback loop and retrieval Agent are executable and tested with four clearly labelled synthetic corrections, including No-Show and policy-conflict examples. The tool-free Policy & Precedent Agent and its two explicit workflow tool nodes completed the functional No-Show ADP run. Precedent remained advisory and returned no approved match for that case.
+The local feedback loop and retrieval Agent are executable and tested with four clearly labelled synthetic corrections, including No-Show and policy-conflict examples. The tool-free Policy & Precedent Agent and its two explicit workflow tool nodes completed functional ADP runs across all three public dispute categories. Precedent remained advisory and could not override the current deterministic policy evaluation.
 
 ### 4. Judge Agent
 
@@ -115,14 +117,17 @@ RideResolve is designed to reduce repetitive support work while protecting users
 
 Verified prototype scope:
 
-- 2 end-to-end dispute categories;
-- 5 Agent roles in the local target architecture;
+- 3 end-to-end dispute categories, exceeding the challenge minimum of 2;
+- 5 specialist Agent roles in the deployed ADP architecture: 3 required core roles plus 2 official stretch-goal roles;
+- 12 public demonstration cases: 3 official hackathon samples plus 9 clearly labelled synthetic scenarios;
+- 16 additional internal synthetic regression cases for broad policy-rule coverage;
 - 4 implemented stretch capabilities: Evidence Collection, Policy & Precedent, Learning Feedback, and Escalation;
 - 13 versioned business rules;
 - 8 human-prelabelled policy cases;
-- 141 passing pytest tests;
+- 148 passing pytest tests;
+- 144 passing unittest tests;
 - 1 preserved historical three-core-Agent Route Deviation run;
-- 1 preserved functional five-Agent workflow-first No-Show run with a structured End result and matching seven-event CloudBase audit summary;
+- functional five-Agent ADP global-debug runs across Route Deviation, No-Show, and Fare Dispute, including official and synthetic cases;
 - deterministic simulated refund derivation from an authoritative fare ledger;
 - explicit fail-closed handling for incomplete evidence, conflicts, invalid outputs, and low-confidence escalation.
 
@@ -142,11 +147,11 @@ RideResolve follows four safety principles:
 
 ## Technical stack
 
-- Tencent Cloud ADP for the demonstrated model-facing five-Agent workflow-first orchestration;
+- Tencent Cloud ADP for the demonstrated model-facing five-Agent accuracy-first orchestration;
 - bounded read-only case, evidence, and policy tools;
 - Python 3.11+, Pydantic, and deterministic policy evaluators;
 - Streamlit for the auditable single-page demo;
-- JSON fixtures for immutable synthetic evidence, versioned policy, and checksum-bound approved feedback;
+- separately stored official samples and clearly labelled JSON fixtures for immutable synthetic evidence, versioned policy, and checksum-bound approved feedback;
 - `unittest` plus Streamlit interaction tests for automated verification.
 
 ## Submission artifacts
@@ -161,6 +166,6 @@ RideResolve follows four safety principles:
 - Cover image: `docs/assets/rideresolve-cover-384x216.png`
 - Source and tests: `rideresolve/` and `tests/`
 
-## Mandatory WorkBuddy/CodeBuddy proof placeholder
+## Mandatory WorkBuddy/CodeBuddy proof
 
-Before submission, attach at least three genuine WorkBuddy or CodeBuddy development-conversation screenshots or a qualifying screen recording, plus a short development-process description. Tencent ADP screenshots do not replace this eligibility evidence. Remove all credentials and personal information before upload.
+The curated submission package includes three manually reviewed WorkBuddy development-conversation screenshots, a development-process description, and a hash-bound privacy review. Tencent ADP screenshots are supplementary product evidence and are not used as a substitute for the mandatory WorkBuddy proof. Credentials and personal information are excluded from the submission package.

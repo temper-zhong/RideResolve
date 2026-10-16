@@ -46,6 +46,7 @@ DOC_FILES = {
     "docs/GATE_STATUS.md",
     "docs/LEGACY_ASSETS.md",
     "docs/OFFICIAL_DATASET_INTEGRATION.md",
+    "docs/PUBLIC_DEMO_CASES.md",
     "docs/SUBMISSION_CHECKLIST.md",
     "docs/SUBMISSION_COPY.md",
     "docs/V0_6_LOCAL_HANDOFF.md",

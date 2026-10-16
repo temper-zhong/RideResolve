@@ -4,7 +4,7 @@ Last updated: 2026-10-13
 
 ## Current verified baseline
 
-- `141` pytest tests pass; `137` are also discoverable through the standard-library `unittest` runner.
+- `148` pytest tests pass; `144` are also discoverable through the standard-library `unittest` runner.
 - Python compilation passes for `app.py`, `rideresolve/`, `scripts/`, and `tests/`.
 - Streamlit interaction tests cover Decision Delta v1, Decision Delta v2, and No-Show.
 - A browser-rendered core-demo preview is stored at `docs/streamlit-demo-preview.png`. It predates the three stretch panels and should be refreshed before final submission.

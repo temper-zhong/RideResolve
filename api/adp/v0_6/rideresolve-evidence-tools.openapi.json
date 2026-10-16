@@ -88,6 +88,14 @@
                         "synthetic": {
                           "type": "boolean"
                         },
+                        "case_origin": {
+                          "type": "string",
+                          "enum": [
+                            "OFFICIAL_HACKATHON_SAMPLE",
+                            "SYNTHETIC_DEMO",
+                            "INTERNAL_TEST_FIXTURE"
+                          ]
+                        },
                         "case": {
                           "type": "object",
                           "additionalProperties": true,
@@ -281,6 +289,14 @@
                         },
                         "synthetic": {
                           "type": "boolean"
+                        },
+                        "case_origin": {
+                          "type": "string",
+                          "enum": [
+                            "OFFICIAL_HACKATHON_SAMPLE",
+                            "SYNTHETIC_DEMO",
+                            "INTERNAL_TEST_FIXTURE"
+                          ]
                         },
                         "case_id": {
                           "type": "string"
@@ -680,6 +696,14 @@
                             "DRIVER_ADVOCATE",
                             "POLICY_PRECEDENT",
                             "JUDGE"
+                          ]
+                        },
+                        "case_origin": {
+                          "type": "string",
+                          "enum": [
+                            "OFFICIAL_HACKATHON_SAMPLE",
+                            "SYNTHETIC_DEMO",
+                            "INTERNAL_TEST_FIXTURE"
                           ]
                         },
                         "case_id": {

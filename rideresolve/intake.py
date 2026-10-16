@@ -31,18 +31,24 @@ class Resolution:
     status: ResolutionStatus
     snapshot: CaseSnapshot | None
     reference_kind: str | None
+    case_origin: str | None
     message: str
 
 
 _CASE_REFERENCE = re.compile(r"(?<![A-Z0-9])DISP[\s_-]*0*([1-9][0-9]*)(?![A-Z0-9])", re.I)
+_DEMO_REFERENCE = re.compile(r"(?<![A-Z0-9])DEMO[\s_-]*0*([1-9][0-9]*)(?![A-Z0-9])", re.I)
 _TRIP_REFERENCE = re.compile(r"(?<![A-Z0-9])TRIP[\s_-]*(\d{4})[\s_-]*(\d{4,})(?![A-Z0-9])", re.I)
 
 
 def _canonical_case_reference(value: str) -> str | None:
-    match = _CASE_REFERENCE.fullmatch(value.strip())
-    if not match:
-        return None
-    return f"DISP-{int(match.group(1)):03d}"
+    stripped = value.strip()
+    match = _CASE_REFERENCE.fullmatch(stripped)
+    if match:
+        return f"DISP-{int(match.group(1)):03d}"
+    match = _DEMO_REFERENCE.fullmatch(stripped)
+    if match:
+        return f"DEMO-{int(match.group(1)):03d}"
+    return None
 
 
 def _canonical_trip_reference(value: str) -> str | None:
@@ -53,16 +59,20 @@ def _canonical_trip_reference(value: str) -> str | None:
 
 
 class OfficialCaseResolver:
-    """Resolve only explicit identifiers against the official case set.
+    """Resolve explicit identifiers against official and labeled demo cases.
 
     Natural-language similarity is deliberately not used to select a case. A
-    description without an exact official case or trip reference must request
-    clarification rather than silently binding the wrong person's record.
+    description without an exact case or trip reference must request clarification
+    rather than silently binding the wrong record. Synthetic demo cases remain
+    explicitly labeled and never override an official case identity.
     """
 
     def __init__(self, store: CaseStore) -> None:
-        snapshots = store.list_official_snapshots()
+        snapshots = store.list_official_snapshots() + store.list_demo_snapshots()
         self._by_case_id = {snapshot.case_id.upper(): snapshot for snapshot in snapshots}
+        self._origin_by_case_id = {
+            snapshot.case_id.upper(): store.case_origin(snapshot) for snapshot in snapshots
+        }
         self._by_trip_reference: dict[str, CaseSnapshot] = {}
         for snapshot in snapshots:
             for evidence in store.get_evidence(snapshot):
@@ -93,6 +103,8 @@ class OfficialCaseResolver:
 
         for match in _CASE_REFERENCE.finditer(request.user_query):
             supplied.append(("CASE_REFERENCE", f"DISP-{int(match.group(1)):03d}"))
+        for match in _DEMO_REFERENCE.finditer(request.user_query):
+            supplied.append(("CASE_REFERENCE", f"DEMO-{int(match.group(1)):03d}"))
         for match in _TRIP_REFERENCE.finditer(request.user_query):
             supplied.append(
                 ("TRIP_REFERENCE", f"TRIP-{match.group(1)}-{match.group(2)}")
@@ -103,6 +115,7 @@ class OfficialCaseResolver:
                 status=ResolutionStatus.NOT_FOUND,
                 snapshot=None,
                 reference_kind=None,
+                case_origin=None,
                 message="The supplied case or trip reference format is invalid.",
             )
 
@@ -111,9 +124,10 @@ class OfficialCaseResolver:
                 status=ResolutionStatus.NEEDS_CLARIFICATION,
                 snapshot=None,
                 reference_kind=None,
+                case_origin=None,
                 message=(
-                    "Please provide the official case reference (for example DISP-001) "
-                    "or trip reference (for example TRIP-2026-09871)."
+                    "Please provide an official or synthetic demo case reference "
+                    "(for example DISP-001 or DEMO-101), or its trip reference."
                 ),
             )
 
@@ -135,21 +149,30 @@ class OfficialCaseResolver:
                 status=ResolutionStatus.NOT_FOUND,
                 snapshot=None,
                 reference_kind=None,
-                message="No official case matched the supplied reference.",
+                case_origin=None,
+                message="No published official or synthetic demo case matched the supplied reference.",
             )
         if unknown or len(matches) != 1:
             return Resolution(
                 status=ResolutionStatus.NEEDS_CLARIFICATION,
                 snapshot=None,
                 reference_kind=None,
-                message="The supplied references conflict or are ambiguous; please provide one official reference.",
+                case_origin=None,
+                message="The supplied references conflict or are ambiguous; please provide one case reference.",
             )
         snapshot, kind = next(iter(matches.values()))
+        case_origin = self._origin_by_case_id[snapshot.case_id.upper()]
+        label = (
+            "official hackathon sample"
+            if case_origin == "OFFICIAL_HACKATHON_SAMPLE"
+            else "synthetic demo"
+        )
         return Resolution(
             status=ResolutionStatus.MATCHED,
             snapshot=snapshot,
             reference_kind=kind,
-            message="The official case was matched and a protected workflow session was created.",
+            case_origin=case_origin,
+            message=f"The {label} case was matched and a protected workflow session was created.",
         )
 
 
@@ -195,5 +218,10 @@ class IntakeService:
             "policy_version": issued.policy_version,
             "expires_at": issued.expires_at.isoformat(),
             "reference_kind": resolution.reference_kind,
-            "data_precedence": "OFFICIAL_OVER_LEGACY_MOCK",
+            "case_origin": resolution.case_origin,
+            "data_precedence": (
+                "OFFICIAL_OVER_SYNTHETIC"
+                if resolution.case_origin == "OFFICIAL_HACKATHON_SAMPLE"
+                else "SYNTHETIC_DEMO_NO_PRODUCTION_EFFECT"
+            ),
         }

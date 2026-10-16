@@ -135,19 +135,27 @@ def build_intake_openapi_schema(server_url: str) -> dict[str, Any]:
                 "type": "string",
                 "enum": ["CASE_REFERENCE", "TRIP_REFERENCE"],
             },
+            "case_origin": {
+                "type": "string",
+                "enum": ["OFFICIAL_HACKATHON_SAMPLE", "SYNTHETIC_DEMO"],
+            },
             "data_precedence": {
                 "type": "string",
-                "enum": ["OFFICIAL_OVER_LEGACY_MOCK"],
+                "enum": [
+                    "OFFICIAL_OVER_SYNTHETIC",
+                    "SYNTHETIC_DEMO_NO_PRODUCTION_EFFECT",
+                ],
             },
         },
     }
     return {
         "openapi": "3.0.3",
         "info": {
-            "title": "RideResolve Official Case Intake v0.6 ADP Safe",
+            "title": "RideResolve Case Intake v0.6 ADP Safe",
             "version": "0.6.0-adp.1",
             "description": (
-                "Resolve an explicit official case or trip reference from a user's description "
+                "Resolve an explicit official or labeled synthetic demo case or trip reference "
+                "from a user's description "
                 "and create a protected internal workflow session. Vague descriptions are never "
                 "matched by similarity and return NEEDS_CLARIFICATION. The ADP-facing request "
                 "exposes only SYS.UserQuery to avoid empty optional-field serialization."

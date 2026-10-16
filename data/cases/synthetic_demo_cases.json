@@ -1,0 +1,3279 @@
+{
+  "dataset_id": "RIDERESOLVE_SYNTHETIC_PUBLIC_DEMOS_V1",
+  "source_kind": "SYNTHETIC_PUBLIC_DEMO_DATASET",
+  "synthetic": true,
+  "disclaimer": "All records are fictional demonstration fixtures. Official hackathon data is stored separately and takes precedence over synthetic records on any identity conflict.",
+  "catalog": [
+    {
+      "case_id": "DEMO-101",
+      "trip_reference": "TRIP-2026-20101",
+      "title": "Traffic detour disclosed to rider"
+    },
+    {
+      "case_id": "DEMO-102",
+      "trip_reference": "TRIP-2026-20102",
+      "title": "Unjustified longer route"
+    },
+    {
+      "case_id": "DEMO-103",
+      "trip_reference": "TRIP-2026-20103",
+      "title": "Incomplete route GPS"
+    },
+    {
+      "case_id": "DEMO-201",
+      "trip_reference": "TRIP-2026-20201",
+      "title": "Driver marked arrival too far away"
+    },
+    {
+      "case_id": "DEMO-202",
+      "trip_reference": "TRIP-2026-20202",
+      "title": "Driver cancelled before minimum wait"
+    },
+    {
+      "case_id": "DEMO-203",
+      "trip_reference": "TRIP-2026-20203",
+      "title": "Required contact channel missing"
+    },
+    {
+      "case_id": "DEMO-301",
+      "trip_reference": "TRIP-2026-20301",
+      "title": "Surge increase accepted after notice"
+    },
+    {
+      "case_id": "DEMO-302",
+      "trip_reference": "TRIP-2026-20302",
+      "title": "Unnotified surge increase"
+    },
+    {
+      "case_id": "DEMO-303",
+      "trip_reference": "TRIP-2026-20303",
+      "title": "Missing fare notification record"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "DEMO-101",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-12T13:15:00+08:00",
+      "trip_ended_at": "2026-09-12T13:52:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The route was longer, but the driver warned me about a verified road closure.",
+      "disputed_fee_item": "fare_difference",
+      "disputed_amount_cents": 650,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-101-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-101-ROUTE-BASELINE",
+        "SYNTHETIC-DEMO-101-FARE-LEDGER",
+        "SYNTHETIC-DEMO-101-AUTHENTICATED-CHAT",
+        "SYNTHETIC-DEMO-101-DEMO-TRAFFIC-FEED",
+        "SYNTHETIC-DEMO-101-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-12T14:35:00+08:00"
+    },
+    {
+      "case_id": "DEMO-102",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-12T13:15:00+08:00",
+      "trip_ended_at": "2026-09-12T13:52:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The driver took an unexplained longer route and I was charged extra distance fare.",
+      "disputed_fee_item": "excess_distance_fare",
+      "disputed_amount_cents": 380,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-102-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-102-ROUTE-BASELINE",
+        "SYNTHETIC-DEMO-102-FARE-LEDGER",
+        "SYNTHETIC-DEMO-102-AUTHENTICATED-CHAT",
+        "SYNTHETIC-DEMO-102-DEMO-TRAFFIC-FEED",
+        "SYNTHETIC-DEMO-102-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-12T14:35:00+08:00"
+    },
+    {
+      "case_id": "DEMO-103",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-12T13:15:00+08:00",
+      "trip_ended_at": "2026-09-12T13:52:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The trip was longer than expected, but part of the platform GPS record is missing.",
+      "disputed_fee_item": "fare_difference",
+      "disputed_amount_cents": 650,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-103-ROUTE-BASELINE",
+        "SYNTHETIC-DEMO-103-FARE-LEDGER",
+        "SYNTHETIC-DEMO-103-AUTHENTICATED-CHAT",
+        "SYNTHETIC-DEMO-103-DEMO-TRAFFIC-FEED",
+        "SYNTHETIC-DEMO-103-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-12T14:35:00+08:00"
+    },
+    {
+      "case_id": "DEMO-201",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-13T08:43:00+08:00",
+      "trip_ended_at": "2026-09-13T08:51:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The driver marked arrival far from the pickup point and I was charged a no-show fee.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 500,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-201-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-201-TRIP-EVENT-LOG",
+        "SYNTHETIC-DEMO-201-CONTACT-LOG",
+        "SYNTHETIC-DEMO-201-FARE-LEDGER",
+        "SYNTHETIC-DEMO-201-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-13T09:20:00+08:00"
+    },
+    {
+      "case_id": "DEMO-202",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-13T08:43:00+08:00",
+      "trip_ended_at": "2026-09-13T08:51:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The driver cancelled before the required waiting period and I was charged a no-show fee.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 500,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-202-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-202-TRIP-EVENT-LOG",
+        "SYNTHETIC-DEMO-202-CONTACT-LOG",
+        "SYNTHETIC-DEMO-202-FARE-LEDGER",
+        "SYNTHETIC-DEMO-202-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-13T09:20:00+08:00"
+    },
+    {
+      "case_id": "DEMO-203",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-13T08:43:00+08:00",
+      "trip_ended_at": "2026-09-13T08:51:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The driver did not call me before cancelling and I was charged a no-show fee.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 500,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-203-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-203-TRIP-EVENT-LOG",
+        "SYNTHETIC-DEMO-203-CONTACT-LOG",
+        "SYNTHETIC-DEMO-203-FARE-LEDGER",
+        "SYNTHETIC-DEMO-203-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-13T09:20:00+08:00"
+    },
+    {
+      "case_id": "DEMO-301",
+      "case_version": 1,
+      "dispute_type": "FARE_DISPUTE",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-14T21:05:00+08:00",
+      "trip_ended_at": "2026-09-14T21:18:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The fare increased because of surge pricing, and the change was shown before pickup.",
+      "disputed_fee_item": "surge_differential",
+      "disputed_amount_cents": 450,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-301-FARE-LEDGER",
+        "SYNTHETIC-DEMO-301-SURGE-PRICING-LOG",
+        "SYNTHETIC-DEMO-301-NOTIFICATION-LOG",
+        "SYNTHETIC-DEMO-301-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-301-AUTHENTICATED-CHAT",
+        "SYNTHETIC-DEMO-301-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-14T21:30:00+08:00"
+    },
+    {
+      "case_id": "DEMO-302",
+      "case_version": 1,
+      "dispute_type": "FARE_DISPUTE",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-14T21:05:00+08:00",
+      "trip_ended_at": "2026-09-14T21:18:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The final fare was higher than the quote because of an unannounced surge increase.",
+      "disputed_fee_item": "surge_differential",
+      "disputed_amount_cents": 525,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-302-FARE-LEDGER",
+        "SYNTHETIC-DEMO-302-SURGE-PRICING-LOG",
+        "SYNTHETIC-DEMO-302-NOTIFICATION-LOG",
+        "SYNTHETIC-DEMO-302-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-302-AUTHENTICATED-CHAT",
+        "SYNTHETIC-DEMO-302-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-14T21:30:00+08:00"
+    },
+    {
+      "case_id": "DEMO-303",
+      "case_version": 1,
+      "dispute_type": "FARE_DISPUTE",
+      "policy_version": "RYDE_POLICY_V2_1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-14T21:05:00+08:00",
+      "trip_ended_at": "2026-09-14T21:18:00+08:00",
+      "claim_text": "[SYNTHETIC DEMO] The fare increased, but the notification record is unavailable and needs review.",
+      "disputed_fee_item": "surge_differential",
+      "disputed_amount_cents": 450,
+      "evidence_refs": [
+        "SYNTHETIC-DEMO-303-FARE-LEDGER",
+        "SYNTHETIC-DEMO-303-SURGE-PRICING-LOG",
+        "SYNTHETIC-DEMO-303-PLATFORM-GPS",
+        "SYNTHETIC-DEMO-303-AUTHENTICATED-CHAT",
+        "SYNTHETIC-DEMO-303-HISTORICAL-BEHAVIOR-PROFILE"
+      ],
+      "created_at": "2026-09-14T21:30:00+08:00"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "SYNTHETIC-DEMO-101-PLATFORM-GPS",
+      "origin_case_id": "DEMO-101",
+      "source_record_id": "TRIP-2026-20101:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Traffic detour disclosed to rider"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Traffic detour disclosed to rider; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-12T13:15:00+08:00",
+            "latitude": 1.3048,
+            "longitude": 103.8318,
+            "point": 1,
+            "speed_kmh": 0,
+            "location_desc": "Orchard Central (pickup)"
+          },
+          {
+            "timestamp": "2026-09-12T13:17:00+08:00",
+            "latitude": 1.3065,
+            "longitude": 103.836,
+            "point": 2,
+            "speed_kmh": 35,
+            "location_desc": "Orchard Rd towards Cairnhill"
+          },
+          {
+            "timestamp": "2026-09-12T13:19:30+08:00",
+            "latitude": 1.302,
+            "longitude": 103.844,
+            "point": 3,
+            "speed_kmh": 40,
+            "location_desc": "Stamford Rd / Fort Canning area"
+          },
+          {
+            "timestamp": "2026-09-12T13:22:00+08:00",
+            "latitude": 1.2975,
+            "longitude": 103.853,
+            "point": 4,
+            "speed_kmh": 35,
+            "location_desc": "Connaught Dr / Esplanade area"
+          },
+          {
+            "timestamp": "2026-09-12T13:24:30+08:00",
+            "latitude": 1.2935,
+            "longitude": 103.862,
+            "point": 5,
+            "speed_kmh": 45,
+            "location_desc": "Marina Blvd / Shenton Way"
+          },
+          {
+            "timestamp": "2026-09-12T13:27:00+08:00",
+            "latitude": 1.29,
+            "longitude": 103.871,
+            "point": 6,
+            "speed_kmh": 50,
+            "location_desc": "Nicoll Hwy toward Beach Rd"
+          },
+          {
+            "timestamp": "2026-09-12T13:29:30+08:00",
+            "latitude": 1.3,
+            "longitude": 103.878,
+            "point": 7,
+            "speed_kmh": 38,
+            "location_desc": "Mountbatten Rd (entering Geylang corridor)"
+          },
+          {
+            "timestamp": "2026-09-12T13:32:00+08:00",
+            "latitude": 1.3065,
+            "longitude": 103.885,
+            "point": 8,
+            "speed_kmh": 42,
+            "location_desc": "Geylang Rd / Old Airport Rd"
+          },
+          {
+            "timestamp": "2026-09-12T13:34:00+08:00",
+            "latitude": 1.31,
+            "longitude": 103.8905,
+            "point": 9,
+            "speed_kmh": 40,
+            "location_desc": "Dunman Rd / Tanjong Katong Rd"
+          },
+          {
+            "timestamp": "2026-09-12T13:36:00+08:00",
+            "latitude": 1.3125,
+            "longitude": 103.896,
+            "point": 10,
+            "speed_kmh": 55,
+            "location_desc": "Tanjong Katong Rd approaching ECP"
+          },
+          {
+            "timestamp": "2026-09-12T13:38:00+08:00",
+            "latitude": 1.316,
+            "longitude": 103.905,
+            "point": 11,
+            "speed_kmh": 70,
+            "location_desc": "ECP (East Coast Parkway) eastbound"
+          },
+          {
+            "timestamp": "2026-09-12T13:41:00+08:00",
+            "latitude": 1.3225,
+            "longitude": 103.92,
+            "point": 12,
+            "speed_kmh": 75,
+            "location_desc": "ECP near Marine Parade"
+          },
+          {
+            "timestamp": "2026-09-12T13:44:00+08:00",
+            "latitude": 1.335,
+            "longitude": 103.945,
+            "point": 13,
+            "speed_kmh": 65,
+            "location_desc": "ECP near Bedok / East Coast Park"
+          },
+          {
+            "timestamp": "2026-09-12T13:47:30+08:00",
+            "latitude": 1.35,
+            "longitude": 103.97,
+            "point": 14,
+            "speed_kmh": 60,
+            "location_desc": "ECP approaching Changi"
+          },
+          {
+            "timestamp": "2026-09-12T13:50:00+08:00",
+            "latitude": 1.358,
+            "longitude": 103.983,
+            "point": 15,
+            "speed_kmh": 40,
+            "location_desc": "Changi Village Rd / Airport Blvd"
+          },
+          {
+            "timestamp": "2026-09-12T13:52:00+08:00",
+            "latitude": 1.3644,
+            "longitude": 103.9915,
+            "point": 16,
+            "speed_kmh": 0,
+            "location_desc": "Changi Airport T3 (dropoff)"
+          }
+        ],
+        "reported_actual_distance_m": 24800.0
+      },
+      "checksum": "sha256:88a1a8dc8c3f4feebe9eb20a589e6d6638b5d223d165d2165c2f52f88a96ba5d"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-101-ROUTE-BASELINE",
+      "origin_case_id": "DEMO-101",
+      "source_record_id": "TRIP-2026-20101:recommended-route",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Traffic detour disclosed to rider"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Traffic detour disclosed to rider; not an official, production, or real-person record.",
+      "payload": {
+        "baseline_distance_m": 20500.0,
+        "estimated_duration_min": 35,
+        "optimal_route": {
+          "route_name": "PIE (Pan-Island Expressway) — direct route",
+          "total_waypoints": 10,
+          "estimated_distance_km": 20.5,
+          "estimated_duration_min": 35,
+          "waypoints": [
+            {
+              "point": 1,
+              "lat": 1.3048,
+              "lng": 103.8318,
+              "location_desc": "Orchard Central (pickup)"
+            },
+            {
+              "point": 2,
+              "lat": 1.312,
+              "lng": 103.836,
+              "location_desc": "Scotts Rd to PIE (Cairnhill) slip road"
+            },
+            {
+              "point": 3,
+              "lat": 1.3185,
+              "lng": 103.841,
+              "location_desc": "PIE entry (near Newton)"
+            },
+            {
+              "point": 4,
+              "lat": 1.324,
+              "lng": 103.855,
+              "location_desc": "PIE eastbound near Balestier"
+            },
+            {
+              "point": 5,
+              "lat": 1.326,
+              "lng": 103.872,
+              "location_desc": "PIE near Kallang / Paya Lebar"
+            },
+            {
+              "point": 6,
+              "lat": 1.328,
+              "lng": 103.894,
+              "location_desc": "PIE near Eunos / Ubi"
+            },
+            {
+              "point": 7,
+              "lat": 1.33,
+              "lng": 103.916,
+              "location_desc": "PIE near Bedok Reservoir"
+            },
+            {
+              "point": 8,
+              "lat": 1.334,
+              "lng": 103.945,
+              "location_desc": "PIE near Bedok North"
+            },
+            {
+              "point": 9,
+              "lat": 1.342,
+              "lng": 103.968,
+              "location_desc": "PIE near Upper Changi"
+            },
+            {
+              "point": 10,
+              "lat": 1.3644,
+              "lng": 103.9915,
+              "location_desc": "Changi Airport T3 (dropoff via PIE Exit 2)"
+            }
+          ],
+          "notes": "This is the system-recommended route via PIE. It is the most direct path from Orchard to Changi Airport T3 under normal traffic conditions. The driver instead took a route through the CBD, Nicoll Highway, Geylang/Old Airport Road, and ECP, adding 4.3 km."
+        }
+      },
+      "checksum": "sha256:5eac6c74dfcd68fe772031730d977f0617e44de0f467cba415fe5e8ede22f97a"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-101-FARE-LEDGER",
+      "origin_case_id": "DEMO-101",
+      "source_record_id": "TRIP-2026-20101:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:52:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Traffic detour disclosed to rider; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "estimated_total_cents": 2850,
+        "actual_total_cents": 3500,
+        "line_items": [
+          {
+            "fee_item": "fare_difference",
+            "amount_cents": 650
+          },
+          {
+            "fee_item": "excess_distance_fare",
+            "amount_cents": 344
+          },
+          {
+            "fee_item": "excess_tolls",
+            "amount_cents": 222
+          }
+        ]
+      },
+      "checksum": "sha256:f9ea85109cf8d1e41b1ff99d7ca10925df052f3bebc7c6f3d2d1b0881f33e0a6"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-101-AUTHENTICATED-CHAT",
+      "origin_case_id": "DEMO-101",
+      "source_record_id": "TRIP-2026-20101:chat",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Traffic detour disclosed to rider"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Traffic detour disclosed to rider; not an official, production, or real-person record.",
+      "payload": {
+        "messages": [
+          {
+            "message_id": "MSG-001",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:08:00+08:00",
+            "message": "Hi! I'm at the Orchard Central main entrance, wearing a blue dress. White Toyota Vios right?"
+          },
+          {
+            "message_id": "MSG-002",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:09:00+08:00",
+            "message": "Yes that's me! I can see you, coming now. 1 min."
+          },
+          {
+            "message_id": "MSG-003",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:10:00+08:00",
+            "message": "Great thanks! Heading to Changi T3, my flight is at 3:30pm."
+          },
+          {
+            "message_id": "MSG-004",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:10:30+08:00",
+            "message": "Sure, no problem. We will get there in time."
+          },
+          {
+            "message_id": "MSG-005",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:24:00+08:00",
+            "message": "Hey, are we going the right way? This doesn't look like the usual route to the airport."
+          },
+          {
+            "message_id": "MSG-006",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:25:00+08:00",
+            "message": "Don't worry, I know the way. We will reach on time."
+          }
+        ],
+        "total_messages": 6,
+        "route_notification_sent": true,
+        "rider_inquired_about_route": true,
+        "rider_inquiry_timestamp": "2026-09-12T13:24:00+08:00",
+        "driver_response_content": "Don't worry, I know the way. We will reach on time.",
+        "analysis": "The rider explicitly queried the route at 13:24 (MSG-005) after noticing the deviation near Shenton Way / Nicoll Highway. The driver's response (MSG-006) was dismissive and did not explain the reason for the deviation (PIE traffic). At no point did the driver proactively inform the rider of a route change or cite traffic conditions. This constitutes a failure to meet the driver's notification obligation under ride-hailing policy.",
+        "verbal_notification_verified": false
+      },
+      "checksum": "sha256:d441b48f872eb6f38072c6b38ea61e73e47e9cd496f31da8784769b87f77aee1"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-101-DEMO-TRAFFIC-FEED",
+      "origin_case_id": "DEMO-101",
+      "source_record_id": "TRIP-2026-20101:traffic",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Traffic detour disclosed to rider"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Traffic detour disclosed to rider; not an official, production, or real-person record.",
+      "payload": {
+        "events": [
+          {
+            "incident_id": "TC-001",
+            "road": "PIE (Pan-Island Expressway)",
+            "direction": "eastbound",
+            "stretch": "PIE Exit 16 (Cactus / PAYA LEBAR) to Exit 11 (TAMPINES RD)",
+            "incident_type": "vehicle_fire",
+            "severity": "high",
+            "timestamp": "2026-09-12T13:05:00+08:00",
+            "clear_time": "2026-09-12T13:50:00+08:00",
+            "description": "Vehicle fire on PIE eastbound between Paya Lebar and Hougang. Lanes 1 and 2 blocked. Heavy congestion and long delays reported from 13:05."
+          },
+          {
+            "incident_id": "TC-002",
+            "road": "PIE exit ramp — Changi Airport exit",
+            "direction": "eastbound",
+            "stretch": "PIE Exit 2 to Changi Airport",
+            "incident_type": "heavy_congestion",
+            "severity": "moderate",
+            "timestamp": "2026-09-12T13:15:00+08:00",
+            "clear_time": "2026-09-12T13:40:00+08:00",
+            "description": "Heavy congestion on PIE near the airport exit, likely a secondary effect of the vehicle fire upstream."
+          },
+          {
+            "incident_id": "TC-003",
+            "road": "ECP (East Coast Parkway)",
+            "direction": "eastbound",
+            "stretch": "Marine Parade to Changi Airport",
+            "incident_type": "traffic_flow",
+            "severity": "low",
+            "timestamp": "2026-09-12T13:30:00+08:00",
+            "clear_time": null,
+            "description": "ECP eastbound flowing smoothly. No incidents. The driver's reroute through ECP was a reasonable alternative given PIE conditions."
+          }
+        ],
+        "pi_blocked_at_trip_start": true,
+        "pi_severity": "high",
+        "alternative_routes_available": [
+          "ECP via Nicoll Hwy / Geylang (driver's choice)",
+          "Tampines Expressway (TPE) via CTE",
+          "Regional routes via Sims Ave / Tanjong Katong"
+        ],
+        "reroute_justified": true,
+        "reroute_reason": "A vehicle fire on PIE eastbound at 13:05 (10 minutes before pickup) made the optimal route impassable for much of the trip window. The driver's decision to reroute via Nicoll Hwy → Geylang → ECP was a reasonable and safety-motivated alternative.",
+        "notification_failure": true,
+        "notification_gap": "The driver did not proactively inform the rider of the route change or the reason (PIE traffic). When the rider explicitly asked about the route at 13:24, the driver's response was dismissive and did not explain the traffic situation.",
+        "policy_reference": "RydeResolve Driver Policy §4.2: 'Drivers must inform the rider of any route deviation from the system-recommended route and the reason for the deviation before or at the point of deviation. Failure to notify renders the driver liable for excess fare charges attributable to the unnotified deviation.'"
+      },
+      "checksum": "sha256:219f8012e76379efb1c21d114e5eeed052a417e89c1df277a9485a2adc480d14"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-101-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-101",
+      "source_record_id": "TRIP-2026-20101:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Traffic detour disclosed to rider; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-4521",
+          "name": "Sarah Tan",
+          "account_age_days": 540,
+          "account_created_at": "2025-03-22T00:00:00+08:00",
+          "total_trips": 187,
+          "avg_rating": 4.8,
+          "dispute_history": {
+            "total_disputes": 2,
+            "upheld": 1,
+            "rejected": 1,
+            "last_dispute_date": "2026-07-10"
+          },
+          "fraud_flags": 0,
+          "payment_method": "credit_card",
+          "payment_provider": "Visa ending 4521",
+          "loyalty_tier": "silver",
+          "frequent_corridors": [
+            "Orchard → Changi Airport",
+            "CBD → Orchard"
+          ]
+        },
+        "driver": {
+          "driver_id": "D-1187",
+          "name": "Rajesh Kumar",
+          "account_age_days": 720,
+          "account_created_at": "2024-09-23T00:00:00+08:00",
+          "total_trips": 2143,
+          "avg_rating": 4.7,
+          "dispute_history": {
+            "total_disputes": 3,
+            "upheld_against": 1,
+            "rejected": 2,
+            "last_dispute_date": "2026-08-29"
+          },
+          "fraud_flags": 0,
+          "vehicle": "Toyota Vios (SHA 7823 K)",
+          "vehicle_color": "Silver",
+          "license_class": "Class 3",
+          "partner_since": "2024-09-23",
+          "recent_compliments": [
+            "Safe driver",
+            "Punctual pickup"
+          ],
+          "completion_rate": 0.97,
+          "cancellation_rate": 0.03
+        }
+      },
+      "checksum": "sha256:0439c215e66249f2e7ccb68ea9646698e50a17b07e1d19aa332035b7ac719e23"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-102-PLATFORM-GPS",
+      "origin_case_id": "DEMO-102",
+      "source_record_id": "TRIP-2026-20102:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unjustified longer route"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unjustified longer route; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-12T13:15:00+08:00",
+            "latitude": 1.3048,
+            "longitude": 103.8318,
+            "point": 1,
+            "speed_kmh": 0,
+            "location_desc": "Orchard Central (pickup)"
+          },
+          {
+            "timestamp": "2026-09-12T13:17:00+08:00",
+            "latitude": 1.3065,
+            "longitude": 103.836,
+            "point": 2,
+            "speed_kmh": 35,
+            "location_desc": "Orchard Rd towards Cairnhill"
+          },
+          {
+            "timestamp": "2026-09-12T13:19:30+08:00",
+            "latitude": 1.302,
+            "longitude": 103.844,
+            "point": 3,
+            "speed_kmh": 40,
+            "location_desc": "Stamford Rd / Fort Canning area"
+          },
+          {
+            "timestamp": "2026-09-12T13:22:00+08:00",
+            "latitude": 1.2975,
+            "longitude": 103.853,
+            "point": 4,
+            "speed_kmh": 35,
+            "location_desc": "Connaught Dr / Esplanade area"
+          },
+          {
+            "timestamp": "2026-09-12T13:24:30+08:00",
+            "latitude": 1.2935,
+            "longitude": 103.862,
+            "point": 5,
+            "speed_kmh": 45,
+            "location_desc": "Marina Blvd / Shenton Way"
+          },
+          {
+            "timestamp": "2026-09-12T13:27:00+08:00",
+            "latitude": 1.29,
+            "longitude": 103.871,
+            "point": 6,
+            "speed_kmh": 50,
+            "location_desc": "Nicoll Hwy toward Beach Rd"
+          },
+          {
+            "timestamp": "2026-09-12T13:29:30+08:00",
+            "latitude": 1.3,
+            "longitude": 103.878,
+            "point": 7,
+            "speed_kmh": 38,
+            "location_desc": "Mountbatten Rd (entering Geylang corridor)"
+          },
+          {
+            "timestamp": "2026-09-12T13:32:00+08:00",
+            "latitude": 1.3065,
+            "longitude": 103.885,
+            "point": 8,
+            "speed_kmh": 42,
+            "location_desc": "Geylang Rd / Old Airport Rd"
+          },
+          {
+            "timestamp": "2026-09-12T13:34:00+08:00",
+            "latitude": 1.31,
+            "longitude": 103.8905,
+            "point": 9,
+            "speed_kmh": 40,
+            "location_desc": "Dunman Rd / Tanjong Katong Rd"
+          },
+          {
+            "timestamp": "2026-09-12T13:36:00+08:00",
+            "latitude": 1.3125,
+            "longitude": 103.896,
+            "point": 10,
+            "speed_kmh": 55,
+            "location_desc": "Tanjong Katong Rd approaching ECP"
+          },
+          {
+            "timestamp": "2026-09-12T13:38:00+08:00",
+            "latitude": 1.316,
+            "longitude": 103.905,
+            "point": 11,
+            "speed_kmh": 70,
+            "location_desc": "ECP (East Coast Parkway) eastbound"
+          },
+          {
+            "timestamp": "2026-09-12T13:41:00+08:00",
+            "latitude": 1.3225,
+            "longitude": 103.92,
+            "point": 12,
+            "speed_kmh": 75,
+            "location_desc": "ECP near Marine Parade"
+          },
+          {
+            "timestamp": "2026-09-12T13:44:00+08:00",
+            "latitude": 1.335,
+            "longitude": 103.945,
+            "point": 13,
+            "speed_kmh": 65,
+            "location_desc": "ECP near Bedok / East Coast Park"
+          },
+          {
+            "timestamp": "2026-09-12T13:47:30+08:00",
+            "latitude": 1.35,
+            "longitude": 103.97,
+            "point": 14,
+            "speed_kmh": 60,
+            "location_desc": "ECP approaching Changi"
+          },
+          {
+            "timestamp": "2026-09-12T13:50:00+08:00",
+            "latitude": 1.358,
+            "longitude": 103.983,
+            "point": 15,
+            "speed_kmh": 40,
+            "location_desc": "Changi Village Rd / Airport Blvd"
+          },
+          {
+            "timestamp": "2026-09-12T13:52:00+08:00",
+            "latitude": 1.3644,
+            "longitude": 103.9915,
+            "point": 16,
+            "speed_kmh": 0,
+            "location_desc": "Changi Airport T3 (dropoff)"
+          }
+        ],
+        "reported_actual_distance_m": 24800.0
+      },
+      "checksum": "sha256:fe824f839e968acfe230a1278212095c7623d7dcfb0fea0834d5f46967fbb6a7"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-102-ROUTE-BASELINE",
+      "origin_case_id": "DEMO-102",
+      "source_record_id": "TRIP-2026-20102:recommended-route",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unjustified longer route"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unjustified longer route; not an official, production, or real-person record.",
+      "payload": {
+        "baseline_distance_m": 20500.0,
+        "estimated_duration_min": 35,
+        "optimal_route": {
+          "route_name": "PIE (Pan-Island Expressway) — direct route",
+          "total_waypoints": 10,
+          "estimated_distance_km": 20.5,
+          "estimated_duration_min": 35,
+          "waypoints": [
+            {
+              "point": 1,
+              "lat": 1.3048,
+              "lng": 103.8318,
+              "location_desc": "Orchard Central (pickup)"
+            },
+            {
+              "point": 2,
+              "lat": 1.312,
+              "lng": 103.836,
+              "location_desc": "Scotts Rd to PIE (Cairnhill) slip road"
+            },
+            {
+              "point": 3,
+              "lat": 1.3185,
+              "lng": 103.841,
+              "location_desc": "PIE entry (near Newton)"
+            },
+            {
+              "point": 4,
+              "lat": 1.324,
+              "lng": 103.855,
+              "location_desc": "PIE eastbound near Balestier"
+            },
+            {
+              "point": 5,
+              "lat": 1.326,
+              "lng": 103.872,
+              "location_desc": "PIE near Kallang / Paya Lebar"
+            },
+            {
+              "point": 6,
+              "lat": 1.328,
+              "lng": 103.894,
+              "location_desc": "PIE near Eunos / Ubi"
+            },
+            {
+              "point": 7,
+              "lat": 1.33,
+              "lng": 103.916,
+              "location_desc": "PIE near Bedok Reservoir"
+            },
+            {
+              "point": 8,
+              "lat": 1.334,
+              "lng": 103.945,
+              "location_desc": "PIE near Bedok North"
+            },
+            {
+              "point": 9,
+              "lat": 1.342,
+              "lng": 103.968,
+              "location_desc": "PIE near Upper Changi"
+            },
+            {
+              "point": 10,
+              "lat": 1.3644,
+              "lng": 103.9915,
+              "location_desc": "Changi Airport T3 (dropoff via PIE Exit 2)"
+            }
+          ],
+          "notes": "This is the system-recommended route via PIE. It is the most direct path from Orchard to Changi Airport T3 under normal traffic conditions. The driver instead took a route through the CBD, Nicoll Highway, Geylang/Old Airport Road, and ECP, adding 4.3 km."
+        }
+      },
+      "checksum": "sha256:265f4144160a792791810c5068cdfdec23626964e0214bd5fe166d7f419fc811"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-102-FARE-LEDGER",
+      "origin_case_id": "DEMO-102",
+      "source_record_id": "TRIP-2026-20102:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:52:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unjustified longer route; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "estimated_total_cents": 2850,
+        "actual_total_cents": 3500,
+        "line_items": [
+          {
+            "fee_item": "fare_difference",
+            "amount_cents": 650
+          },
+          {
+            "fee_item": "excess_distance_fare",
+            "amount_cents": 380
+          },
+          {
+            "fee_item": "excess_tolls",
+            "amount_cents": 222
+          }
+        ]
+      },
+      "checksum": "sha256:8a476b6b3dfac56b25cae47340bd5b158dd0b10185c2061c2600e6674389f286"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-102-AUTHENTICATED-CHAT",
+      "origin_case_id": "DEMO-102",
+      "source_record_id": "TRIP-2026-20102:chat",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unjustified longer route"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unjustified longer route; not an official, production, or real-person record.",
+      "payload": {
+        "messages": [
+          {
+            "message_id": "MSG-001",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:08:00+08:00",
+            "message": "Hi! I'm at the Orchard Central main entrance, wearing a blue dress. White Toyota Vios right?"
+          },
+          {
+            "message_id": "MSG-002",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:09:00+08:00",
+            "message": "Yes that's me! I can see you, coming now. 1 min."
+          },
+          {
+            "message_id": "MSG-003",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:10:00+08:00",
+            "message": "Great thanks! Heading to Changi T3, my flight is at 3:30pm."
+          },
+          {
+            "message_id": "MSG-004",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:10:30+08:00",
+            "message": "Sure, no problem. We will get there in time."
+          },
+          {
+            "message_id": "MSG-005",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:24:00+08:00",
+            "message": "Hey, are we going the right way? This doesn't look like the usual route to the airport."
+          },
+          {
+            "message_id": "MSG-006",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:25:00+08:00",
+            "message": "Don't worry, I know the way. We will reach on time."
+          }
+        ],
+        "total_messages": 6,
+        "route_notification_sent": false,
+        "rider_inquired_about_route": true,
+        "rider_inquiry_timestamp": "2026-09-12T13:24:00+08:00",
+        "driver_response_content": "Don't worry, I know the way. We will reach on time.",
+        "analysis": "The rider explicitly queried the route at 13:24 (MSG-005) after noticing the deviation near Shenton Way / Nicoll Highway. The driver's response (MSG-006) was dismissive and did not explain the reason for the deviation (PIE traffic). At no point did the driver proactively inform the rider of a route change or cite traffic conditions. This constitutes a failure to meet the driver's notification obligation under ride-hailing policy.",
+        "verbal_notification_verified": false
+      },
+      "checksum": "sha256:b937dd0fb5cf9b5bf9636629f6af1e7dd5a70cd773ef7d7e1a32075105b0a14d"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-102-DEMO-TRAFFIC-FEED",
+      "origin_case_id": "DEMO-102",
+      "source_record_id": "TRIP-2026-20102:traffic",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unjustified longer route"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unjustified longer route; not an official, production, or real-person record.",
+      "payload": {
+        "events": [
+          {
+            "incident_id": "TC-001",
+            "road": "PIE (Pan-Island Expressway)",
+            "direction": "eastbound",
+            "stretch": "PIE Exit 16 (Cactus / PAYA LEBAR) to Exit 11 (TAMPINES RD)",
+            "incident_type": "vehicle_fire",
+            "severity": "high",
+            "timestamp": "2026-09-12T13:05:00+08:00",
+            "clear_time": "2026-09-12T13:50:00+08:00",
+            "description": "Vehicle fire on PIE eastbound between Paya Lebar and Hougang. Lanes 1 and 2 blocked. Heavy congestion and long delays reported from 13:05."
+          },
+          {
+            "incident_id": "TC-002",
+            "road": "PIE exit ramp — Changi Airport exit",
+            "direction": "eastbound",
+            "stretch": "PIE Exit 2 to Changi Airport",
+            "incident_type": "heavy_congestion",
+            "severity": "moderate",
+            "timestamp": "2026-09-12T13:15:00+08:00",
+            "clear_time": "2026-09-12T13:40:00+08:00",
+            "description": "Heavy congestion on PIE near the airport exit, likely a secondary effect of the vehicle fire upstream."
+          },
+          {
+            "incident_id": "TC-003",
+            "road": "ECP (East Coast Parkway)",
+            "direction": "eastbound",
+            "stretch": "Marine Parade to Changi Airport",
+            "incident_type": "traffic_flow",
+            "severity": "low",
+            "timestamp": "2026-09-12T13:30:00+08:00",
+            "clear_time": null,
+            "description": "ECP eastbound flowing smoothly. No incidents. The driver's reroute through ECP was a reasonable alternative given PIE conditions."
+          }
+        ],
+        "pi_blocked_at_trip_start": true,
+        "pi_severity": "high",
+        "alternative_routes_available": [
+          "ECP via Nicoll Hwy / Geylang (driver's choice)",
+          "Tampines Expressway (TPE) via CTE",
+          "Regional routes via Sims Ave / Tanjong Katong"
+        ],
+        "reroute_justified": false,
+        "reroute_reason": "A vehicle fire on PIE eastbound at 13:05 (10 minutes before pickup) made the optimal route impassable for much of the trip window. The driver's decision to reroute via Nicoll Hwy → Geylang → ECP was a reasonable and safety-motivated alternative.",
+        "notification_failure": true,
+        "notification_gap": "The driver did not proactively inform the rider of the route change or the reason (PIE traffic). When the rider explicitly asked about the route at 13:24, the driver's response was dismissive and did not explain the traffic situation.",
+        "policy_reference": "RydeResolve Driver Policy §4.2: 'Drivers must inform the rider of any route deviation from the system-recommended route and the reason for the deviation before or at the point of deviation. Failure to notify renders the driver liable for excess fare charges attributable to the unnotified deviation.'"
+      },
+      "checksum": "sha256:25164e11f5d3bdb2d2278d51ca3aab66319f0cfa4310d8c0313bd4e6ba524056"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-102-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-102",
+      "source_record_id": "TRIP-2026-20102:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unjustified longer route; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-4521",
+          "name": "Sarah Tan",
+          "account_age_days": 540,
+          "account_created_at": "2025-03-22T00:00:00+08:00",
+          "total_trips": 187,
+          "avg_rating": 4.8,
+          "dispute_history": {
+            "total_disputes": 2,
+            "upheld": 1,
+            "rejected": 1,
+            "last_dispute_date": "2026-07-10"
+          },
+          "fraud_flags": 0,
+          "payment_method": "credit_card",
+          "payment_provider": "Visa ending 4521",
+          "loyalty_tier": "silver",
+          "frequent_corridors": [
+            "Orchard → Changi Airport",
+            "CBD → Orchard"
+          ]
+        },
+        "driver": {
+          "driver_id": "D-1187",
+          "name": "Rajesh Kumar",
+          "account_age_days": 720,
+          "account_created_at": "2024-09-23T00:00:00+08:00",
+          "total_trips": 2143,
+          "avg_rating": 4.7,
+          "dispute_history": {
+            "total_disputes": 3,
+            "upheld_against": 1,
+            "rejected": 2,
+            "last_dispute_date": "2026-08-29"
+          },
+          "fraud_flags": 0,
+          "vehicle": "Toyota Vios (SHA 7823 K)",
+          "vehicle_color": "Silver",
+          "license_class": "Class 3",
+          "partner_since": "2024-09-23",
+          "recent_compliments": [
+            "Safe driver",
+            "Punctual pickup"
+          ],
+          "completion_rate": 0.97,
+          "cancellation_rate": 0.03
+        }
+      },
+      "checksum": "sha256:1acbc2952a80ba7c3da42965c075fac61e8abfa402750f6d8e917d981becb2ab"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-103-ROUTE-BASELINE",
+      "origin_case_id": "DEMO-103",
+      "source_record_id": "TRIP-2026-20103:recommended-route",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Incomplete route GPS"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Incomplete route GPS; not an official, production, or real-person record.",
+      "payload": {
+        "baseline_distance_m": 20500.0,
+        "estimated_duration_min": 35,
+        "optimal_route": {
+          "route_name": "PIE (Pan-Island Expressway) — direct route",
+          "total_waypoints": 10,
+          "estimated_distance_km": 20.5,
+          "estimated_duration_min": 35,
+          "waypoints": [
+            {
+              "point": 1,
+              "lat": 1.3048,
+              "lng": 103.8318,
+              "location_desc": "Orchard Central (pickup)"
+            },
+            {
+              "point": 2,
+              "lat": 1.312,
+              "lng": 103.836,
+              "location_desc": "Scotts Rd to PIE (Cairnhill) slip road"
+            },
+            {
+              "point": 3,
+              "lat": 1.3185,
+              "lng": 103.841,
+              "location_desc": "PIE entry (near Newton)"
+            },
+            {
+              "point": 4,
+              "lat": 1.324,
+              "lng": 103.855,
+              "location_desc": "PIE eastbound near Balestier"
+            },
+            {
+              "point": 5,
+              "lat": 1.326,
+              "lng": 103.872,
+              "location_desc": "PIE near Kallang / Paya Lebar"
+            },
+            {
+              "point": 6,
+              "lat": 1.328,
+              "lng": 103.894,
+              "location_desc": "PIE near Eunos / Ubi"
+            },
+            {
+              "point": 7,
+              "lat": 1.33,
+              "lng": 103.916,
+              "location_desc": "PIE near Bedok Reservoir"
+            },
+            {
+              "point": 8,
+              "lat": 1.334,
+              "lng": 103.945,
+              "location_desc": "PIE near Bedok North"
+            },
+            {
+              "point": 9,
+              "lat": 1.342,
+              "lng": 103.968,
+              "location_desc": "PIE near Upper Changi"
+            },
+            {
+              "point": 10,
+              "lat": 1.3644,
+              "lng": 103.9915,
+              "location_desc": "Changi Airport T3 (dropoff via PIE Exit 2)"
+            }
+          ],
+          "notes": "This is the system-recommended route via PIE. It is the most direct path from Orchard to Changi Airport T3 under normal traffic conditions. The driver instead took a route through the CBD, Nicoll Highway, Geylang/Old Airport Road, and ECP, adding 4.3 km."
+        }
+      },
+      "checksum": "sha256:045f8b08330479a19fb40c3812ecc1a70484456d9d2921623bda266fd72af038"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-103-FARE-LEDGER",
+      "origin_case_id": "DEMO-103",
+      "source_record_id": "TRIP-2026-20103:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:52:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Incomplete route GPS; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "estimated_total_cents": 2850,
+        "actual_total_cents": 3500,
+        "line_items": [
+          {
+            "fee_item": "fare_difference",
+            "amount_cents": 650
+          },
+          {
+            "fee_item": "excess_distance_fare",
+            "amount_cents": 344
+          },
+          {
+            "fee_item": "excess_tolls",
+            "amount_cents": 222
+          }
+        ]
+      },
+      "checksum": "sha256:2ca62b87edc5fb32b78cbc5c69fa3b4441745d7d88563a9f4829830fb7172652"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-103-AUTHENTICATED-CHAT",
+      "origin_case_id": "DEMO-103",
+      "source_record_id": "TRIP-2026-20103:chat",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Incomplete route GPS"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Incomplete route GPS; not an official, production, or real-person record.",
+      "payload": {
+        "messages": [
+          {
+            "message_id": "MSG-001",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:08:00+08:00",
+            "message": "Hi! I'm at the Orchard Central main entrance, wearing a blue dress. White Toyota Vios right?"
+          },
+          {
+            "message_id": "MSG-002",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:09:00+08:00",
+            "message": "Yes that's me! I can see you, coming now. 1 min."
+          },
+          {
+            "message_id": "MSG-003",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:10:00+08:00",
+            "message": "Great thanks! Heading to Changi T3, my flight is at 3:30pm."
+          },
+          {
+            "message_id": "MSG-004",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:10:30+08:00",
+            "message": "Sure, no problem. We will get there in time."
+          },
+          {
+            "message_id": "MSG-005",
+            "sender": "rider",
+            "sender_name": "Sarah Tan",
+            "timestamp": "2026-09-12T13:24:00+08:00",
+            "message": "Hey, are we going the right way? This doesn't look like the usual route to the airport."
+          },
+          {
+            "message_id": "MSG-006",
+            "sender": "driver",
+            "sender_name": "Rajesh Kumar",
+            "timestamp": "2026-09-12T13:25:00+08:00",
+            "message": "Don't worry, I know the way. We will reach on time."
+          }
+        ],
+        "total_messages": 6,
+        "route_notification_sent": false,
+        "rider_inquired_about_route": true,
+        "rider_inquiry_timestamp": "2026-09-12T13:24:00+08:00",
+        "driver_response_content": "Don't worry, I know the way. We will reach on time.",
+        "analysis": "The rider explicitly queried the route at 13:24 (MSG-005) after noticing the deviation near Shenton Way / Nicoll Highway. The driver's response (MSG-006) was dismissive and did not explain the reason for the deviation (PIE traffic). At no point did the driver proactively inform the rider of a route change or cite traffic conditions. This constitutes a failure to meet the driver's notification obligation under ride-hailing policy.",
+        "verbal_notification_verified": false
+      },
+      "checksum": "sha256:3f651f77a0fb794588fe4f27b2cd60df5cab8c586500f54091a360095262caa6"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-103-DEMO-TRAFFIC-FEED",
+      "origin_case_id": "DEMO-103",
+      "source_record_id": "TRIP-2026-20103:traffic",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-12T13:15:00+08:00",
+        "end_at": "2026-09-12T13:52:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Incomplete route GPS"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Incomplete route GPS; not an official, production, or real-person record.",
+      "payload": {
+        "events": [
+          {
+            "incident_id": "TC-001",
+            "road": "PIE (Pan-Island Expressway)",
+            "direction": "eastbound",
+            "stretch": "PIE Exit 16 (Cactus / PAYA LEBAR) to Exit 11 (TAMPINES RD)",
+            "incident_type": "vehicle_fire",
+            "severity": "high",
+            "timestamp": "2026-09-12T13:05:00+08:00",
+            "clear_time": "2026-09-12T13:50:00+08:00",
+            "description": "Vehicle fire on PIE eastbound between Paya Lebar and Hougang. Lanes 1 and 2 blocked. Heavy congestion and long delays reported from 13:05."
+          },
+          {
+            "incident_id": "TC-002",
+            "road": "PIE exit ramp — Changi Airport exit",
+            "direction": "eastbound",
+            "stretch": "PIE Exit 2 to Changi Airport",
+            "incident_type": "heavy_congestion",
+            "severity": "moderate",
+            "timestamp": "2026-09-12T13:15:00+08:00",
+            "clear_time": "2026-09-12T13:40:00+08:00",
+            "description": "Heavy congestion on PIE near the airport exit, likely a secondary effect of the vehicle fire upstream."
+          },
+          {
+            "incident_id": "TC-003",
+            "road": "ECP (East Coast Parkway)",
+            "direction": "eastbound",
+            "stretch": "Marine Parade to Changi Airport",
+            "incident_type": "traffic_flow",
+            "severity": "low",
+            "timestamp": "2026-09-12T13:30:00+08:00",
+            "clear_time": null,
+            "description": "ECP eastbound flowing smoothly. No incidents. The driver's reroute through ECP was a reasonable alternative given PIE conditions."
+          }
+        ],
+        "pi_blocked_at_trip_start": true,
+        "pi_severity": "high",
+        "alternative_routes_available": [
+          "ECP via Nicoll Hwy / Geylang (driver's choice)",
+          "Tampines Expressway (TPE) via CTE",
+          "Regional routes via Sims Ave / Tanjong Katong"
+        ],
+        "reroute_justified": true,
+        "reroute_reason": "A vehicle fire on PIE eastbound at 13:05 (10 minutes before pickup) made the optimal route impassable for much of the trip window. The driver's decision to reroute via Nicoll Hwy → Geylang → ECP was a reasonable and safety-motivated alternative.",
+        "notification_failure": true,
+        "notification_gap": "The driver did not proactively inform the rider of the route change or the reason (PIE traffic). When the rider explicitly asked about the route at 13:24, the driver's response was dismissive and did not explain the traffic situation.",
+        "policy_reference": "RydeResolve Driver Policy §4.2: 'Drivers must inform the rider of any route deviation from the system-recommended route and the reason for the deviation before or at the point of deviation. Failure to notify renders the driver liable for excess fare charges attributable to the unnotified deviation.'"
+      },
+      "checksum": "sha256:2d6e7a1ba323a4f1a644611fa63f993340e232f520af03acec8c5abd30de6390"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-103-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-103",
+      "source_record_id": "TRIP-2026-20103:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-12T13:15:00+08:00",
+      "collected_at": "2026-09-12T14:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Incomplete route GPS; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-4521",
+          "name": "Sarah Tan",
+          "account_age_days": 540,
+          "account_created_at": "2025-03-22T00:00:00+08:00",
+          "total_trips": 187,
+          "avg_rating": 4.8,
+          "dispute_history": {
+            "total_disputes": 2,
+            "upheld": 1,
+            "rejected": 1,
+            "last_dispute_date": "2026-07-10"
+          },
+          "fraud_flags": 0,
+          "payment_method": "credit_card",
+          "payment_provider": "Visa ending 4521",
+          "loyalty_tier": "silver",
+          "frequent_corridors": [
+            "Orchard → Changi Airport",
+            "CBD → Orchard"
+          ]
+        },
+        "driver": {
+          "driver_id": "D-1187",
+          "name": "Rajesh Kumar",
+          "account_age_days": 720,
+          "account_created_at": "2024-09-23T00:00:00+08:00",
+          "total_trips": 2143,
+          "avg_rating": 4.7,
+          "dispute_history": {
+            "total_disputes": 3,
+            "upheld_against": 1,
+            "rejected": 2,
+            "last_dispute_date": "2026-08-29"
+          },
+          "fraud_flags": 0,
+          "vehicle": "Toyota Vios (SHA 7823 K)",
+          "vehicle_color": "Silver",
+          "license_class": "Class 3",
+          "partner_since": "2024-09-23",
+          "recent_compliments": [
+            "Safe driver",
+            "Punctual pickup"
+          ],
+          "completion_rate": 0.97,
+          "cancellation_rate": 0.03
+        }
+      },
+      "checksum": "sha256:3e5ffae52980c18c59234dfeccae8824e9535a5ab5d42c000f963ad10f736730"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-201-PLATFORM-GPS",
+      "origin_case_id": "DEMO-201",
+      "source_record_id": "TRIP-2026-20201:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Driver marked arrival too far away"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver marked arrival too far away; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-13T08:31:00+08:00",
+            "latitude": 1.292,
+            "longitude": 103.845,
+            "speed_kmh": 42,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:34:00+08:00",
+            "latitude": 1.289,
+            "longitude": 103.843,
+            "speed_kmh": 38,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:38:00+08:00",
+            "latitude": 1.2865,
+            "longitude": 103.84,
+            "speed_kmh": 25,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:41:00+08:00",
+            "latitude": 1.2852,
+            "longitude": 103.8388,
+            "speed_kmh": 12,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "arrived"
+          },
+          {
+            "timestamp": "2026-09-13T08:45:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "waiting"
+          },
+          {
+            "timestamp": "2026-09-13T08:48:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "waiting"
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "cancelled"
+          }
+        ],
+        "arrival_distance_m": 420,
+        "pickup_location": {
+          "name": "Tiong Bahru Plaza",
+          "lat": 1.2847,
+          "lng": 103.8382
+        }
+      },
+      "checksum": "sha256:f18452c86dc82b517246fbb9f34d9f19a5a283b7248e80099914c881ee84067d"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-201-TRIP-EVENT-LOG",
+      "origin_case_id": "DEMO-201",
+      "source_record_id": "TRIP-2026-20201:events",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Driver marked arrival too far away"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver marked arrival too far away; not an official, production, or real-person record.",
+      "payload": {
+        "scheduled_at": "2026-09-13T08:45:00+08:00",
+        "arrived_at": "2026-09-13T08:43:00+08:00",
+        "cancelled_at": "2026-09-13T08:51:00+08:00",
+        "cancelled_by": "DRIVER",
+        "events": [
+          {
+            "timestamp": "2026-09-13T08:30:00+08:00",
+            "event_type": "booking_confirmed",
+            "details": "Rider R-7823 booked trip TRIP-2026-09945 from Tiong Bahru Plaza to VivoCity. Scheduled pickup 08:45."
+          },
+          {
+            "timestamp": "2026-09-13T08:30:15+08:00",
+            "event_type": "driver_assigned",
+            "details": "Driver D-2398 (Lim Wei Ming, Honda HR-V SGP 4521 M) assigned. ETA 13 min."
+          },
+          {
+            "timestamp": "2026-09-13T08:30:20+08:00",
+            "event_type": "driver_en_route",
+            "details": "Driver started navigating to pickup location. Live tracking enabled."
+          },
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "event_type": "driver_arrived",
+            "details": "Driver GPS within 10m of pickup point. Speed 0 km/h. Auto-arrival confirmed."
+          },
+          {
+            "timestamp": "2026-09-13T08:43:05+08:00",
+            "event_type": "rider_notified",
+            "details": "Push notification + in-app alert sent to rider: 'Your driver has arrived.'"
+          },
+          {
+            "timestamp": "2026-09-13T08:43:10+08:00",
+            "event_type": "wait_timer_started",
+            "details": "Free wait timer started. 5 min free wait period ends at 08:48."
+          },
+          {
+            "timestamp": "2026-09-13T08:47:05+08:00",
+            "event_type": "driver_called_rider",
+            "details": "Driver initiated in-app call to rider. Call rang 22s, no answer."
+          },
+          {
+            "timestamp": "2026-09-13T08:48:10+08:00",
+            "event_type": "wait_timer_expired",
+            "details": "Free 5-min wait period expired. Rider had not boarded. Cancellation fee now applicable per policy."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "event_type": "cancellation_fee_applied",
+            "details": "No-show threshold (8 min) reached. $5.00 cancellation fee charged to rider payment method (e-wallet)."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:05+08:00",
+            "event_type": "driver_released",
+            "details": "Driver D-2398 released from trip. Trip status: cancelled (rider_no_show)."
+          }
+        ]
+      },
+      "checksum": "sha256:06583dbb1dcf54b627f27989cca596da134e64db3b221cada9571a5c000ac059"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-201-CONTACT-LOG",
+      "origin_case_id": "DEMO-201",
+      "source_record_id": "TRIP-2026-20201:contacts",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Driver marked arrival too far away"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver marked arrival too far away; not an official, production, or real-person record.",
+      "payload": {
+        "attempts": [
+          {
+            "at": "2026-09-13T08:43:00+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "I've arrived at the pickup point, I'm at the lobby area."
+          },
+          {
+            "at": "2026-09-13T08:45:20+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "I'm waiting at the lobby area, white Honda HR-V plate SGP 4521 M."
+          },
+          {
+            "at": "2026-09-13T08:47:05+08:00",
+            "channel": "PHONE",
+            "sender": "driver",
+            "content": "Outgoing call to rider — not answered (rang 22s, no response)."
+          },
+          {
+            "at": "2026-09-13T08:49:30+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "Hi, are you coming down? I've been waiting a while."
+          },
+          {
+            "at": "2026-09-13T08:50:45+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "Please let me know, otherwise I'll have to cancel the trip."
+          }
+        ],
+        "raw_chat_logs": [
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "I've arrived at the pickup point, I'm at the lobby area."
+          },
+          {
+            "timestamp": "2026-09-13T08:45:20+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "I'm waiting at the lobby area, white Honda HR-V plate SGP 4521 M."
+          },
+          {
+            "timestamp": "2026-09-13T08:47:05+08:00",
+            "sender": "driver",
+            "type": "call",
+            "content": "Outgoing call to rider — not answered (rang 22s, no response)."
+          },
+          {
+            "timestamp": "2026-09-13T08:49:30+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "Hi, are you coming down? I've been waiting a while."
+          },
+          {
+            "timestamp": "2026-09-13T08:50:45+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "Please let me know, otherwise I'll have to cancel the trip."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "sender": "system",
+            "type": "system",
+            "content": "Trip cancelled by driver. Reason: rider_no_show. Cancellation fee of $5.00 applied."
+          }
+        ]
+      },
+      "checksum": "sha256:6df0fa77b794c6f098551f6e5860e11831207360ae93c310960fb339958bf7c8"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-201-FARE-LEDGER",
+      "origin_case_id": "DEMO-201",
+      "source_record_id": "TRIP-2026-20201:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:51:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver marked arrival too far away; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 500
+          }
+        ],
+        "cancellation_policy": {
+          "free_wait_time_min": 5,
+          "cancellation_fee_after_wait": 5.0,
+          "no_show_threshold_min": 8,
+          "fee_goes_to": "driver_compensation"
+        }
+      },
+      "checksum": "sha256:e48cc366a958211dc14c37e79d2d06e4d17c0dc3a0d9f05dcd28b3e3c5c0ac00"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-201-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-201",
+      "source_record_id": "TRIP-2026-20201:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver marked arrival too far away; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-7823",
+          "name": "Michael Wong",
+          "account_age_days": 210,
+          "total_trips": 34,
+          "avg_rating": 3.9,
+          "dispute_history": {
+            "total_disputes": 4,
+            "upheld": 1,
+            "rejected": 3
+          },
+          "fraud_flags": 1,
+          "fraud_flag_details": "flagged_for_frequent_late_cancellations",
+          "payment_method": "e-wallet"
+        },
+        "driver": {
+          "driver_id": "D-2398",
+          "name": "Lim Wei Ming",
+          "account_age_days": 900,
+          "total_trips": 3201,
+          "avg_rating": 4.9,
+          "dispute_history": {
+            "total_disputes": 1,
+            "upheld_against": 0,
+            "rejected": 1
+          },
+          "fraud_flags": 0,
+          "vehicle": "Honda HR-V (SGP 4521 M)"
+        }
+      },
+      "checksum": "sha256:6d2a7045e1f8d99dd371fdb081be216a0edd88f5832fa201d9293ca50ad75ceb"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-202-PLATFORM-GPS",
+      "origin_case_id": "DEMO-202",
+      "source_record_id": "TRIP-2026-20202:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Driver cancelled before minimum wait"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver cancelled before minimum wait; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-13T08:31:00+08:00",
+            "latitude": 1.292,
+            "longitude": 103.845,
+            "speed_kmh": 42,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:34:00+08:00",
+            "latitude": 1.289,
+            "longitude": 103.843,
+            "speed_kmh": 38,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:38:00+08:00",
+            "latitude": 1.2865,
+            "longitude": 103.84,
+            "speed_kmh": 25,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:41:00+08:00",
+            "latitude": 1.2852,
+            "longitude": 103.8388,
+            "speed_kmh": 12,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "arrived"
+          },
+          {
+            "timestamp": "2026-09-13T08:45:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "waiting"
+          },
+          {
+            "timestamp": "2026-09-13T08:48:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "waiting"
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "cancelled"
+          }
+        ],
+        "arrival_distance_m": 0,
+        "pickup_location": {
+          "name": "Tiong Bahru Plaza",
+          "lat": 1.2847,
+          "lng": 103.8382
+        }
+      },
+      "checksum": "sha256:60add1058c0bfdf88eac132526db13f2efe4f8997db1c26cc71c8a44791b892c"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-202-TRIP-EVENT-LOG",
+      "origin_case_id": "DEMO-202",
+      "source_record_id": "TRIP-2026-20202:events",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Driver cancelled before minimum wait"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver cancelled before minimum wait; not an official, production, or real-person record.",
+      "payload": {
+        "scheduled_at": "2026-09-13T08:45:00+08:00",
+        "arrived_at": "2026-09-13T08:43:00+08:00",
+        "cancelled_at": "2026-09-13T08:48:00+08:00",
+        "cancelled_by": "DRIVER",
+        "events": [
+          {
+            "timestamp": "2026-09-13T08:30:00+08:00",
+            "event_type": "booking_confirmed",
+            "details": "Rider R-7823 booked trip TRIP-2026-09945 from Tiong Bahru Plaza to VivoCity. Scheduled pickup 08:45."
+          },
+          {
+            "timestamp": "2026-09-13T08:30:15+08:00",
+            "event_type": "driver_assigned",
+            "details": "Driver D-2398 (Lim Wei Ming, Honda HR-V SGP 4521 M) assigned. ETA 13 min."
+          },
+          {
+            "timestamp": "2026-09-13T08:30:20+08:00",
+            "event_type": "driver_en_route",
+            "details": "Driver started navigating to pickup location. Live tracking enabled."
+          },
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "event_type": "driver_arrived",
+            "details": "Driver GPS within 10m of pickup point. Speed 0 km/h. Auto-arrival confirmed."
+          },
+          {
+            "timestamp": "2026-09-13T08:43:05+08:00",
+            "event_type": "rider_notified",
+            "details": "Push notification + in-app alert sent to rider: 'Your driver has arrived.'"
+          },
+          {
+            "timestamp": "2026-09-13T08:43:10+08:00",
+            "event_type": "wait_timer_started",
+            "details": "Free wait timer started. 5 min free wait period ends at 08:48."
+          },
+          {
+            "timestamp": "2026-09-13T08:47:05+08:00",
+            "event_type": "driver_called_rider",
+            "details": "Driver initiated in-app call to rider. Call rang 22s, no answer."
+          },
+          {
+            "timestamp": "2026-09-13T08:48:10+08:00",
+            "event_type": "wait_timer_expired",
+            "details": "Free 5-min wait period expired. Rider had not boarded. Cancellation fee now applicable per policy."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "event_type": "cancellation_fee_applied",
+            "details": "No-show threshold (8 min) reached. $5.00 cancellation fee charged to rider payment method (e-wallet)."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:05+08:00",
+            "event_type": "driver_released",
+            "details": "Driver D-2398 released from trip. Trip status: cancelled (rider_no_show)."
+          }
+        ]
+      },
+      "checksum": "sha256:8963f114ba0be92cfb6add9eb60edf173929add1479c0edab3f31e2db69a072a"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-202-CONTACT-LOG",
+      "origin_case_id": "DEMO-202",
+      "source_record_id": "TRIP-2026-20202:contacts",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Driver cancelled before minimum wait"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver cancelled before minimum wait; not an official, production, or real-person record.",
+      "payload": {
+        "attempts": [
+          {
+            "at": "2026-09-13T08:43:00+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "I've arrived at the pickup point, I'm at the lobby area."
+          },
+          {
+            "at": "2026-09-13T08:45:20+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "I'm waiting at the lobby area, white Honda HR-V plate SGP 4521 M."
+          },
+          {
+            "at": "2026-09-13T08:47:05+08:00",
+            "channel": "PHONE",
+            "sender": "driver",
+            "content": "Outgoing call to rider — not answered (rang 22s, no response)."
+          },
+          {
+            "at": "2026-09-13T08:49:30+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "Hi, are you coming down? I've been waiting a while."
+          },
+          {
+            "at": "2026-09-13T08:50:45+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "Please let me know, otherwise I'll have to cancel the trip."
+          }
+        ],
+        "raw_chat_logs": [
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "I've arrived at the pickup point, I'm at the lobby area."
+          },
+          {
+            "timestamp": "2026-09-13T08:45:20+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "I'm waiting at the lobby area, white Honda HR-V plate SGP 4521 M."
+          },
+          {
+            "timestamp": "2026-09-13T08:47:05+08:00",
+            "sender": "driver",
+            "type": "call",
+            "content": "Outgoing call to rider — not answered (rang 22s, no response)."
+          },
+          {
+            "timestamp": "2026-09-13T08:49:30+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "Hi, are you coming down? I've been waiting a while."
+          },
+          {
+            "timestamp": "2026-09-13T08:50:45+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "Please let me know, otherwise I'll have to cancel the trip."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "sender": "system",
+            "type": "system",
+            "content": "Trip cancelled by driver. Reason: rider_no_show. Cancellation fee of $5.00 applied."
+          }
+        ]
+      },
+      "checksum": "sha256:b2b543abafd611fc2c357fced66cce42073ba6f2d4f62d32ecd0d517eadc261f"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-202-FARE-LEDGER",
+      "origin_case_id": "DEMO-202",
+      "source_record_id": "TRIP-2026-20202:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:51:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver cancelled before minimum wait; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 500
+          }
+        ],
+        "cancellation_policy": {
+          "free_wait_time_min": 5,
+          "cancellation_fee_after_wait": 5.0,
+          "no_show_threshold_min": 8,
+          "fee_goes_to": "driver_compensation"
+        }
+      },
+      "checksum": "sha256:01714540d0181dccd012023e53127c8c071fa47d6964eda38cb71098f652273e"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-202-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-202",
+      "source_record_id": "TRIP-2026-20202:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Driver cancelled before minimum wait; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-7823",
+          "name": "Michael Wong",
+          "account_age_days": 210,
+          "total_trips": 34,
+          "avg_rating": 3.9,
+          "dispute_history": {
+            "total_disputes": 4,
+            "upheld": 1,
+            "rejected": 3
+          },
+          "fraud_flags": 1,
+          "fraud_flag_details": "flagged_for_frequent_late_cancellations",
+          "payment_method": "e-wallet"
+        },
+        "driver": {
+          "driver_id": "D-2398",
+          "name": "Lim Wei Ming",
+          "account_age_days": 900,
+          "total_trips": 3201,
+          "avg_rating": 4.9,
+          "dispute_history": {
+            "total_disputes": 1,
+            "upheld_against": 0,
+            "rejected": 1
+          },
+          "fraud_flags": 0,
+          "vehicle": "Honda HR-V (SGP 4521 M)"
+        }
+      },
+      "checksum": "sha256:2c79dccbb5f1d93d5bc30da0729dc2e81f809f94cf6ef45542010fadec233afb"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-203-PLATFORM-GPS",
+      "origin_case_id": "DEMO-203",
+      "source_record_id": "TRIP-2026-20203:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Required contact channel missing"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Required contact channel missing; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-13T08:31:00+08:00",
+            "latitude": 1.292,
+            "longitude": 103.845,
+            "speed_kmh": 42,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:34:00+08:00",
+            "latitude": 1.289,
+            "longitude": 103.843,
+            "speed_kmh": 38,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:38:00+08:00",
+            "latitude": 1.2865,
+            "longitude": 103.84,
+            "speed_kmh": 25,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:41:00+08:00",
+            "latitude": 1.2852,
+            "longitude": 103.8388,
+            "speed_kmh": 12,
+            "status": "en_route"
+          },
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "arrived"
+          },
+          {
+            "timestamp": "2026-09-13T08:45:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "waiting"
+          },
+          {
+            "timestamp": "2026-09-13T08:48:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "waiting"
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "latitude": 1.2847,
+            "longitude": 103.8382,
+            "speed_kmh": 0,
+            "status": "cancelled"
+          }
+        ],
+        "arrival_distance_m": 0,
+        "pickup_location": {
+          "name": "Tiong Bahru Plaza",
+          "lat": 1.2847,
+          "lng": 103.8382
+        }
+      },
+      "checksum": "sha256:aedf7fb0d08a0e3d90db58fb72e7f788a20b208c5156d788c1aa28fe932ad58d"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-203-TRIP-EVENT-LOG",
+      "origin_case_id": "DEMO-203",
+      "source_record_id": "TRIP-2026-20203:events",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Required contact channel missing"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Required contact channel missing; not an official, production, or real-person record.",
+      "payload": {
+        "scheduled_at": "2026-09-13T08:45:00+08:00",
+        "arrived_at": "2026-09-13T08:43:00+08:00",
+        "cancelled_at": "2026-09-13T08:51:00+08:00",
+        "cancelled_by": "DRIVER",
+        "events": [
+          {
+            "timestamp": "2026-09-13T08:30:00+08:00",
+            "event_type": "booking_confirmed",
+            "details": "Rider R-7823 booked trip TRIP-2026-09945 from Tiong Bahru Plaza to VivoCity. Scheduled pickup 08:45."
+          },
+          {
+            "timestamp": "2026-09-13T08:30:15+08:00",
+            "event_type": "driver_assigned",
+            "details": "Driver D-2398 (Lim Wei Ming, Honda HR-V SGP 4521 M) assigned. ETA 13 min."
+          },
+          {
+            "timestamp": "2026-09-13T08:30:20+08:00",
+            "event_type": "driver_en_route",
+            "details": "Driver started navigating to pickup location. Live tracking enabled."
+          },
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "event_type": "driver_arrived",
+            "details": "Driver GPS within 10m of pickup point. Speed 0 km/h. Auto-arrival confirmed."
+          },
+          {
+            "timestamp": "2026-09-13T08:43:05+08:00",
+            "event_type": "rider_notified",
+            "details": "Push notification + in-app alert sent to rider: 'Your driver has arrived.'"
+          },
+          {
+            "timestamp": "2026-09-13T08:43:10+08:00",
+            "event_type": "wait_timer_started",
+            "details": "Free wait timer started. 5 min free wait period ends at 08:48."
+          },
+          {
+            "timestamp": "2026-09-13T08:47:05+08:00",
+            "event_type": "driver_called_rider",
+            "details": "Driver initiated in-app call to rider. Call rang 22s, no answer."
+          },
+          {
+            "timestamp": "2026-09-13T08:48:10+08:00",
+            "event_type": "wait_timer_expired",
+            "details": "Free 5-min wait period expired. Rider had not boarded. Cancellation fee now applicable per policy."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "event_type": "cancellation_fee_applied",
+            "details": "No-show threshold (8 min) reached. $5.00 cancellation fee charged to rider payment method (e-wallet)."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:05+08:00",
+            "event_type": "driver_released",
+            "details": "Driver D-2398 released from trip. Trip status: cancelled (rider_no_show)."
+          }
+        ]
+      },
+      "checksum": "sha256:e2f15da77c0cff1cb11e0ae627ce50359244e1c23435e4e8fc73ea64571e5c9f"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-203-CONTACT-LOG",
+      "origin_case_id": "DEMO-203",
+      "source_record_id": "TRIP-2026-20203:contacts",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-13T08:43:00+08:00",
+        "end_at": "2026-09-13T08:51:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Required contact channel missing"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Required contact channel missing; not an official, production, or real-person record.",
+      "payload": {
+        "attempts": [
+          {
+            "at": "2026-09-13T08:43:00+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "I've arrived at the pickup point, I'm at the lobby area."
+          },
+          {
+            "at": "2026-09-13T08:45:20+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "I'm waiting at the lobby area, white Honda HR-V plate SGP 4521 M."
+          },
+          {
+            "at": "2026-09-13T08:49:30+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "Hi, are you coming down? I've been waiting a while."
+          },
+          {
+            "at": "2026-09-13T08:50:45+08:00",
+            "channel": "IN_APP_CHAT",
+            "sender": "driver",
+            "content": "Please let me know, otherwise I'll have to cancel the trip."
+          }
+        ],
+        "raw_chat_logs": [
+          {
+            "timestamp": "2026-09-13T08:43:00+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "I've arrived at the pickup point, I'm at the lobby area."
+          },
+          {
+            "timestamp": "2026-09-13T08:45:20+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "I'm waiting at the lobby area, white Honda HR-V plate SGP 4521 M."
+          },
+          {
+            "timestamp": "2026-09-13T08:47:05+08:00",
+            "sender": "driver",
+            "type": "call",
+            "content": "Outgoing call to rider — not answered (rang 22s, no response)."
+          },
+          {
+            "timestamp": "2026-09-13T08:49:30+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "Hi, are you coming down? I've been waiting a while."
+          },
+          {
+            "timestamp": "2026-09-13T08:50:45+08:00",
+            "sender": "driver",
+            "type": "message",
+            "content": "Please let me know, otherwise I'll have to cancel the trip."
+          },
+          {
+            "timestamp": "2026-09-13T08:51:00+08:00",
+            "sender": "system",
+            "type": "system",
+            "content": "Trip cancelled by driver. Reason: rider_no_show. Cancellation fee of $5.00 applied."
+          }
+        ]
+      },
+      "checksum": "sha256:602ef866e2aa5012820142c7fa8fe37215775ea80cb91eff00806ae5e85d05cc"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-203-FARE-LEDGER",
+      "origin_case_id": "DEMO-203",
+      "source_record_id": "TRIP-2026-20203:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-13T08:51:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Required contact channel missing; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 500
+          }
+        ],
+        "cancellation_policy": {
+          "free_wait_time_min": 5,
+          "cancellation_fee_after_wait": 5.0,
+          "no_show_threshold_min": 8,
+          "fee_goes_to": "driver_compensation"
+        }
+      },
+      "checksum": "sha256:e1b4e2412f09573650f606c865250f43d2acc035daa4051044b955dd02fbd98b"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-203-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-203",
+      "source_record_id": "TRIP-2026-20203:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-13T08:43:00+08:00",
+      "collected_at": "2026-09-13T09:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Required contact channel missing; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-7823",
+          "name": "Michael Wong",
+          "account_age_days": 210,
+          "total_trips": 34,
+          "avg_rating": 3.9,
+          "dispute_history": {
+            "total_disputes": 4,
+            "upheld": 1,
+            "rejected": 3
+          },
+          "fraud_flags": 1,
+          "fraud_flag_details": "flagged_for_frequent_late_cancellations",
+          "payment_method": "e-wallet"
+        },
+        "driver": {
+          "driver_id": "D-2398",
+          "name": "Lim Wei Ming",
+          "account_age_days": 900,
+          "total_trips": 3201,
+          "avg_rating": 4.9,
+          "dispute_history": {
+            "total_disputes": 1,
+            "upheld_against": 0,
+            "rejected": 1
+          },
+          "fraud_flags": 0,
+          "vehicle": "Honda HR-V (SGP 4521 M)"
+        }
+      },
+      "checksum": "sha256:c1107cbdab33ad2afb651a3b8c7d8d5426d34ec3de85a60b2e3d63283d434cb8"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-301-FARE-LEDGER",
+      "origin_case_id": "DEMO-301",
+      "source_record_id": "TRIP-2026-20301:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:18:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Surge increase accepted after notice; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "upfront_quote_cents": 1200,
+        "actual_fare_cents": 1650,
+        "line_items": [
+          {
+            "fee_item": "surge_differential",
+            "amount_cents": 450
+          }
+        ]
+      },
+      "checksum": "sha256:8d5887a45c2a0aa57923d875c12e8d063f0390ac184bceea4683fd86b6ac28e4"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-301-SURGE-PRICING-LOG",
+      "origin_case_id": "DEMO-301",
+      "source_record_id": "TRIP-2026-20301:surge",
+      "source_type": "SURGE_PRICING_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:04:30+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:04:30+08:00",
+        "end_at": "2026-09-14T21:05:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Surge increase accepted after notice"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Surge increase accepted after notice; not an official, production, or real-person record.",
+      "payload": {
+        "quote_time_surge": 1.0,
+        "trip_start_surge": 1.5,
+        "surge_activated_at": "2026-09-14T21:04:30+08:00",
+        "rider_notified": false,
+        "notification_method": null,
+        "notification_timestamp": null,
+        "reason": "surge_window_activated_between_quote_and_pickup"
+      },
+      "checksum": "sha256:acd10ece9f7e6d48eec17d55c60beb4409c2f2dcfe60a96508ae2b9cec44dbc1"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-301-NOTIFICATION-LOG",
+      "origin_case_id": "DEMO-301",
+      "source_record_id": "TRIP-2026-20301:notification",
+      "source_type": "NOTIFICATION_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:04:30+08:00",
+        "end_at": "2026-09-14T21:05:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Surge increase accepted after notice"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Surge increase accepted after notice; not an official, production, or real-person record.",
+      "payload": {
+        "rider_notified": true,
+        "notification_method": "IN_APP_CONFIRMATION",
+        "notification_timestamp": "2026-09-14T21:04:45+08:00"
+      },
+      "checksum": "sha256:831ab91e71479700445f37007e874771072662341ec0a3381de353d9bf4eda2d"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-301-PLATFORM-GPS",
+      "origin_case_id": "DEMO-301",
+      "source_record_id": "TRIP-2026-20301:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:05:00+08:00",
+        "end_at": "2026-09-14T21:18:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Surge increase accepted after notice"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Surge increase accepted after notice; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-14T21:05:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8556,
+            "speed_kmh": 0
+          },
+          {
+            "timestamp": "2026-09-14T21:07:00+08:00",
+            "latitude": 1.2972,
+            "longitude": 103.8561,
+            "speed_kmh": 25
+          },
+          {
+            "timestamp": "2026-09-14T21:09:00+08:00",
+            "latitude": 1.2935,
+            "longitude": 103.8568,
+            "speed_kmh": 30
+          },
+          {
+            "timestamp": "2026-09-14T21:11:00+08:00",
+            "latitude": 1.2901,
+            "longitude": 103.8582,
+            "speed_kmh": 22
+          },
+          {
+            "timestamp": "2026-09-14T21:13:00+08:00",
+            "latitude": 1.2868,
+            "longitude": 103.8595,
+            "speed_kmh": 28
+          },
+          {
+            "timestamp": "2026-09-14T21:16:00+08:00",
+            "latitude": 1.2845,
+            "longitude": 103.8604,
+            "speed_kmh": 15
+          },
+          {
+            "timestamp": "2026-09-14T21:18:00+08:00",
+            "latitude": 1.2834,
+            "longitude": 103.8607,
+            "speed_kmh": 0
+          }
+        ]
+      },
+      "checksum": "sha256:fe822079238c024a1cc101000927f198859112b8bfff931f1b0eee439be95e6d"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-301-AUTHENTICATED-CHAT",
+      "origin_case_id": "DEMO-301",
+      "source_record_id": "TRIP-2026-20301:chat",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:05:00+08:00",
+        "end_at": "2026-09-14T21:18:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Surge increase accepted after notice"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Surge increase accepted after notice; not an official, production, or real-person record.",
+      "payload": {
+        "messages": [
+          {
+            "message_id": "MSG-001",
+            "sender": "rider",
+            "timestamp": "2026-09-14T21:02:15+08:00",
+            "message": "Hi, I'm at the taxi stand outside Bugis Junction near the fountain."
+          },
+          {
+            "message_id": "MSG-002",
+            "sender": "driver",
+            "timestamp": "2026-09-14T21:03:40+08:00",
+            "message": "OK, I see you. Pulling up now, white Elantra."
+          },
+          {
+            "message_id": "MSG-003",
+            "sender": "rider",
+            "timestamp": "2026-09-14T21:18:30+08:00",
+            "message": "Thanks for the ride! Just noticed the fare is $16.50 — I thought it was $12?"
+          }
+        ]
+      },
+      "checksum": "sha256:b8500628d757df0be367e7b3149f0932d82f0267608061378d454b9c80b2a3d4"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-301-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-301",
+      "source_record_id": "TRIP-2026-20301:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Surge increase accepted after notice; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-9001",
+          "name": "James Ford",
+          "account_age_days": 45,
+          "total_trips": 7,
+          "avg_rating": 4.5,
+          "dispute_history": {
+            "total_disputes": 0,
+            "upheld": 0,
+            "rejected": 0
+          },
+          "fraud_flags": 0,
+          "payment_method": "credit_card"
+        },
+        "driver": {
+          "driver_id": "D-3456",
+          "name": "Tan Ah Beng",
+          "account_age_days": 450,
+          "total_trips": 1567,
+          "avg_rating": 4.8,
+          "dispute_history": {
+            "total_disputes": 2,
+            "upheld_against": 0,
+            "rejected": 2
+          },
+          "fraud_flags": 0,
+          "vehicle": "Hyundai Elantra (SLM 8890 P)"
+        }
+      },
+      "checksum": "sha256:b6068849f29a8c04698f5e55c1dc5328092c9b534de6a464e5c1defb352b69ab"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-302-FARE-LEDGER",
+      "origin_case_id": "DEMO-302",
+      "source_record_id": "TRIP-2026-20302:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:18:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unnotified surge increase; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "upfront_quote_cents": 1200,
+        "actual_fare_cents": 1650,
+        "line_items": [
+          {
+            "fee_item": "surge_differential",
+            "amount_cents": 525
+          }
+        ]
+      },
+      "checksum": "sha256:83bad260a0234de4eb45a8cc040dd74f408d023f8e1b75c31ca76020210d006c"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-302-SURGE-PRICING-LOG",
+      "origin_case_id": "DEMO-302",
+      "source_record_id": "TRIP-2026-20302:surge",
+      "source_type": "SURGE_PRICING_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:04:30+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:04:30+08:00",
+        "end_at": "2026-09-14T21:05:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unnotified surge increase"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unnotified surge increase; not an official, production, or real-person record.",
+      "payload": {
+        "quote_time_surge": 1.0,
+        "trip_start_surge": 1.5,
+        "surge_activated_at": "2026-09-14T21:04:30+08:00",
+        "rider_notified": false,
+        "notification_method": null,
+        "notification_timestamp": null,
+        "reason": "surge_window_activated_between_quote_and_pickup"
+      },
+      "checksum": "sha256:b9941b4905e757c137256100397812ad9469a5e9f726a7a38a8125d5746698c3"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-302-NOTIFICATION-LOG",
+      "origin_case_id": "DEMO-302",
+      "source_record_id": "TRIP-2026-20302:notification",
+      "source_type": "NOTIFICATION_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:04:30+08:00",
+        "end_at": "2026-09-14T21:05:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unnotified surge increase"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unnotified surge increase; not an official, production, or real-person record.",
+      "payload": {
+        "rider_notified": false,
+        "notification_method": null,
+        "notification_timestamp": null
+      },
+      "checksum": "sha256:821cfcf1603a83bf2be48f8f880dd7d681ebd65825de100e4a8bfed9ae09e69e"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-302-PLATFORM-GPS",
+      "origin_case_id": "DEMO-302",
+      "source_record_id": "TRIP-2026-20302:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:05:00+08:00",
+        "end_at": "2026-09-14T21:18:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unnotified surge increase"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unnotified surge increase; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-14T21:05:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8556,
+            "speed_kmh": 0
+          },
+          {
+            "timestamp": "2026-09-14T21:07:00+08:00",
+            "latitude": 1.2972,
+            "longitude": 103.8561,
+            "speed_kmh": 25
+          },
+          {
+            "timestamp": "2026-09-14T21:09:00+08:00",
+            "latitude": 1.2935,
+            "longitude": 103.8568,
+            "speed_kmh": 30
+          },
+          {
+            "timestamp": "2026-09-14T21:11:00+08:00",
+            "latitude": 1.2901,
+            "longitude": 103.8582,
+            "speed_kmh": 22
+          },
+          {
+            "timestamp": "2026-09-14T21:13:00+08:00",
+            "latitude": 1.2868,
+            "longitude": 103.8595,
+            "speed_kmh": 28
+          },
+          {
+            "timestamp": "2026-09-14T21:16:00+08:00",
+            "latitude": 1.2845,
+            "longitude": 103.8604,
+            "speed_kmh": 15
+          },
+          {
+            "timestamp": "2026-09-14T21:18:00+08:00",
+            "latitude": 1.2834,
+            "longitude": 103.8607,
+            "speed_kmh": 0
+          }
+        ]
+      },
+      "checksum": "sha256:59271c5a295abd5bba9789976da4c41d25ec2b25d1a528bc7a64517e5d946cb0"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-302-AUTHENTICATED-CHAT",
+      "origin_case_id": "DEMO-302",
+      "source_record_id": "TRIP-2026-20302:chat",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:05:00+08:00",
+        "end_at": "2026-09-14T21:18:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Unnotified surge increase"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unnotified surge increase; not an official, production, or real-person record.",
+      "payload": {
+        "messages": [
+          {
+            "message_id": "MSG-001",
+            "sender": "rider",
+            "timestamp": "2026-09-14T21:02:15+08:00",
+            "message": "Hi, I'm at the taxi stand outside Bugis Junction near the fountain."
+          },
+          {
+            "message_id": "MSG-002",
+            "sender": "driver",
+            "timestamp": "2026-09-14T21:03:40+08:00",
+            "message": "OK, I see you. Pulling up now, white Elantra."
+          },
+          {
+            "message_id": "MSG-003",
+            "sender": "rider",
+            "timestamp": "2026-09-14T21:18:30+08:00",
+            "message": "Thanks for the ride! Just noticed the fare is $16.50 — I thought it was $12?"
+          }
+        ]
+      },
+      "checksum": "sha256:7126d2344b37b0405c92f7dcdaa4252bd1f6bcfc1d47fbab269fecbb65d17d36"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-302-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-302",
+      "source_record_id": "TRIP-2026-20302:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Unnotified surge increase; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-9001",
+          "name": "James Ford",
+          "account_age_days": 45,
+          "total_trips": 7,
+          "avg_rating": 4.5,
+          "dispute_history": {
+            "total_disputes": 0,
+            "upheld": 0,
+            "rejected": 0
+          },
+          "fraud_flags": 0,
+          "payment_method": "credit_card"
+        },
+        "driver": {
+          "driver_id": "D-3456",
+          "name": "Tan Ah Beng",
+          "account_age_days": 450,
+          "total_trips": 1567,
+          "avg_rating": 4.8,
+          "dispute_history": {
+            "total_disputes": 2,
+            "upheld_against": 0,
+            "rejected": 2
+          },
+          "fraud_flags": 0,
+          "vehicle": "Hyundai Elantra (SLM 8890 P)"
+        }
+      },
+      "checksum": "sha256:d2ae01ce20b55d3febda9bbb4a69cec68f509bba6e2ee8939d24d9ed42434119"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-303-FARE-LEDGER",
+      "origin_case_id": "DEMO-303",
+      "source_record_id": "TRIP-2026-20303:fare",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:18:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Missing fare notification record; not an official, production, or real-person record.",
+      "payload": {
+        "currency": "SGD",
+        "upfront_quote_cents": 1200,
+        "actual_fare_cents": 1650,
+        "line_items": [
+          {
+            "fee_item": "surge_differential",
+            "amount_cents": 450
+          }
+        ]
+      },
+      "checksum": "sha256:87d68d9ee8c66ac3debd50b8fd2d21b818d05e8595e254f11b35055004481ccd"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-303-SURGE-PRICING-LOG",
+      "origin_case_id": "DEMO-303",
+      "source_record_id": "TRIP-2026-20303:surge",
+      "source_type": "SURGE_PRICING_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:04:30+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:04:30+08:00",
+        "end_at": "2026-09-14T21:05:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Missing fare notification record"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Missing fare notification record; not an official, production, or real-person record.",
+      "payload": {
+        "quote_time_surge": 1.0,
+        "trip_start_surge": 1.5,
+        "surge_activated_at": "2026-09-14T21:04:30+08:00",
+        "rider_notified": false,
+        "notification_method": null,
+        "notification_timestamp": null,
+        "reason": "surge_window_activated_between_quote_and_pickup"
+      },
+      "checksum": "sha256:8856dfd0efbf5e6b8581acb7905b6ced6689b7fe5d592ab135d69ee6dab98605"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-303-PLATFORM-GPS",
+      "origin_case_id": "DEMO-303",
+      "source_record_id": "TRIP-2026-20303:gps",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:05:00+08:00",
+        "end_at": "2026-09-14T21:18:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Missing fare notification record"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Missing fare notification record; not an official, production, or real-person record.",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-14T21:05:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8556,
+            "speed_kmh": 0
+          },
+          {
+            "timestamp": "2026-09-14T21:07:00+08:00",
+            "latitude": 1.2972,
+            "longitude": 103.8561,
+            "speed_kmh": 25
+          },
+          {
+            "timestamp": "2026-09-14T21:09:00+08:00",
+            "latitude": 1.2935,
+            "longitude": 103.8568,
+            "speed_kmh": 30
+          },
+          {
+            "timestamp": "2026-09-14T21:11:00+08:00",
+            "latitude": 1.2901,
+            "longitude": 103.8582,
+            "speed_kmh": 22
+          },
+          {
+            "timestamp": "2026-09-14T21:13:00+08:00",
+            "latitude": 1.2868,
+            "longitude": 103.8595,
+            "speed_kmh": 28
+          },
+          {
+            "timestamp": "2026-09-14T21:16:00+08:00",
+            "latitude": 1.2845,
+            "longitude": 103.8604,
+            "speed_kmh": 15
+          },
+          {
+            "timestamp": "2026-09-14T21:18:00+08:00",
+            "latitude": 1.2834,
+            "longitude": 103.8607,
+            "speed_kmh": 0
+          }
+        ]
+      },
+      "checksum": "sha256:9572b5a0c931fa650e3eb8c7ccd41639a6664f7387f0f1d9026a3c2de2047430"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-303-AUTHENTICATED-CHAT",
+      "origin_case_id": "DEMO-303",
+      "source_record_id": "TRIP-2026-20303:chat",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-14T21:05:00+08:00",
+        "end_at": "2026-09-14T21:18:00+08:00",
+        "is_complete": true,
+        "scope": "synthetic demo coverage for Missing fare notification record"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Missing fare notification record; not an official, production, or real-person record.",
+      "payload": {
+        "messages": [
+          {
+            "message_id": "MSG-001",
+            "sender": "rider",
+            "timestamp": "2026-09-14T21:02:15+08:00",
+            "message": "Hi, I'm at the taxi stand outside Bugis Junction near the fountain."
+          },
+          {
+            "message_id": "MSG-002",
+            "sender": "driver",
+            "timestamp": "2026-09-14T21:03:40+08:00",
+            "message": "OK, I see you. Pulling up now, white Elantra."
+          },
+          {
+            "message_id": "MSG-003",
+            "sender": "rider",
+            "timestamp": "2026-09-14T21:18:30+08:00",
+            "message": "Thanks for the ride! Just noticed the fare is $16.50 — I thought it was $12?"
+          }
+        ]
+      },
+      "checksum": "sha256:a858e7b10f37efc7a9eba178709d8202e05ac3036b77fb91f744771e125c89f8"
+    },
+    {
+      "evidence_id": "SYNTHETIC-DEMO-303-HISTORICAL-BEHAVIOR-PROFILE",
+      "origin_case_id": "DEMO-303",
+      "source_record_id": "TRIP-2026-20303:profiles",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-14T21:05:00+08:00",
+      "collected_at": "2026-09-14T21:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic public demo fixture for Missing fare notification record; not an official, production, or real-person record.",
+      "payload": {
+        "rider": {
+          "rider_id": "R-9001",
+          "name": "James Ford",
+          "account_age_days": 45,
+          "total_trips": 7,
+          "avg_rating": 4.5,
+          "dispute_history": {
+            "total_disputes": 0,
+            "upheld": 0,
+            "rejected": 0
+          },
+          "fraud_flags": 0,
+          "payment_method": "credit_card"
+        },
+        "driver": {
+          "driver_id": "D-3456",
+          "name": "Tan Ah Beng",
+          "account_age_days": 450,
+          "total_trips": 1567,
+          "avg_rating": 4.8,
+          "dispute_history": {
+            "total_disputes": 2,
+            "upheld_against": 0,
+            "rejected": 2
+          },
+          "fraud_flags": 0,
+          "vehicle": "Hyundai Elantra (SLM 8890 P)"
+        }
+      },
+      "checksum": "sha256:1eb7513d160c763537655755481ab9dde25bc68bb36dfcd256b7aa1297ad2831"
+    }
+  ],
+  "expected_results": [
+    {
+      "case_id": "DEMO-101",
+      "case_version": 1,
+      "business_status": "RESOLVED",
+      "matched_rule_ids": [
+        "RD-103"
+      ],
+      "action": {
+        "type": "NO_ACTION",
+        "fee_item": null,
+        "amount_cents": 0,
+        "currency": "SGD"
+      }
+    },
+    {
+      "case_id": "DEMO-102",
+      "case_version": 1,
+      "business_status": "RESOLVED",
+      "matched_rule_ids": [
+        "RD-105"
+      ],
+      "action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "excess_distance_fare",
+        "amount_cents": 380,
+        "currency": "SGD"
+      }
+    },
+    {
+      "case_id": "DEMO-103",
+      "case_version": 1,
+      "business_status": "PENDING_HUMAN_REVIEW",
+      "matched_rule_ids": [
+        "RD-101"
+      ],
+      "action": null
+    },
+    {
+      "case_id": "DEMO-201",
+      "case_version": 1,
+      "business_status": "RESOLVED",
+      "matched_rule_ids": [
+        "NS-103"
+      ],
+      "action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "cancellation_fee",
+        "amount_cents": 500,
+        "currency": "SGD"
+      }
+    },
+    {
+      "case_id": "DEMO-202",
+      "case_version": 1,
+      "business_status": "RESOLVED",
+      "matched_rule_ids": [
+        "NS-104"
+      ],
+      "action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "cancellation_fee",
+        "amount_cents": 500,
+        "currency": "SGD"
+      }
+    },
+    {
+      "case_id": "DEMO-203",
+      "case_version": 1,
+      "business_status": "RESOLVED",
+      "matched_rule_ids": [
+        "NS-105"
+      ],
+      "action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "cancellation_fee",
+        "amount_cents": 500,
+        "currency": "SGD"
+      }
+    },
+    {
+      "case_id": "DEMO-301",
+      "case_version": 1,
+      "business_status": "RESOLVED",
+      "matched_rule_ids": [
+        "FD-102"
+      ],
+      "action": {
+        "type": "NO_ACTION",
+        "fee_item": null,
+        "amount_cents": 0,
+        "currency": "SGD"
+      }
+    },
+    {
+      "case_id": "DEMO-302",
+      "case_version": 1,
+      "business_status": "RESOLVED",
+      "matched_rule_ids": [
+        "FD-103"
+      ],
+      "action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "surge_differential",
+        "amount_cents": 525,
+        "currency": "SGD"
+      }
+    },
+    {
+      "case_id": "DEMO-303",
+      "case_version": 1,
+      "business_status": "PENDING_HUMAN_REVIEW",
+      "matched_rule_ids": [
+        "FD-101"
+      ],
+      "action": null
+    }
+  ]
+}

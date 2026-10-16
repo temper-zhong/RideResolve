@@ -45,6 +45,22 @@ class OfficialCaseResolverTests(unittest.TestCase):
         self.assertEqual("MATCHED", result.status)
         self.assertEqual("DISP-003", result.snapshot.case_id)
 
+    def test_synthetic_demo_reference_is_matched_and_labeled(self) -> None:
+        result = self.resolver.resolve(
+            IntakeRequest(user_query="Please review demo case DEMO-203.")
+        )
+        self.assertEqual("MATCHED", result.status)
+        self.assertEqual("DEMO-203", result.snapshot.case_id)
+        self.assertEqual("SYNTHETIC_DEMO", result.case_origin)
+
+    def test_synthetic_demo_trip_reference_is_matched_and_labeled(self) -> None:
+        result = self.resolver.resolve(
+            IntakeRequest(user_query="Please review trip TRIP-2026-20302.")
+        )
+        self.assertEqual("MATCHED", result.status)
+        self.assertEqual("DEMO-302", result.snapshot.case_id)
+        self.assertEqual("SYNTHETIC_DEMO", result.case_origin)
+
     def test_description_without_official_identifier_is_never_guessed(self) -> None:
         result = self.resolver.resolve(
             IntakeRequest(

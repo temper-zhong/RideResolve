@@ -2,7 +2,7 @@
 
 ![RideResolve cover](docs/assets/rideresolve-cover-384x216.png)
 
-RideResolve is an evidence-grounded dispute-resolution prototype with one official-case Intake and five Agents: Evidence Collection, Rider Advocate, Driver Advocate, Policy & Precedent, and Judge. The public v0.6 input is a normal problem description containing an official case or trip reference, never a user-supplied `run_id`. Intake resolves the explicit reference against official data and creates a signed internal run context. Explicit ADP workflow nodes then perform every role-scoped tool call; all five Agents are tool-free and run strictly in sequence. The Advocates independently inspect role-specific evidence results, reviewer-approved corrections are supplied as advisory precedent, and deterministic Python code exclusively controls policy applicability, case status, fee item, escalation, and simulated refund amount.
+RideResolve is an evidence-grounded dispute-resolution prototype with one guarded Intake and five Agents: Evidence Collection, Rider Advocate, Driver Advocate, Policy & Precedent, and Judge. The public v0.6 input is a normal problem description containing an official or explicitly labeled synthetic demo case/trip reference, never a user-supplied `run_id`. Intake resolves the explicit reference and creates a signed internal run context. Official hackathon samples and synthetic demonstrations are stored separately; official records take precedence over synthetic records on any identity conflict. Explicit ADP workflow nodes then perform every role-scoped tool call; all five Agents are tool-free and run strictly in sequence. The Advocates independently inspect role-specific evidence results, reviewer-approved corrections are supplied as advisory precedent, and deterministic Python code exclusively controls policy applicability, case status, fee item, escalation, and simulated refund amount.
 
 ## Why this prototype is different
 
@@ -42,7 +42,7 @@ Four official bonus capabilities are implemented in the local synthetic demo:
 3. **Learning Feedback Loop** - accepts only genuine human overrides with evidence citations, a correction reason, a changed outcome, and `ADVISORY_PRECEDENT_ONLY` approval before publishing them to the append-only precedent memory.
 4. **Escalation Protocol** - produces a complete human-review packet when a deterministic gate blocks the case or Judge self-confidence is below `70/100`. Confidence may trigger a safe escalation but can never authorize release or bypass a hard gate.
 
-The accuracy-first prompt contracts and machine-readable graph are included for reproducibility. A functional v0.5 ADP run completed deterministic validation for official sample `DISP-001` in 48.183 seconds with 26,355 tokens. The local v0.6 update adds guarded natural-language intake, signed run contexts, expiry-bounded static connector credentials, and a WorkBuddy MCP adapter. v0.6 is locally verified but still requires CloudBase deployment, ADP import, publication, and a real AppKey smoke test.
+The accuracy-first prompt contracts and machine-readable graph are included for reproducibility. The current v0.6 CloudBase service and five-Agent ADP workflow have completed functional global-debug runs across Route Deviation, No-Show, and Fare Dispute, including official and synthetic cases. v0.6 adds guarded natural-language intake, signed run contexts, expiry-bounded static connector credentials, and a WorkBuddy MCP adapter. ADP publication and a final Experience URL smoke test remain release steps.
 
 The current local page is explicitly labelled **SYNTHETIC · OFFLINE DEMO**. It does not present fixture text as a live or replayed model run. `RESOLVED` is displayed as **Simulated resolution complete**, together with: “No real refund or user notification was executed.”
 
@@ -66,13 +66,16 @@ The page also exposes a No-Show scenario and the stable Route Deviation case use
 
 ## Synthetic data sources
 
-The checked-in dataset contains 16 independent synthetic cases (8 Route Deviation and 8 No-Show), 79 integrity-checked evidence records, and at least one evaluated case for every one of the 13 policy rules. The approved precedent memory contains four checksum-bound synthetic records, including two comparable `RD-004` records, No-Show coverage, and one deliberately policy-conflicting historical outcome that remains advisory only.
+The checked-in internal test dataset contains 16 independent synthetic cases (8 Route Deviation and 8 No-Show), 79 integrity-checked evidence records, and at least one evaluated case for every one of the 13 legacy demo-policy rules. A separate public synthetic demo dataset adds nine common scenarios across Route Deviation, No-Show, and Fare Dispute. Every public demo uses a `DEMO-*` identifier, a `[SYNTHETIC DEMO]` claim prefix, and evidence provenance stating that it is not official or production data. The approved precedent memory contains four checksum-bound synthetic records, including two comparable `RD-004` records, No-Show coverage, and one deliberately policy-conflicting historical outcome that remains advisory only.
+
+The three official samples remain isolated in `data/cases/official_cases.json`. Public synthetic demonstrations are stored in `data/cases/synthetic_demo_cases.json`; they never overwrite official records. See [`docs/PUBLIC_DEMO_CASES.md`](docs/PUBLIC_DEMO_CASES.md) for the case catalog and copy-ready prompts.
 
 Regenerate these auditable sources instead of editing their JSON by hand:
 
 ```powershell
 python -m scripts.build_tool_cases
 python -m scripts.build_approved_precedents
+python scripts/generate_public_demo_cases.py
 ```
 
 ## Architecture
@@ -81,7 +84,7 @@ python -m scripts.build_approved_precedents
 External problem description (SYS.UserQuery)
                   |
                   v
-Official reference resolver -- vague/ambiguous --> NEEDS_CLARIFICATION
+Explicit reference resolver -- vague/ambiguous --> NEEDS_CLARIFICATION
                   |
                   v
 Signed internal run context
@@ -95,7 +98,7 @@ Evidence Collector -> Rider Advocate -> Driver Advocate
 One End node: validated result, clarification, or technical failure
 ```
 
-The preserved cloud evidence includes the historical three-core-Agent Route Deviation run, the five-Agent workflow-first No-Show run, and the validated v0.5 accuracy-first `DISP-001` result. The v0.6 deployment source of truth is [`accuracy_first_manifest.json`](docs/adp/accuracy_first_manifest.json), with operator steps in [`ACCURACY_FIRST_DEPLOYMENT.md`](docs/adp/ACCURACY_FIRST_DEPLOYMENT.md) and WorkBuddy handoff in [`WORKBUDDY_INTEGRATION.md`](docs/WORKBUDDY_INTEGRATION.md). Formal Gate A remains pending until the v0.6 service and workflow are deployed and their complete native traces are preserved and verified.
+The preserved cloud evidence includes the historical three-core-Agent Route Deviation run, the five-Agent workflow-first No-Show run, the validated v0.5 accuracy-first `DISP-001` result, and current v0.6 global-debug screenshots. The v0.6 deployment source of truth is [`accuracy_first_manifest.json`](docs/adp/accuracy_first_manifest.json), with operator steps in [`ACCURACY_FIRST_DEPLOYMENT.md`](docs/adp/ACCURACY_FIRST_DEPLOYMENT.md) and WorkBuddy handoff in [`WORKBUDDY_INTEGRATION.md`](docs/WORKBUDDY_INTEGRATION.md). CloudBase deployment and ADP global debugging are complete; formal Gate A artifact sign-off still requires a complete native trace export and verification.
 
 `docs/adp/multiagent_manifest.json` is an unvalidated historical experiment in Agent-owned tools, not the submission architecture. The root `RideResolve-Orchestration-import.zip` is a legacy three-Agent snapshot and must not be imported or uploaded as the current application.
 
@@ -115,7 +118,7 @@ See [`docs/GATE_STATUS.md`](docs/GATE_STATUS.md) for the exact verification boun
 
 - Never commit or submit files under `var/`.
 - Never paste a role token, API key, or connector credential into prompts, chat, screenshots, or documentation.
-- Never infer a case from a description alone. Require an exact official case or trip reference and ask for clarification when it is absent or conflicting.
+- Never infer a case from a description alone. Require an exact official or labeled synthetic demo case/trip reference and ask for clarification when it is absent or conflicting.
 - Never expose the signed `run_context` to an Agent; workflow tool nodes pass it directly.
 - Local run revocation does not prove that an already deployed CloudBase environment was updated; rotate or remove deployed secrets in the provider console.
 - Exclude full process transcripts. Submit only the manually reviewed eligibility screenshots described in [`docs/process_records/README.md`](docs/process_records/README.md).

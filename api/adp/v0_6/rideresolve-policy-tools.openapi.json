@@ -102,6 +102,14 @@
                             "JUDGE"
                           ]
                         },
+                        "case_origin": {
+                          "type": "string",
+                          "enum": [
+                            "OFFICIAL_HACKATHON_SAMPLE",
+                            "SYNTHETIC_DEMO",
+                            "INTERNAL_TEST_FIXTURE"
+                          ]
+                        },
                         "case_id": {
                           "type": "string"
                         },
@@ -327,6 +335,14 @@
                         },
                         "synthetic": {
                           "type": "boolean"
+                        },
+                        "case_origin": {
+                          "type": "string",
+                          "enum": [
+                            "OFFICIAL_HACKATHON_SAMPLE",
+                            "SYNTHETIC_DEMO",
+                            "INTERNAL_TEST_FIXTURE"
+                          ]
                         },
                         "knowledge_base_id": {
                           "type": "string"
