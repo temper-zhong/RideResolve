@@ -1,0 +1,74 @@
+{
+  "Response": {
+    "LogResults": {
+      "Context": "",
+      "ListOver": true,
+      "Results": [
+        {
+          "Content": "{\"__TAG__\":{\"image_name\":\"ccr.ccs.tencentyun.com/tcb-100053484212-qgcn/ca-yxtmktmh_rideresolve-gate-a-probe:rideresolve-gate-a-probe-011-20261013004913\",\"cluster_id\":\"cls-adn31u65\",\"container_name\":\"rideresolve-gate-a-probe-011\",\"pod_label_k8s-app\":\"rideresolve-gate-a-probe-011\",\"pod_uid\":\"cef78c8d-981d-4d45-b1bd-4ad5553c63ee\",\"namespace\":\"ocbihbuf\",\"pod_ip\":\"10.22.17.5\",\"envId\":\"rideresolve-probe-d9dax69bbd0c97\",\"pod_label_pod-template-hash\":\"7f7d44fc8c\",\"pod_name\":\"rideresolve-gate-a-probe-011-7f7d44fc8c-br4l7\"},\"__TAG__.stream\":\"stdout\",\"__CONTENT__\":\"RIDEREsolve_AUDIT {\\\"schema_version\\\":1,\\\"request_id\\\":\\\"rr-0cf154f1849448638447ef757ccb6328\\\",\\\"server_instance_id\\\":\\\"INSTANCE-087fcfd0c4804598b5cbab38f0920c28\\\",\\\"run_id\\\":\\\"RUN-cf0a51719e794c15b9536ad73eb1f1a1\\\",\\\"token_id\\\":\\\"6a7e55bb1e1f\\\",\\\"actor_role\\\":\\\"EVIDENCE_COLLECTION\\\",\\\"endpoint\\\":\\\"/tools/get_case_snapshot\\\",\\\"case_id\\\":\\\"CASE-NS-TOOL-001\\\",\\\"case_version\\\":1,\\\"policy_version\\\":\\\"DEMO_POLICY_V1\\\",\\\"request_number_for_role\\\":7,\\\"parameters\\\":{},\\\"returned_ids\\\":{\\\"evidence_ids\\\":[],\\\"rule_ids\\\":[],\\\"precedent_ids\\\":[]},\\\"started_at\\\":\\\"2026-10-12T17:09:37.036265+00:00\\\",\\\"ended_at\\\":\\\"2026-10-12T17:09:37.036831+00:00\\\",\\\"duration_ms\\\":0.578,\\\"http_status\\\":200,\\\"outcome\\\":\\\"SUCCESS\\\",\\\"error_code\\\":null}\"}",
+          "FileName": "/var/log/eks-log-agent/ca-yxtmktmh-rideresolve-gate-a-probe-0/stdout-containerd/rideresolve-gate-a-probe-011/0.log",
+          "PkgLogId": "131072",
+          "Source": "10.22.17.5",
+          "Timestamp": "2026-10-13 01:09:38",
+          "TopicId": "4247aa58-2481-4241-9d43-81cfe6e4e3bb",
+          "TopicName": "online_sh_zDxYMkcC_yeQweqLptnmxpTaz"
+        },
+        {
+          "Content": "{\"__TAG__\":{\"image_name\":\"ccr.ccs.tencentyun.com/tcb-100053484212-qgcn/ca-yxtmktmh_rideresolve-gate-a-probe:rideresolve-gate-a-probe-011-20261013004913\",\"cluster_id\":\"cls-adn31u65\",\"container_name\":\"rideresolve-gate-a-probe-011\",\"pod_label_k8s-app\":\"rideresolve-gate-a-probe-011\",\"pod_uid\":\"cef78c8d-981d-4d45-b1bd-4ad5553c63ee\",\"namespace\":\"ocbihbuf\",\"pod_ip\":\"10.22.17.5\",\"envId\":\"rideresolve-probe-d9dax69bbd0c97\",\"pod_label_pod-template-hash\":\"7f7d44fc8c\",\"pod_name\":\"rideresolve-gate-a-probe-011-7f7d44fc8c-br4l7\"},\"__TAG__.stream\":\"stdout\",\"__CONTENT__\":\"RIDEREsolve_AUDIT {\\\"schema_version\\\":1,\\\"request_id\\\":\\\"rr-e3986137dff74af0902451257843750b\\\",\\\"server_instance_id\\\":\\\"INSTANCE-087fcfd0c4804598b5cbab38f0920c28\\\",\\\"run_id\\\":\\\"RUN-cf0a51719e794c15b9536ad73eb1f1a1\\\",\\\"token_id\\\":\\\"6a7e55bb1e1f\\\",\\\"actor_role\\\":\\\"EVIDENCE_COLLECTION\\\",\\\"endpoint\\\":\\\"/tools/get_trip_evidence\\\",\\\"case_id\\\":\\\"CASE-NS-TOOL-001\\\",\\\"case_version\\\":1,\\\"policy_version\\\":\\\"DEMO_POLICY_V1\\\",\\\"request_number_for_role\\\":8,\\\"parameters\\\":{\\\"evidence_type_count\\\":7,\\\"detail\\\":\\\"SUMMARY\\\"},\\\"returned_ids\\\":{\\\"evidence_ids\\\":[\\\"EV-NS-GPS\\\",\\\"EV-NS-EVENT\\\",\\\"EV-NS-CONTACT\\\",\\\"EV-NS-FARE\\\"],\\\"rule_ids\\\":[],\\\"precedent_ids\\\":[]},\\\"started_at\\\":\\\"2026-10-12T17:09:37.730482+00:00\\\",\\\"ended_at\\\":\\\"2026-10-12T17:09:37.731310+00:00\\\",\\\"duration_ms\\\":0.835,\\\"http_status\\\":200,\\\"outcome\\\":\\\"SUCCESS\\\",\\\"error_code\\\":null}\"}",
+          "FileName": "/var/log/eks-log-agent/ca-yxtmktmh-rideresolve-gate-a-probe-0/stdout-containerd/rideresolve-gate-a-probe-011/0.log",
+          "PkgLogId": "131073",
+          "Source": "10.22.17.5",
+          "Timestamp": "2026-10-13 01:09:38",
+          "TopicId": "4247aa58-2481-4241-9d43-81cfe6e4e3bb",
+          "TopicName": "online_sh_zDxYMkcC_yeQweqLptnmxpTaz"
+        },
+        {
+          "Content": "{\"__TAG__\":{\"image_name\":\"ccr.ccs.tencentyun.com/tcb-100053484212-qgcn/ca-yxtmktmh_rideresolve-gate-a-probe:rideresolve-gate-a-probe-011-20261013004913\",\"cluster_id\":\"cls-adn31u65\",\"container_name\":\"rideresolve-gate-a-probe-011\",\"pod_label_k8s-app\":\"rideresolve-gate-a-probe-011\",\"pod_uid\":\"cef78c8d-981d-4d45-b1bd-4ad5553c63ee\",\"namespace\":\"ocbihbuf\",\"pod_ip\":\"10.22.17.5\",\"envId\":\"rideresolve-probe-d9dax69bbd0c97\",\"pod_label_pod-template-hash\":\"7f7d44fc8c\",\"pod_name\":\"rideresolve-gate-a-probe-011-7f7d44fc8c-br4l7\"},\"__TAG__.stream\":\"stdout\",\"__CONTENT__\":\"RIDEREsolve_AUDIT {\\\"schema_version\\\":1,\\\"request_id\\\":\\\"rr-0574ac5f50f8456ca6cc1907a3df6634\\\",\\\"server_instance_id\\\":\\\"INSTANCE-087fcfd0c4804598b5cbab38f0920c28\\\",\\\"run_id\\\":\\\"RUN-cf0a51719e794c15b9536ad73eb1f1a1\\\",\\\"token_id\\\":\\\"6a7e55bb1e1f\\\",\\\"actor_role\\\":\\\"EVIDENCE_COLLECTION\\\",\\\"endpoint\\\":\\\"/tools/get_policy_rules\\\",\\\"case_id\\\":\\\"CASE-NS-TOOL-001\\\",\\\"case_version\\\":1,\\\"policy_version\\\":\\\"DEMO_POLICY_V1\\\",\\\"request_number_for_role\\\":9,\\\"parameters\\\":{\\\"scope\\\":\\\"APPLICABLE_DISPUTE\\\",\\\"rule_id_count\\\":0},\\\"returned_ids\\\":{\\\"evidence_ids\\\":[],\\\"rule_ids\\\":[\\\"NS-001\\\",\\\"NS-002\\\",\\\"NS-003\\\",\\\"NS-004\\\",\\\"NS-005\\\",\\\"NS-006\\\",\\\"NS-007\\\"],\\\"precedent_ids\\\":[]},\\\"started_at\\\":\\\"2026-10-12T17:09:51.614949+00:00\\\",\\\"ended_at\\\":\\\"2026-10-12T17:09:51.615509+00:00\\\",\\\"duration_ms\\\":0.572,\\\"http_status\\\":200,\\\"outcome\\\":\\\"SUCCESS\\\",\\\"error_code\\\":null}\"}",
+          "FileName": "/var/log/eks-log-agent/ca-yxtmktmh-rideresolve-gate-a-probe-0/stdout-containerd/rideresolve-gate-a-probe-011/0.log",
+          "PkgLogId": "65536",
+          "Source": "10.22.17.5",
+          "Timestamp": "2026-10-13 01:09:52",
+          "TopicId": "4247aa58-2481-4241-9d43-81cfe6e4e3bb",
+          "TopicName": "online_sh_zDxYMkcC_yeQweqLptnmxpTaz"
+        },
+        {
+          "Content": "{\"__TAG__\":{\"image_name\":\"ccr.ccs.tencentyun.com/tcb-100053484212-qgcn/ca-yxtmktmh_rideresolve-gate-a-probe:rideresolve-gate-a-probe-011-20261013004913\",\"cluster_id\":\"cls-adn31u65\",\"container_name\":\"rideresolve-gate-a-probe-011\",\"pod_label_k8s-app\":\"rideresolve-gate-a-probe-011\",\"pod_uid\":\"cef78c8d-981d-4d45-b1bd-4ad5553c63ee\",\"namespace\":\"ocbihbuf\",\"pod_ip\":\"10.22.17.5\",\"envId\":\"rideresolve-probe-d9dax69bbd0c97\",\"pod_label_pod-template-hash\":\"7f7d44fc8c\",\"pod_name\":\"rideresolve-gate-a-probe-011-7f7d44fc8c-br4l7\"},\"__TAG__.stream\":\"stdout\",\"__CONTENT__\":\"RIDEREsolve_AUDIT {\\\"schema_version\\\":1,\\\"request_id\\\":\\\"rr-be929bed1e0445d8b7b9a1d3347d5a61\\\",\\\"server_instance_id\\\":\\\"INSTANCE-087fcfd0c4804598b5cbab38f0920c28\\\",\\\"run_id\\\":\\\"RUN-cf0a51719e794c15b9536ad73eb1f1a1\\\",\\\"token_id\\\":\\\"24c8edbf7fb2\\\",\\\"actor_role\\\":\\\"RIDER_ADVOCATE\\\",\\\"endpoint\\\":\\\"/tools/get_trip_evidence\\\",\\\"case_id\\\":\\\"CASE-NS-TOOL-001\\\",\\\"case_version\\\":1,\\\"policy_version\\\":\\\"DEMO_POLICY_V1\\\",\\\"request_number_for_role\\\":2,\\\"parameters\\\":{\\\"evidence_type_count\\\":7,\\\"detail\\\":\\\"SUMMARY\\\"},\\\"returned_ids\\\":{\\\"evidence_ids\\\":[\\\"EV-NS-GPS\\\",\\\"EV-NS-EVENT\\\",\\\"EV-NS-CONTACT\\\",\\\"EV-NS-FARE\\\"],\\\"rule_ids\\\":[],\\\"precedent_ids\\\":[]},\\\"started_at\\\":\\\"2026-10-12T17:10:13.411802+00:00\\\",\\\"ended_at\\\":\\\"2026-10-12T17:10:13.412605+00:00\\\",\\\"duration_ms\\\":0.81,\\\"http_status\\\":200,\\\"outcome\\\":\\\"SUCCESS\\\",\\\"error_code\\\":null}\"}",
+          "FileName": "/var/log/eks-log-agent/ca-yxtmktmh-rideresolve-gate-a-probe-0/stdout-containerd/rideresolve-gate-a-probe-011/0.log",
+          "PkgLogId": "65536",
+          "Source": "10.22.17.5",
+          "Timestamp": "2026-10-13 01:10:14",
+          "TopicId": "4247aa58-2481-4241-9d43-81cfe6e4e3bb",
+          "TopicName": "online_sh_zDxYMkcC_yeQweqLptnmxpTaz"
+        },
+        {
+          "Content": "{\"__TAG__\":{\"image_name\":\"ccr.ccs.tencentyun.com/tcb-100053484212-qgcn/ca-yxtmktmh_rideresolve-gate-a-probe:rideresolve-gate-a-probe-011-20261013004913\",\"cluster_id\":\"cls-adn31u65\",\"container_name\":\"rideresolve-gate-a-probe-011\",\"pod_label_k8s-app\":\"rideresolve-gate-a-probe-011\",\"pod_uid\":\"cef78c8d-981d-4d45-b1bd-4ad5553c63ee\",\"namespace\":\"ocbihbuf\",\"pod_ip\":\"10.22.17.5\",\"envId\":\"rideresolve-probe-d9dax69bbd0c97\",\"pod_label_pod-template-hash\":\"7f7d44fc8c\",\"pod_name\":\"rideresolve-gate-a-probe-011-7f7d44fc8c-br4l7\"},\"__TAG__.stream\":\"stdout\",\"__CONTENT__\":\"RIDEREsolve_AUDIT {\\\"schema_version\\\":1,\\\"request_id\\\":\\\"rr-393c5e8392dc467e8b19586197647b01\\\",\\\"server_instance_id\\\":\\\"INSTANCE-087fcfd0c4804598b5cbab38f0920c28\\\",\\\"run_id\\\":\\\"RUN-cf0a51719e794c15b9536ad73eb1f1a1\\\",\\\"token_id\\\":\\\"d7e5cf1e4e90\\\",\\\"actor_role\\\":\\\"DRIVER_ADVOCATE\\\",\\\"endpoint\\\":\\\"/tools/get_trip_evidence\\\",\\\"case_id\\\":\\\"CASE-NS-TOOL-001\\\",\\\"case_version\\\":1,\\\"policy_version\\\":\\\"DEMO_POLICY_V1\\\",\\\"request_number_for_role\\\":2,\\\"parameters\\\":{\\\"evidence_type_count\\\":7,\\\"detail\\\":\\\"SUMMARY\\\"},\\\"returned_ids\\\":{\\\"evidence_ids\\\":[\\\"EV-NS-GPS\\\",\\\"EV-NS-EVENT\\\",\\\"EV-NS-CONTACT\\\",\\\"EV-NS-FARE\\\"],\\\"rule_ids\\\":[],\\\"precedent_ids\\\":[]},\\\"started_at\\\":\\\"2026-10-12T17:10:31.469908+00:00\\\",\\\"ended_at\\\":\\\"2026-10-12T17:10:31.470674+00:00\\\",\\\"duration_ms\\\":0.772,\\\"http_status\\\":200,\\\"outcome\\\":\\\"SUCCESS\\\",\\\"error_code\\\":null}\"}",
+          "FileName": "/var/log/eks-log-agent/ca-yxtmktmh-rideresolve-gate-a-probe-0/stdout-containerd/rideresolve-gate-a-probe-011/0.log",
+          "PkgLogId": "65536",
+          "Source": "10.22.17.5",
+          "Timestamp": "2026-10-13 01:10:32",
+          "TopicId": "4247aa58-2481-4241-9d43-81cfe6e4e3bb",
+          "TopicName": "online_sh_zDxYMkcC_yeQweqLptnmxpTaz"
+        },
+        {
+          "Content": "{\"__TAG__\":{\"image_name\":\"ccr.ccs.tencentyun.com/tcb-100053484212-qgcn/ca-yxtmktmh_rideresolve-gate-a-probe:rideresolve-gate-a-probe-011-20261013004913\",\"cluster_id\":\"cls-adn31u65\",\"container_name\":\"rideresolve-gate-a-probe-011\",\"pod_label_k8s-app\":\"rideresolve-gate-a-probe-011\",\"pod_uid\":\"cef78c8d-981d-4d45-b1bd-4ad5553c63ee\",\"namespace\":\"ocbihbuf\",\"pod_ip\":\"10.22.17.5\",\"envId\":\"rideresolve-probe-d9dax69bbd0c97\",\"pod_label_pod-template-hash\":\"7f7d44fc8c\",\"pod_name\":\"rideresolve-gate-a-probe-011-7f7d44fc8c-br4l7\"},\"__TAG__.stream\":\"stdout\",\"__CONTENT__\":\"RIDEREsolve_AUDIT {\\\"schema_version\\\":1,\\\"request_id\\\":\\\"rr-cd3f2abbc8954c7f84e1d680d0b88fd4\\\",\\\"server_instance_id\\\":\\\"INSTANCE-087fcfd0c4804598b5cbab38f0920c28\\\",\\\"run_id\\\":\\\"RUN-cf0a51719e794c15b9536ad73eb1f1a1\\\",\\\"token_id\\\":\\\"343daa3da751\\\",\\\"actor_role\\\":\\\"POLICY_PRECEDENT\\\",\\\"endpoint\\\":\\\"/tools/get_policy_rules\\\",\\\"case_id\\\":\\\"CASE-NS-TOOL-001\\\",\\\"case_version\\\":1,\\\"policy_version\\\":\\\"DEMO_POLICY_V1\\\",\\\"request_number_for_role\\\":3,\\\"parameters\\\":{\\\"scope\\\":\\\"APPLICABLE_DISPUTE\\\",\\\"rule_id_count\\\":0},\\\"returned_ids\\\":{\\\"evidence_ids\\\":[],\\\"rule_ids\\\":[\\\"NS-001\\\",\\\"NS-002\\\",\\\"NS-003\\\",\\\"NS-004\\\",\\\"NS-005\\\",\\\"NS-006\\\",\\\"NS-007\\\"],\\\"precedent_ids\\\":[]},\\\"started_at\\\":\\\"2026-10-12T17:10:40.690405+00:00\\\",\\\"ended_at\\\":\\\"2026-10-12T17:10:40.690936+00:00\\\",\\\"duration_ms\\\":0.541,\\\"http_status\\\":200,\\\"outcome\\\":\\\"SUCCESS\\\",\\\"error_code\\\":null}\"}",
+          "FileName": "/var/log/eks-log-agent/ca-yxtmktmh-rideresolve-gate-a-probe-0/stdout-containerd/rideresolve-gate-a-probe-011/0.log",
+          "PkgLogId": "65536",
+          "Source": "10.22.17.5",
+          "Timestamp": "2026-10-13 01:10:41",
+          "TopicId": "4247aa58-2481-4241-9d43-81cfe6e4e3bb",
+          "TopicName": "online_sh_zDxYMkcC_yeQweqLptnmxpTaz"
+        },
+        {
+          "Content": "{\"__TAG__\":{\"image_name\":\"ccr.ccs.tencentyun.com/tcb-100053484212-qgcn/ca-yxtmktmh_rideresolve-gate-a-probe:rideresolve-gate-a-probe-011-20261013004913\",\"cluster_id\":\"cls-adn31u65\",\"container_name\":\"rideresolve-gate-a-probe-011\",\"pod_label_k8s-app\":\"rideresolve-gate-a-probe-011\",\"pod_uid\":\"cef78c8d-981d-4d45-b1bd-4ad5553c63ee\",\"namespace\":\"ocbihbuf\",\"pod_ip\":\"10.22.17.5\",\"envId\":\"rideresolve-probe-d9dax69bbd0c97\",\"pod_label_pod-template-hash\":\"7f7d44fc8c\",\"pod_name\":\"rideresolve-gate-a-probe-011-7f7d44fc8c-br4l7\"},\"__TAG__.stream\":\"stdout\",\"__CONTENT__\":\"RIDEREsolve_AUDIT {\\\"schema_version\\\":1,\\\"request_id\\\":\\\"rr-6842481fe34d4df081b1febebe6a69b8\\\",\\\"server_instance_id\\\":\\\"INSTANCE-087fcfd0c4804598b5cbab38f0920c28\\\",\\\"run_id\\\":\\\"RUN-cf0a51719e794c15b9536ad73eb1f1a1\\\",\\\"token_id\\\":\\\"343daa3da751\\\",\\\"actor_role\\\":\\\"POLICY_PRECEDENT\\\",\\\"endpoint\\\":\\\"/tools/search_precedents\\\",\\\"case_id\\\":\\\"CASE-NS-TOOL-001\\\",\\\"case_version\\\":1,\\\"policy_version\\\":\\\"DEMO_POLICY_V1\\\",\\\"request_number_for_role\\\":4,\\\"parameters\\\":{\\\"limit\\\":3},\\\"returned_ids\\\":{\\\"evidence_ids\\\":[],\\\"rule_ids\\\":[],\\\"precedent_ids\\\":[]},\\\"started_at\\\":\\\"2026-10-12T17:10:41.140682+00:00\\\",\\\"ended_at\\\":\\\"2026-10-12T17:10:41.142061+00:00\\\",\\\"duration_ms\\\":1.388,\\\"http_status\\\":200,\\\"outcome\\\":\\\"SUCCESS\\\",\\\"error_code\\\":null}\"}",
+          "FileName": "/var/log/eks-log-agent/ca-yxtmktmh-rideresolve-gate-a-probe-0/stdout-containerd/rideresolve-gate-a-probe-011/0.log",
+          "PkgLogId": "65536",
+          "Source": "10.22.17.5",
+          "Timestamp": "2026-10-13 01:10:42",
+          "TopicId": "4247aa58-2481-4241-9d43-81cfe6e4e3bb",
+          "TopicName": "online_sh_zDxYMkcC_yeQweqLptnmxpTaz"
+        }
+      ]
+    },
+    "RequestId": "5397e217-228f-4527-a46e-75173e190dc2"
+  }
+}

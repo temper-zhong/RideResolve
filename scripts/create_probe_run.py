@@ -33,7 +33,9 @@ def build_single_run_registry(registry_path: Path, run_id: str) -> bytes:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Create one short-lived Gate A probe run")
+    parser = argparse.ArgumentParser(
+        description="Create one short-lived five-role ADP probe run"
+    )
     parser.add_argument("--case-id", required=True)
     parser.add_argument("--case-version", required=True, type=int)
     parser.add_argument("--ttl-seconds", default=3600, type=int)

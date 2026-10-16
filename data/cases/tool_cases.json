@@ -18,7 +18,8 @@
         "EV-RD-BASELINE",
         "EV-RD-FARE",
         "EV-RD-CHAT",
-        "EV-RD-TRAFFIC"
+        "EV-RD-TRAFFIC",
+        "EV-RD-HISTORY"
       ],
       "created_at": "2026-10-06T09:11:00+08:00"
     },
@@ -37,9 +38,310 @@
         "EV-NS-GPS",
         "EV-NS-EVENT",
         "EV-NS-CONTACT",
-        "EV-NS-FARE"
+        "EV-NS-FARE",
+        "EV-NS-HISTORY"
       ],
       "created_at": "2026-10-06T09:11:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD-001",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-10-06T09:00:00+08:00",
+      "trip_ended_at": "2026-10-06T09:10:00+08:00",
+      "claim_text": "The driver took a longer route and I was overcharged.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 325,
+      "evidence_refs": [
+        "EV-RD-001-GPS-A",
+        "EV-RD-001-GPS-B",
+        "EV-RD-001-BASELINE",
+        "EV-RD-001-FARE",
+        "EV-RD-001-CHAT",
+        "EV-RD-001-TRAFFIC",
+        "EV-RD-001-HISTORY"
+      ],
+      "created_at": "2026-10-06T09:11:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD-001",
+      "case_version": 2,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-10-06T09:00:00+08:00",
+      "trip_ended_at": "2026-10-06T09:10:00+08:00",
+      "claim_text": "The driver took a longer route and I was overcharged.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 325,
+      "evidence_refs": [
+        "EV-RD-001-GPS-A",
+        "EV-RD-001-GPS-B",
+        "EV-RD-001-BASELINE",
+        "EV-RD-001-FARE",
+        "EV-RD-001-CHAT",
+        "EV-RD-001-TRAFFIC",
+        "EV-RD-001-HISTORY",
+        "EV-RD-GPS-SUPPLEMENT"
+      ],
+      "created_at": "2026-10-06T09:12:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD_UNJUSTIFIED_DEVIATION",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-18T18:40:00+08:00",
+      "trip_ended_at": "2026-09-18T18:50:00+08:00",
+      "claim_text": "The trip was substantially longer and included an unexplained surcharge.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 280,
+      "evidence_refs": [
+        "EV-RD_UNJUSTIFIED_DEVIATION-GPS",
+        "EV-RD_UNJUSTIFIED_DEVIATION-BASELINE",
+        "EV-RD_UNJUSTIFIED_DEVIATION-FARE",
+        "EV-RD_UNJUSTIFIED_DEVIATION-CHAT",
+        "EV-RD_UNJUSTIFIED_DEVIATION-TRAFFIC"
+      ],
+      "created_at": "2026-09-18T18:51:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD_VERIFIED_ROAD_CLOSURE",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-21T23:15:00+08:00",
+      "trip_ended_at": "2026-09-21T23:25:00+08:00",
+      "claim_text": "The route changed during a late-night road closure.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 510,
+      "evidence_refs": [
+        "EV-RD_VERIFIED_ROAD_CLOSURE-GPS",
+        "EV-RD_VERIFIED_ROAD_CLOSURE-BASELINE",
+        "EV-RD_VERIFIED_ROAD_CLOSURE-FARE",
+        "EV-RD_VERIFIED_ROAD_CLOSURE-CHAT",
+        "EV-RD_VERIFIED_ROAD_CLOSURE-TRAFFIC"
+      ],
+      "created_at": "2026-09-21T23:26:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD_INCOMPLETE_GPS",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-25T07:05:00+08:00",
+      "trip_ended_at": "2026-09-25T07:15:00+08:00",
+      "claim_text": "Part of the route trace is missing and the extra distance is disputed.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 190,
+      "evidence_refs": [
+        "EV-RD_INCOMPLETE_GPS-GPS-A",
+        "EV-RD_INCOMPLETE_GPS-GPS-B",
+        "EV-RD_INCOMPLETE_GPS-BASELINE",
+        "EV-RD_INCOMPLETE_GPS-FARE",
+        "EV-RD_INCOMPLETE_GPS-CHAT",
+        "EV-RD_INCOMPLETE_GPS-TRAFFIC"
+      ],
+      "created_at": "2026-09-25T07:16:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD_BOUNDARY_20_PERCENT",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-28T12:20:00+08:00",
+      "trip_ended_at": "2026-09-28T12:30:00+08:00",
+      "claim_text": "The measured route is exactly at the allowed deviation threshold.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 235,
+      "evidence_refs": [
+        "EV-RD_BOUNDARY_20_PERCENT-GPS",
+        "EV-RD_BOUNDARY_20_PERCENT-BASELINE",
+        "EV-RD_BOUNDARY_20_PERCENT-FARE",
+        "EV-RD_BOUNDARY_20_PERCENT-CHAT",
+        "EV-RD_BOUNDARY_20_PERCENT-TRAFFIC"
+      ],
+      "created_at": "2026-09-28T12:31:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD_UNCERTAIN_EXCEPTION",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-10-01T17:55:00+08:00",
+      "trip_ended_at": "2026-10-01T18:05:00+08:00",
+      "claim_text": "A detour may have been necessary, but the exception channel is incomplete.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 365,
+      "evidence_refs": [
+        "EV-RD_UNCERTAIN_EXCEPTION-GPS",
+        "EV-RD_UNCERTAIN_EXCEPTION-BASELINE",
+        "EV-RD_UNCERTAIN_EXCEPTION-FARE",
+        "EV-RD_UNCERTAIN_EXCEPTION-CHAT",
+        "EV-RD_UNCERTAIN_EXCEPTION-TRAFFIC"
+      ],
+      "created_at": "2026-10-01T18:06:00+08:00"
+    },
+    {
+      "case_id": "CASE-RD_UNVERIFIABLE_ORAL_CLAIM",
+      "case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-10-03T00:25:00+08:00",
+      "trip_ended_at": "2026-10-03T00:35:00+08:00",
+      "claim_text": "The driver says I requested a stop verbally; I dispute that account.",
+      "disputed_fee_item": "distance_surcharge",
+      "disputed_amount_cents": 445,
+      "evidence_refs": [
+        "EV-RD_UNVERIFIABLE_ORAL_CLAIM-GPS",
+        "EV-RD_UNVERIFIABLE_ORAL_CLAIM-BASELINE",
+        "EV-RD_UNVERIFIABLE_ORAL_CLAIM-FARE",
+        "EV-RD_UNVERIFIABLE_ORAL_CLAIM-CHAT",
+        "EV-RD_UNVERIFIABLE_ORAL_CLAIM-TRAFFIC",
+        "EV-RD_UNVERIFIABLE_ORAL_CLAIM-STATEMENT"
+      ],
+      "created_at": "2026-10-03T00:36:00+08:00"
+    },
+    {
+      "case_id": "CASE-NS_VALID_CHARGE",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-17T08:10:00+08:00",
+      "trip_ended_at": "2026-09-17T08:20:00+08:00",
+      "claim_text": "I was charged after the driver waited near the pickup point.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 360,
+      "evidence_refs": [
+        "EV-NS_VALID_CHARGE-GPS-A",
+        "EV-NS_VALID_CHARGE-EVENT",
+        "EV-NS_VALID_CHARGE-CONTACT",
+        "EV-NS_VALID_CHARGE-FARE"
+      ],
+      "created_at": "2026-09-17T08:21:00+08:00"
+    },
+    {
+      "case_id": "CASE-NS_DRIVER_TOO_FAR",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-20T19:35:00+08:00",
+      "trip_ended_at": "2026-09-20T19:45:00+08:00",
+      "claim_text": "The driver marked arrival while still far from the pickup point.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 420,
+      "evidence_refs": [
+        "EV-NS_DRIVER_TOO_FAR-GPS-A",
+        "EV-NS_DRIVER_TOO_FAR-EVENT",
+        "EV-NS_DRIVER_TOO_FAR-CONTACT",
+        "EV-NS_DRIVER_TOO_FAR-FARE"
+      ],
+      "created_at": "2026-09-20T19:46:00+08:00"
+    },
+    {
+      "case_id": "CASE-NS_WAIT_TOO_SHORT",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-23T14:45:00+08:00",
+      "trip_ended_at": "2026-09-23T14:55:00+08:00",
+      "claim_text": "The driver cancelled before the required waiting period elapsed.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 275,
+      "evidence_refs": [
+        "EV-NS_WAIT_TOO_SHORT-GPS-A",
+        "EV-NS_WAIT_TOO_SHORT-EVENT",
+        "EV-NS_WAIT_TOO_SHORT-CONTACT",
+        "EV-NS_WAIT_TOO_SHORT-FARE"
+      ],
+      "created_at": "2026-09-23T14:56:00+08:00"
+    },
+    {
+      "case_id": "CASE-NS_CONTACT_COVERAGE_INCOMPLETE",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-27T02:05:00+08:00",
+      "trip_ended_at": "2026-09-27T02:15:00+08:00",
+      "claim_text": "The contact history is incomplete for part of the waiting interval.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 390,
+      "evidence_refs": [
+        "EV-NS_CONTACT_COVERAGE_INCOMPLETE-GPS-A",
+        "EV-NS_CONTACT_COVERAGE_INCOMPLETE-EVENT",
+        "EV-NS_CONTACT_COVERAGE_INCOMPLETE-CONTACT",
+        "EV-NS_CONTACT_COVERAGE_INCOMPLETE-FARE"
+      ],
+      "created_at": "2026-09-27T02:16:00+08:00"
+    },
+    {
+      "case_id": "CASE-NS_MISSING_REQUIRED_EVIDENCE",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-09-30T06:30:00+08:00",
+      "trip_ended_at": "2026-09-30T06:40:00+08:00",
+      "claim_text": "The cancellation fee is disputed, but the contact log is unavailable.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 315,
+      "evidence_refs": [
+        "EV-NS_MISSING_REQUIRED_EVIDENCE-GPS-A",
+        "EV-NS_MISSING_REQUIRED_EVIDENCE-EVENT",
+        "EV-NS_MISSING_REQUIRED_EVIDENCE-FARE"
+      ],
+      "created_at": "2026-09-30T06:41:00+08:00"
+    },
+    {
+      "case_id": "CASE-NS_NO_PLATFORM_CONTACT",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-10-02T21:50:00+08:00",
+      "trip_ended_at": "2026-10-02T22:00:00+08:00",
+      "claim_text": "The driver waited nearby but made no in-app contact attempt.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 465,
+      "evidence_refs": [
+        "EV-NS_NO_PLATFORM_CONTACT-GPS-A",
+        "EV-NS_NO_PLATFORM_CONTACT-EVENT",
+        "EV-NS_NO_PLATFORM_CONTACT-CONTACT",
+        "EV-NS_NO_PLATFORM_CONTACT-FARE"
+      ],
+      "created_at": "2026-10-02T22:01:00+08:00"
+    },
+    {
+      "case_id": "CASE-NS_AUTHORITATIVE_CONFLICT",
+      "case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "currency": "SGD",
+      "trip_started_at": "2026-10-04T10:15:00+08:00",
+      "trip_ended_at": "2026-10-04T10:25:00+08:00",
+      "claim_text": "Two authoritative location records disagree about the arrival position.",
+      "disputed_fee_item": "cancellation_fee",
+      "disputed_amount_cents": 340,
+      "evidence_refs": [
+        "EV-NS_AUTHORITATIVE_CONFLICT-GPS-A",
+        "EV-NS_AUTHORITATIVE_CONFLICT-GPS-B",
+        "EV-NS_AUTHORITATIVE_CONFLICT-EVENT",
+        "EV-NS_AUTHORITATIVE_CONFLICT-CONTACT",
+        "EV-NS_AUTHORITATIVE_CONFLICT-FARE"
+      ],
+      "created_at": "2026-10-04T10:26:00+08:00"
     }
   ],
   "evidence": [
@@ -180,9 +482,34 @@
       "related_evidence_ids": [],
       "provenance_reason": "Synthetic RideResolve Gate A fixture",
       "payload": {
-        "messages": []
+        "messages": [
+          {
+            "message_id": "MSG-RD-001",
+            "sender": "RIDER",
+            "text": "Please follow the suggested route. I do not agree to an extra stop.",
+            "tag": "ROUTE_PREFERENCE",
+            "synthetic_semantic_labels": {
+              "sentiment": "CONCERNED",
+              "consent": "DENIED_FOR_EXTRA_STOP",
+              "disagreement": true,
+              "threat": false
+            }
+          },
+          {
+            "message_id": "MSG-RD-002",
+            "sender": "DRIVER",
+            "text": "Traffic is slow ahead; I may need a detour.",
+            "tag": "DETOUR_NOTICE",
+            "synthetic_semantic_labels": {
+              "sentiment": "NEUTRAL",
+              "consent": "NOT_APPLICABLE",
+              "disagreement": false,
+              "threat": false
+            }
+          }
+        ]
       },
-      "checksum": "sha256:dd1d0b1f44453bf2ff2a32ed5a3b5f9cedb46da8bbdc0b73185223bc3e4a119d"
+      "checksum": "sha256:357237be39d1053e7b548db4ceb1f3070eea3a1016c01a104aec4132aea84674"
     },
     {
       "evidence_id": "EV-RD-TRAFFIC",
@@ -205,6 +532,39 @@
         "events": []
       },
       "checksum": "sha256:0d27685a305297f0953e2b052d9c3d902c3bca05076e704e0dedf0221071a27f"
+    },
+    {
+      "evidence_id": "EV-RD-HISTORY",
+      "origin_case_id": "CASE-RD-TOOL-001",
+      "source_record_id": "SRC-EV-RD-HISTORY",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic historical profile for contextual pattern review only; excluded from policy, status, liability, and money decisions",
+      "payload": {
+        "decision_use": "CONTEXT_ONLY",
+        "profiles": [
+          {
+            "party": "RIDER",
+            "account_age_days": 620,
+            "completed_trips": 148,
+            "prior_disputes_180d": 1,
+            "rating_pattern": "STABLE"
+          },
+          {
+            "party": "DRIVER",
+            "account_age_days": 910,
+            "completed_trips": 2310,
+            "prior_disputes_180d": 2,
+            "rating_pattern": "STABLE"
+          }
+        ]
+      },
+      "checksum": "sha256:b913777ef89d0ecb87304473fede121e61b225fbb7e911773e330ea479a41486"
     },
     {
       "evidence_id": "EV-NS-GPS",
@@ -292,6 +652,1913 @@
         "total_paid_cents": 400
       },
       "checksum": "sha256:fa663d7094d593c0843bf530ff1178a09529e3d944f8d3ac59b8341a3b999972"
+    },
+    {
+      "evidence_id": "EV-NS-HISTORY",
+      "origin_case_id": "CASE-NS-TOOL-001",
+      "source_record_id": "SRC-EV-NS-HISTORY",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic historical profile for contextual pattern review only; excluded from policy, status, liability, and money decisions",
+      "payload": {
+        "decision_use": "CONTEXT_ONLY",
+        "profiles": [
+          {
+            "party": "RIDER",
+            "account_age_days": 620,
+            "completed_trips": 148,
+            "prior_disputes_180d": 1,
+            "rating_pattern": "STABLE"
+          },
+          {
+            "party": "DRIVER",
+            "account_age_days": 910,
+            "completed_trips": 2310,
+            "prior_disputes_180d": 2,
+            "rating_pattern": "STABLE"
+          }
+        ]
+      },
+      "checksum": "sha256:bd674b4c5fba327e95979d10e5031912d7648f694e046e1eba29fe0a51b439b7"
+    },
+    {
+      "evidence_id": "EV-RD-001-GPS-A",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-001-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-06T09:00:00+08:00",
+        "end_at": "2026-10-06T09:10:00+08:00",
+        "is_complete": false,
+        "scope": "trip-segment"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic original platform GPS segment for Decision Delta",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-10-06T09:00:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8
+          },
+          {
+            "timestamp": "2026-10-06T09:01:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.81
+          },
+          {
+            "timestamp": "2026-10-06T09:02:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.82
+          }
+        ]
+      },
+      "checksum": "sha256:89ad0e1c1d9b00b0442366ee6791b5410e87e7bf3521f8faf18fdb69ee492784"
+    },
+    {
+      "evidence_id": "EV-RD-001-GPS-B",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-001-GPS-B",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-06T09:00:00+08:00",
+        "end_at": "2026-10-06T09:10:00+08:00",
+        "is_complete": false,
+        "scope": "trip-segment"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic original platform GPS segment for Decision Delta",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-10-06T09:05:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.85
+          },
+          {
+            "timestamp": "2026-10-06T09:06:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86
+          },
+          {
+            "timestamp": "2026-10-06T09:07:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86999999999999
+          },
+          {
+            "timestamp": "2026-10-06T09:08:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.88
+          },
+          {
+            "timestamp": "2026-10-06T09:09:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89
+          },
+          {
+            "timestamp": "2026-10-06T09:10:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89999999999999
+          }
+        ]
+      },
+      "checksum": "sha256:7a9d4f91d2bea72b46b78ebb025321d46f51ca9ddf196e0f64e9d18b42d65ee4"
+    },
+    {
+      "evidence_id": "EV-RD-001-BASELINE",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-001-BASELINE",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic route baseline for Decision Delta",
+      "payload": {
+        "baseline_distance_m": 8551.254315922894
+      },
+      "checksum": "sha256:67f82ce07dff7a7fe2c796c7f7542d2464dfa69b2b2db156e039bef6d28b2e3e"
+    },
+    {
+      "evidence_id": "EV-RD-001-FARE",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-001-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic authoritative fare ledger for Decision Delta",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "distance_surcharge",
+            "amount_cents": 325
+          }
+        ],
+        "total_paid_cents": 2480
+      },
+      "checksum": "sha256:72599fcb52a8022b46f3e4af9e7ff140f9350ebda2944add7418b7bea726d6ea"
+    },
+    {
+      "evidence_id": "EV-RD-001-CHAT",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-001-CHAT",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-06T09:00:00+08:00",
+        "end_at": "2026-10-06T09:10:00+08:00",
+        "is_complete": true,
+        "scope": "platform-trip-chat"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic complete in-platform chat record for Decision Delta",
+      "payload": {
+        "messages": [
+          {
+            "message_id": "MSG-RD-DELTA-001",
+            "sender": "RIDER",
+            "text": "Please follow the suggested route. I do not agree to an extra stop.",
+            "tag": "ROUTE_PREFERENCE",
+            "synthetic_semantic_labels": {
+              "sentiment": "CONCERNED",
+              "consent": "DENIED_FOR_EXTRA_STOP",
+              "disagreement": true,
+              "threat": false
+            }
+          },
+          {
+            "message_id": "MSG-RD-DELTA-002",
+            "sender": "DRIVER",
+            "text": "Traffic is slow ahead; I may need a detour.",
+            "tag": "DETOUR_NOTICE",
+            "synthetic_semantic_labels": {
+              "sentiment": "NEUTRAL",
+              "consent": "NOT_APPLICABLE",
+              "disagreement": false,
+              "threat": false
+            }
+          }
+        ]
+      },
+      "checksum": "sha256:b921accc4995672b537cbd1d261459190392d0b564210542cbc55c5f31318ea7"
+    },
+    {
+      "evidence_id": "EV-RD-001-TRAFFIC",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-001-TRAFFIC",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-06T09:00:00+08:00",
+        "end_at": "2026-10-06T09:10:00+08:00",
+        "is_complete": true,
+        "scope": "trip-corridor"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic complete traffic feed for Decision Delta",
+      "payload": {
+        "events": []
+      },
+      "checksum": "sha256:66a5e1cefcb837bffb967ef3e2798cbefaa780dcf45b78a190599bb6ffd4b134"
+    },
+    {
+      "evidence_id": "EV-RD-001-HISTORY",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-001-HISTORY",
+      "source_type": "HISTORICAL_BEHAVIOR_PROFILE",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic historical profile for contextual pattern review only; excluded from policy, status, liability, and money decisions",
+      "payload": {
+        "decision_use": "CONTEXT_ONLY",
+        "profiles": [
+          {
+            "party": "RIDER",
+            "account_age_days": 620,
+            "completed_trips": 148,
+            "prior_disputes_180d": 1,
+            "rating_pattern": "STABLE"
+          },
+          {
+            "party": "DRIVER",
+            "account_age_days": 910,
+            "completed_trips": 2310,
+            "prior_disputes_180d": 2,
+            "rating_pattern": "STABLE"
+          }
+        ]
+      },
+      "checksum": "sha256:dbc47992e1f92b6220ef3826214941fa9a9ec5d90099151ae2ef1f162252599a"
+    },
+    {
+      "evidence_id": "EV-RD-GPS-SUPPLEMENT",
+      "origin_case_id": "CASE-RD-001",
+      "source_record_id": "SRC-EV-RD-GPS-SUPPLEMENT",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-06T09:00:00+08:00",
+      "collected_at": "2026-10-06T09:10:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-06T09:03:00+08:00",
+        "end_at": "2026-10-06T09:04:00+08:00",
+        "is_complete": true,
+        "scope": "missing-trip-segment"
+      },
+      "record_role": "SUPPLEMENT",
+      "related_evidence_ids": [
+        "EV-RD-001-GPS-A",
+        "EV-RD-001-GPS-B"
+      ],
+      "provenance_reason": "Synthetic late-arriving authoritative GPS supplement for Decision Delta",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-10-06T09:03:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.83
+          },
+          {
+            "timestamp": "2026-10-06T09:04:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.84
+          }
+        ]
+      },
+      "checksum": "sha256:7b78be9f4982852605f534a3b3ed45d1805fe9d5a87197870bef132eb4b4ba7b"
+    },
+    {
+      "evidence_id": "EV-RD_UNJUSTIFIED_DEVIATION-GPS",
+      "origin_case_id": "CASE-RD_UNJUSTIFIED_DEVIATION",
+      "source_record_id": "SRC-EV-RD_UNJUSTIFIED_DEVIATION-GPS",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-18T18:40:00+08:00",
+      "collected_at": "2026-09-18T18:50:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-18T18:40:00+08:00",
+        "end_at": "2026-09-18T18:50:00+08:00",
+        "is_complete": true,
+        "scope": "trip"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-18T18:40:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8
+          },
+          {
+            "timestamp": "2026-09-18T18:41:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.81
+          },
+          {
+            "timestamp": "2026-09-18T18:42:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.82
+          },
+          {
+            "timestamp": "2026-09-18T18:43:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.83
+          },
+          {
+            "timestamp": "2026-09-18T18:44:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.84
+          },
+          {
+            "timestamp": "2026-09-18T18:45:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.85
+          },
+          {
+            "timestamp": "2026-09-18T18:46:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86
+          },
+          {
+            "timestamp": "2026-09-18T18:47:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86999999999999
+          },
+          {
+            "timestamp": "2026-09-18T18:48:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.88
+          },
+          {
+            "timestamp": "2026-09-18T18:49:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89
+          },
+          {
+            "timestamp": "2026-09-18T18:50:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89999999999999
+          }
+        ]
+      },
+      "checksum": "sha256:c0f4957d1a7cf19d610154c27e1ce571d8279817860080f5701167adf947f18d"
+    },
+    {
+      "evidence_id": "EV-RD_UNJUSTIFIED_DEVIATION-BASELINE",
+      "origin_case_id": "CASE-RD_UNJUSTIFIED_DEVIATION",
+      "source_record_id": "SRC-EV-RD_UNJUSTIFIED_DEVIATION-BASELINE",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-18T18:40:00+08:00",
+      "collected_at": "2026-09-18T18:50:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "baseline_distance_m": 8551.254315922894
+      },
+      "checksum": "sha256:7e116eb352d0e688162a2275dbbb4f56f36e160df1bdaa6d0532f44d3ac1e8a0"
+    },
+    {
+      "evidence_id": "EV-RD_UNJUSTIFIED_DEVIATION-FARE",
+      "origin_case_id": "CASE-RD_UNJUSTIFIED_DEVIATION",
+      "source_record_id": "SRC-EV-RD_UNJUSTIFIED_DEVIATION-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-18T18:40:00+08:00",
+      "collected_at": "2026-09-18T18:50:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "distance_surcharge",
+            "amount_cents": 280
+          }
+        ],
+        "total_paid_cents": 2280
+      },
+      "checksum": "sha256:75b56eebe03693f3236476a3aec44483a0266c72ade38a8cb9acdb3062afb27b"
+    },
+    {
+      "evidence_id": "EV-RD_UNJUSTIFIED_DEVIATION-CHAT",
+      "origin_case_id": "CASE-RD_UNJUSTIFIED_DEVIATION",
+      "source_record_id": "SRC-EV-RD_UNJUSTIFIED_DEVIATION-CHAT",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-18T18:40:00+08:00",
+      "collected_at": "2026-09-18T18:50:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-18T18:40:00+08:00",
+        "end_at": "2026-09-18T18:50:00+08:00",
+        "is_complete": true,
+        "scope": "platform-trip-chat"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "messages": []
+      },
+      "checksum": "sha256:c20ec1ab8aa28e60bf46ffbcbd283aa43767aaf8f09c65c735165c66dde52ac2"
+    },
+    {
+      "evidence_id": "EV-RD_UNJUSTIFIED_DEVIATION-TRAFFIC",
+      "origin_case_id": "CASE-RD_UNJUSTIFIED_DEVIATION",
+      "source_record_id": "SRC-EV-RD_UNJUSTIFIED_DEVIATION-TRAFFIC",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-18T18:40:00+08:00",
+      "collected_at": "2026-09-18T18:50:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-18T18:40:00+08:00",
+        "end_at": "2026-09-18T18:50:00+08:00",
+        "is_complete": true,
+        "scope": "trip-corridor"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "events": []
+      },
+      "checksum": "sha256:59cf38bf89b7700f961206802dff303e8cf8ff2ec73c574bd2e6e1c7eafc7fe4"
+    },
+    {
+      "evidence_id": "EV-RD_VERIFIED_ROAD_CLOSURE-GPS",
+      "origin_case_id": "CASE-RD_VERIFIED_ROAD_CLOSURE",
+      "source_record_id": "SRC-EV-RD_VERIFIED_ROAD_CLOSURE-GPS",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-21T23:15:00+08:00",
+      "collected_at": "2026-09-21T23:25:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-21T23:15:00+08:00",
+        "end_at": "2026-09-21T23:25:00+08:00",
+        "is_complete": true,
+        "scope": "trip"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-21T23:15:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8
+          },
+          {
+            "timestamp": "2026-09-21T23:16:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.81
+          },
+          {
+            "timestamp": "2026-09-21T23:17:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.82
+          },
+          {
+            "timestamp": "2026-09-21T23:18:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.83
+          },
+          {
+            "timestamp": "2026-09-21T23:19:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.84
+          },
+          {
+            "timestamp": "2026-09-21T23:20:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.85
+          },
+          {
+            "timestamp": "2026-09-21T23:21:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86
+          },
+          {
+            "timestamp": "2026-09-21T23:22:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86999999999999
+          },
+          {
+            "timestamp": "2026-09-21T23:23:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.88
+          },
+          {
+            "timestamp": "2026-09-21T23:24:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89
+          },
+          {
+            "timestamp": "2026-09-21T23:25:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89999999999999
+          }
+        ]
+      },
+      "checksum": "sha256:06efc827c0835a9b92cc0aaaba604eaa21ffce1c4378909774c0619ce7de5b8d"
+    },
+    {
+      "evidence_id": "EV-RD_VERIFIED_ROAD_CLOSURE-BASELINE",
+      "origin_case_id": "CASE-RD_VERIFIED_ROAD_CLOSURE",
+      "source_record_id": "SRC-EV-RD_VERIFIED_ROAD_CLOSURE-BASELINE",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-21T23:15:00+08:00",
+      "collected_at": "2026-09-21T23:25:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "baseline_distance_m": 8753.252449369891
+      },
+      "checksum": "sha256:eb5acb868cf61132fca39a83b6b47004e576044ab288bc9a979f08bafaab9332"
+    },
+    {
+      "evidence_id": "EV-RD_VERIFIED_ROAD_CLOSURE-FARE",
+      "origin_case_id": "CASE-RD_VERIFIED_ROAD_CLOSURE",
+      "source_record_id": "SRC-EV-RD_VERIFIED_ROAD_CLOSURE-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-21T23:15:00+08:00",
+      "collected_at": "2026-09-21T23:25:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "distance_surcharge",
+            "amount_cents": 510
+          }
+        ],
+        "total_paid_cents": 2510
+      },
+      "checksum": "sha256:8a5b820057c9ba3351b32d816eee0c35ce89e46cb73159c040f8e5e870c30d51"
+    },
+    {
+      "evidence_id": "EV-RD_VERIFIED_ROAD_CLOSURE-CHAT",
+      "origin_case_id": "CASE-RD_VERIFIED_ROAD_CLOSURE",
+      "source_record_id": "SRC-EV-RD_VERIFIED_ROAD_CLOSURE-CHAT",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-21T23:15:00+08:00",
+      "collected_at": "2026-09-21T23:25:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-21T23:15:00+08:00",
+        "end_at": "2026-09-21T23:25:00+08:00",
+        "is_complete": true,
+        "scope": "platform-trip-chat"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "messages": []
+      },
+      "checksum": "sha256:ef7946cb5d0d48092f51141198dd86e5164d67bef8042c154c6ffaee8bee9895"
+    },
+    {
+      "evidence_id": "EV-RD_VERIFIED_ROAD_CLOSURE-TRAFFIC",
+      "origin_case_id": "CASE-RD_VERIFIED_ROAD_CLOSURE",
+      "source_record_id": "SRC-EV-RD_VERIFIED_ROAD_CLOSURE-TRAFFIC",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-21T23:15:00+08:00",
+      "collected_at": "2026-09-21T23:25:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-21T23:15:00+08:00",
+        "end_at": "2026-09-21T23:25:00+08:00",
+        "is_complete": true,
+        "scope": "trip-corridor"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "events": [
+          {
+            "type": "ROAD_CLOSURE",
+            "relevant": true
+          }
+        ]
+      },
+      "checksum": "sha256:d0039cb7f0e66b3f9ebd72ff23548971dbed1e1141c4374839e672f2fc2b781f"
+    },
+    {
+      "evidence_id": "EV-RD_INCOMPLETE_GPS-GPS-A",
+      "origin_case_id": "CASE-RD_INCOMPLETE_GPS",
+      "source_record_id": "SRC-EV-RD_INCOMPLETE_GPS-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-25T07:05:00+08:00",
+      "collected_at": "2026-09-25T07:15:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-25T07:05:00+08:00",
+        "end_at": "2026-09-25T07:15:00+08:00",
+        "is_complete": false,
+        "scope": "trip-segment"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-25T07:05:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8
+          },
+          {
+            "timestamp": "2026-09-25T07:06:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.81
+          },
+          {
+            "timestamp": "2026-09-25T07:07:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.82
+          }
+        ]
+      },
+      "checksum": "sha256:62bb9d88f8f2882dddd4304b35bea0f7536d1f536b66db7dc4d8953d2b7cb1f2"
+    },
+    {
+      "evidence_id": "EV-RD_INCOMPLETE_GPS-GPS-B",
+      "origin_case_id": "CASE-RD_INCOMPLETE_GPS",
+      "source_record_id": "SRC-EV-RD_INCOMPLETE_GPS-GPS-B",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-25T07:05:00+08:00",
+      "collected_at": "2026-09-25T07:15:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-25T07:05:00+08:00",
+        "end_at": "2026-09-25T07:15:00+08:00",
+        "is_complete": false,
+        "scope": "trip-segment"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-25T07:10:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.85
+          },
+          {
+            "timestamp": "2026-09-25T07:11:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86
+          },
+          {
+            "timestamp": "2026-09-25T07:12:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86999999999999
+          },
+          {
+            "timestamp": "2026-09-25T07:13:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.88
+          },
+          {
+            "timestamp": "2026-09-25T07:14:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89
+          },
+          {
+            "timestamp": "2026-09-25T07:15:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89999999999999
+          }
+        ]
+      },
+      "checksum": "sha256:fe103e461d82d77613580adc9e17bf3d22f4eea258e00870b68765b7e7af1945"
+    },
+    {
+      "evidence_id": "EV-RD_INCOMPLETE_GPS-BASELINE",
+      "origin_case_id": "CASE-RD_INCOMPLETE_GPS",
+      "source_record_id": "SRC-EV-RD_INCOMPLETE_GPS-BASELINE",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-25T07:05:00+08:00",
+      "collected_at": "2026-09-25T07:15:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "baseline_distance_m": 8965.024686048195
+      },
+      "checksum": "sha256:7475ac4875af176c5ff98252b9801913a16721c2513e0693d09267613e55b6fa"
+    },
+    {
+      "evidence_id": "EV-RD_INCOMPLETE_GPS-FARE",
+      "origin_case_id": "CASE-RD_INCOMPLETE_GPS",
+      "source_record_id": "SRC-EV-RD_INCOMPLETE_GPS-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-25T07:05:00+08:00",
+      "collected_at": "2026-09-25T07:15:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "distance_surcharge",
+            "amount_cents": 190
+          }
+        ],
+        "total_paid_cents": 2190
+      },
+      "checksum": "sha256:3c9547bac0cfd52498cf17cc915e5f75247b543e657c08a4f9aa62c0a32ea624"
+    },
+    {
+      "evidence_id": "EV-RD_INCOMPLETE_GPS-CHAT",
+      "origin_case_id": "CASE-RD_INCOMPLETE_GPS",
+      "source_record_id": "SRC-EV-RD_INCOMPLETE_GPS-CHAT",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-25T07:05:00+08:00",
+      "collected_at": "2026-09-25T07:15:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-25T07:05:00+08:00",
+        "end_at": "2026-09-25T07:15:00+08:00",
+        "is_complete": true,
+        "scope": "platform-trip-chat"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "messages": []
+      },
+      "checksum": "sha256:5ed757fd072ab557fb6bb73ad95a3a38816338afde6522b89334ad48d7ac376f"
+    },
+    {
+      "evidence_id": "EV-RD_INCOMPLETE_GPS-TRAFFIC",
+      "origin_case_id": "CASE-RD_INCOMPLETE_GPS",
+      "source_record_id": "SRC-EV-RD_INCOMPLETE_GPS-TRAFFIC",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-25T07:05:00+08:00",
+      "collected_at": "2026-09-25T07:15:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-25T07:05:00+08:00",
+        "end_at": "2026-09-25T07:15:00+08:00",
+        "is_complete": true,
+        "scope": "trip-corridor"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "events": []
+      },
+      "checksum": "sha256:308e2d7386a8c3c6d1045bfa30cebe390d8031e5081d1d2a9982b5a148142417"
+    },
+    {
+      "evidence_id": "EV-RD_BOUNDARY_20_PERCENT-GPS",
+      "origin_case_id": "CASE-RD_BOUNDARY_20_PERCENT",
+      "source_record_id": "SRC-EV-RD_BOUNDARY_20_PERCENT-GPS",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-28T12:20:00+08:00",
+      "collected_at": "2026-09-28T12:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-28T12:20:00+08:00",
+        "end_at": "2026-09-28T12:30:00+08:00",
+        "is_complete": true,
+        "scope": "trip"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-09-28T12:20:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8
+          },
+          {
+            "timestamp": "2026-09-28T12:21:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.81
+          },
+          {
+            "timestamp": "2026-09-28T12:22:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.82
+          },
+          {
+            "timestamp": "2026-09-28T12:23:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.83
+          },
+          {
+            "timestamp": "2026-09-28T12:24:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.84
+          },
+          {
+            "timestamp": "2026-09-28T12:25:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.85
+          },
+          {
+            "timestamp": "2026-09-28T12:26:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86
+          },
+          {
+            "timestamp": "2026-09-28T12:27:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86999999999999
+          },
+          {
+            "timestamp": "2026-09-28T12:28:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.88
+          },
+          {
+            "timestamp": "2026-09-28T12:29:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89
+          },
+          {
+            "timestamp": "2026-09-28T12:30:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89999999999999
+          }
+        ]
+      },
+      "checksum": "sha256:ce052bb3f025d966bd6e81ec2882f5ba7b09e85709039c0a4f56677c1217b929"
+    },
+    {
+      "evidence_id": "EV-RD_BOUNDARY_20_PERCENT-BASELINE",
+      "origin_case_id": "CASE-RD_BOUNDARY_20_PERCENT",
+      "source_record_id": "SRC-EV-RD_BOUNDARY_20_PERCENT-BASELINE",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-28T12:20:00+08:00",
+      "collected_at": "2026-09-28T12:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "baseline_distance_m": 9263.858842249801
+      },
+      "checksum": "sha256:e46d9168709ffea7182e2b35c68138ca9b315f6d40043cddde42b23204a87f33"
+    },
+    {
+      "evidence_id": "EV-RD_BOUNDARY_20_PERCENT-FARE",
+      "origin_case_id": "CASE-RD_BOUNDARY_20_PERCENT",
+      "source_record_id": "SRC-EV-RD_BOUNDARY_20_PERCENT-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-28T12:20:00+08:00",
+      "collected_at": "2026-09-28T12:30:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "distance_surcharge",
+            "amount_cents": 235
+          }
+        ],
+        "total_paid_cents": 2235
+      },
+      "checksum": "sha256:53540377f93370836da3142863ed488b61caceb7ec23fa0fbd55f27dd3867601"
+    },
+    {
+      "evidence_id": "EV-RD_BOUNDARY_20_PERCENT-CHAT",
+      "origin_case_id": "CASE-RD_BOUNDARY_20_PERCENT",
+      "source_record_id": "SRC-EV-RD_BOUNDARY_20_PERCENT-CHAT",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-28T12:20:00+08:00",
+      "collected_at": "2026-09-28T12:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-28T12:20:00+08:00",
+        "end_at": "2026-09-28T12:30:00+08:00",
+        "is_complete": true,
+        "scope": "platform-trip-chat"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "messages": []
+      },
+      "checksum": "sha256:043dd6136d79e4c6de848e17192d05240ca9de95780cf9bd88bfd9f44e1bcab9"
+    },
+    {
+      "evidence_id": "EV-RD_BOUNDARY_20_PERCENT-TRAFFIC",
+      "origin_case_id": "CASE-RD_BOUNDARY_20_PERCENT",
+      "source_record_id": "SRC-EV-RD_BOUNDARY_20_PERCENT-TRAFFIC",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-09-28T12:20:00+08:00",
+      "collected_at": "2026-09-28T12:30:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-28T12:20:00+08:00",
+        "end_at": "2026-09-28T12:30:00+08:00",
+        "is_complete": true,
+        "scope": "trip-corridor"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "events": []
+      },
+      "checksum": "sha256:7a9d9acbb8600d47f7620c433bfb177480e2f3ca91e199822622e96923a10280"
+    },
+    {
+      "evidence_id": "EV-RD_UNCERTAIN_EXCEPTION-GPS",
+      "origin_case_id": "CASE-RD_UNCERTAIN_EXCEPTION",
+      "source_record_id": "SRC-EV-RD_UNCERTAIN_EXCEPTION-GPS",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-01T17:55:00+08:00",
+      "collected_at": "2026-10-01T18:05:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-01T17:55:00+08:00",
+        "end_at": "2026-10-01T18:05:00+08:00",
+        "is_complete": true,
+        "scope": "trip"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-10-01T17:55:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8
+          },
+          {
+            "timestamp": "2026-10-01T17:56:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.81
+          },
+          {
+            "timestamp": "2026-10-01T17:57:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.82
+          },
+          {
+            "timestamp": "2026-10-01T17:58:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.83
+          },
+          {
+            "timestamp": "2026-10-01T17:59:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.84
+          },
+          {
+            "timestamp": "2026-10-01T18:00:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.85
+          },
+          {
+            "timestamp": "2026-10-01T18:01:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86
+          },
+          {
+            "timestamp": "2026-10-01T18:02:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86999999999999
+          },
+          {
+            "timestamp": "2026-10-01T18:03:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.88
+          },
+          {
+            "timestamp": "2026-10-01T18:04:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89
+          },
+          {
+            "timestamp": "2026-10-01T18:05:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89999999999999
+          }
+        ]
+      },
+      "checksum": "sha256:b892562fa0044acf31313b5d00ed1794ed9e4565d06ee49508b3ef40ec65df02"
+    },
+    {
+      "evidence_id": "EV-RD_UNCERTAIN_EXCEPTION-BASELINE",
+      "origin_case_id": "CASE-RD_UNCERTAIN_EXCEPTION",
+      "source_record_id": "SRC-EV-RD_UNCERTAIN_EXCEPTION-BASELINE",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-01T17:55:00+08:00",
+      "collected_at": "2026-10-01T18:05:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "baseline_distance_m": 8822.722706904573
+      },
+      "checksum": "sha256:d67f9e7667a7d3a75151280e2e5ab90a7797113e125b4beebe52b73d4477d4c7"
+    },
+    {
+      "evidence_id": "EV-RD_UNCERTAIN_EXCEPTION-FARE",
+      "origin_case_id": "CASE-RD_UNCERTAIN_EXCEPTION",
+      "source_record_id": "SRC-EV-RD_UNCERTAIN_EXCEPTION-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-01T17:55:00+08:00",
+      "collected_at": "2026-10-01T18:05:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "distance_surcharge",
+            "amount_cents": 365
+          }
+        ],
+        "total_paid_cents": 2365
+      },
+      "checksum": "sha256:4bbad920d5c172263e3f9a9865304b5a82d4f499c13dfb271bde7c89796358ea"
+    },
+    {
+      "evidence_id": "EV-RD_UNCERTAIN_EXCEPTION-CHAT",
+      "origin_case_id": "CASE-RD_UNCERTAIN_EXCEPTION",
+      "source_record_id": "SRC-EV-RD_UNCERTAIN_EXCEPTION-CHAT",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-01T17:55:00+08:00",
+      "collected_at": "2026-10-01T18:05:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-01T17:55:00+08:00",
+        "end_at": "2026-10-01T18:05:00+08:00",
+        "is_complete": true,
+        "scope": "platform-trip-chat"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "messages": []
+      },
+      "checksum": "sha256:c108a01dc143cf715ebc3e8c29fb9e71c29fd372eaf99c4ba17968aa1f098f43"
+    },
+    {
+      "evidence_id": "EV-RD_UNCERTAIN_EXCEPTION-TRAFFIC",
+      "origin_case_id": "CASE-RD_UNCERTAIN_EXCEPTION",
+      "source_record_id": "SRC-EV-RD_UNCERTAIN_EXCEPTION-TRAFFIC",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-01T17:55:00+08:00",
+      "collected_at": "2026-10-01T18:05:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-01T17:55:00+08:00",
+        "end_at": "2026-10-01T18:05:00+08:00",
+        "is_complete": false,
+        "scope": "trip-corridor"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "events": []
+      },
+      "checksum": "sha256:cc086d772486cf4e961e4553d134ea7e88418a325f8aa8c8181ff03dcef751b3"
+    },
+    {
+      "evidence_id": "EV-RD_UNVERIFIABLE_ORAL_CLAIM-GPS",
+      "origin_case_id": "CASE-RD_UNVERIFIABLE_ORAL_CLAIM",
+      "source_record_id": "SRC-EV-RD_UNVERIFIABLE_ORAL_CLAIM-GPS",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-03T00:25:00+08:00",
+      "collected_at": "2026-10-03T00:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-03T00:25:00+08:00",
+        "end_at": "2026-10-03T00:35:00+08:00",
+        "is_complete": true,
+        "scope": "trip"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "samples": [
+          {
+            "timestamp": "2026-10-03T00:25:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.8
+          },
+          {
+            "timestamp": "2026-10-03T00:26:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.81
+          },
+          {
+            "timestamp": "2026-10-03T00:27:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.82
+          },
+          {
+            "timestamp": "2026-10-03T00:28:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.83
+          },
+          {
+            "timestamp": "2026-10-03T00:29:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.84
+          },
+          {
+            "timestamp": "2026-10-03T00:30:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.85
+          },
+          {
+            "timestamp": "2026-10-03T00:31:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86
+          },
+          {
+            "timestamp": "2026-10-03T00:32:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.86999999999999
+          },
+          {
+            "timestamp": "2026-10-03T00:33:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.88
+          },
+          {
+            "timestamp": "2026-10-03T00:34:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89
+          },
+          {
+            "timestamp": "2026-10-03T00:35:00+08:00",
+            "latitude": 1.3,
+            "longitude": 103.89999999999999
+          }
+        ]
+      },
+      "checksum": "sha256:2a59e02d9afb5a7d37dd70c7ee98b5b02d73f463cebe0218ac3b116e2684dcc6"
+    },
+    {
+      "evidence_id": "EV-RD_UNVERIFIABLE_ORAL_CLAIM-BASELINE",
+      "origin_case_id": "CASE-RD_UNVERIFIABLE_ORAL_CLAIM",
+      "source_record_id": "SRC-EV-RD_UNVERIFIABLE_ORAL_CLAIM-BASELINE",
+      "source_type": "ROUTE_BASELINE",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-03T00:25:00+08:00",
+      "collected_at": "2026-10-03T00:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "baseline_distance_m": 9037.911065609562
+      },
+      "checksum": "sha256:fadec1c3ef94f596dc2c5a42e65893ae265486cddf0e46b13961c174f981553e"
+    },
+    {
+      "evidence_id": "EV-RD_UNVERIFIABLE_ORAL_CLAIM-FARE",
+      "origin_case_id": "CASE-RD_UNVERIFIABLE_ORAL_CLAIM",
+      "source_record_id": "SRC-EV-RD_UNVERIFIABLE_ORAL_CLAIM-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-03T00:25:00+08:00",
+      "collected_at": "2026-10-03T00:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "distance_surcharge",
+            "amount_cents": 445
+          }
+        ],
+        "total_paid_cents": 2445
+      },
+      "checksum": "sha256:5c9c3894ff753dec6d69a2b7cae100787f9e2046a1e4f47fa0652b6ca8cf4a50"
+    },
+    {
+      "evidence_id": "EV-RD_UNVERIFIABLE_ORAL_CLAIM-CHAT",
+      "origin_case_id": "CASE-RD_UNVERIFIABLE_ORAL_CLAIM",
+      "source_record_id": "SRC-EV-RD_UNVERIFIABLE_ORAL_CLAIM-CHAT",
+      "source_type": "AUTHENTICATED_CHAT",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-03T00:25:00+08:00",
+      "collected_at": "2026-10-03T00:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-03T00:25:00+08:00",
+        "end_at": "2026-10-03T00:35:00+08:00",
+        "is_complete": true,
+        "scope": "platform-trip-chat"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "messages": []
+      },
+      "checksum": "sha256:bd28524214879329df6da87feac0bb98763bb855ea480d016b53c23c33e92ca6"
+    },
+    {
+      "evidence_id": "EV-RD_UNVERIFIABLE_ORAL_CLAIM-TRAFFIC",
+      "origin_case_id": "CASE-RD_UNVERIFIABLE_ORAL_CLAIM",
+      "source_record_id": "SRC-EV-RD_UNVERIFIABLE_ORAL_CLAIM-TRAFFIC",
+      "source_type": "DEMO_TRAFFIC_FEED",
+      "trust_tier": "SUPPORTING",
+      "observed_at": "2026-10-03T00:25:00+08:00",
+      "collected_at": "2026-10-03T00:35:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-03T00:25:00+08:00",
+        "end_at": "2026-10-03T00:35:00+08:00",
+        "is_complete": true,
+        "scope": "trip-corridor"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "events": []
+      },
+      "checksum": "sha256:6d35b0a335185fb616e179f6754fb5b8c678b9565e46b684916f2704b7bed940"
+    },
+    {
+      "evidence_id": "EV-RD_UNVERIFIABLE_ORAL_CLAIM-STATEMENT",
+      "origin_case_id": "CASE-RD_UNVERIFIABLE_ORAL_CLAIM",
+      "source_record_id": "SRC-EV-RD_UNVERIFIABLE_ORAL_CLAIM-STATEMENT",
+      "source_type": "PARTY_STATEMENT",
+      "trust_tier": "CLAIM",
+      "observed_at": "2026-10-03T00:25:00+08:00",
+      "collected_at": "2026-10-03T00:35:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "party": "DRIVER",
+        "claims_oral_stop_request": true,
+        "statement": "The rider asked verbally for an unscheduled stop."
+      },
+      "checksum": "sha256:204cd859c268b60f35d6d7d62fd8511ffedf19fa83260302bc06dfd33e2e660d"
+    },
+    {
+      "evidence_id": "EV-NS_VALID_CHARGE-GPS-A",
+      "origin_case_id": "CASE-NS_VALID_CHARGE",
+      "source_record_id": "SRC-EV-NS_VALID_CHARGE-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-17T08:10:00+08:00",
+      "collected_at": "2026-09-17T08:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrival_distance_m": 100
+      },
+      "checksum": "sha256:684a0d67be5aeba14774e66a2964d7097bdde620284481b625bdb23887dbb8de"
+    },
+    {
+      "evidence_id": "EV-NS_VALID_CHARGE-EVENT",
+      "origin_case_id": "CASE-NS_VALID_CHARGE",
+      "source_record_id": "SRC-EV-NS_VALID_CHARGE-EVENT",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-17T08:10:00+08:00",
+      "collected_at": "2026-09-17T08:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrived_at": "2026-09-17T08:10:00+08:00",
+        "cancelled_at": "2026-09-17T08:16:00+08:00",
+        "cancelled_by": "RIDER"
+      },
+      "checksum": "sha256:a565f18d41c8f6e80a7b339e7c8a19511bf89085b6471eaa9850410a3e8ce111"
+    },
+    {
+      "evidence_id": "EV-NS_VALID_CHARGE-CONTACT",
+      "origin_case_id": "CASE-NS_VALID_CHARGE",
+      "source_record_id": "SRC-EV-NS_VALID_CHARGE-CONTACT",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-17T08:10:00+08:00",
+      "collected_at": "2026-09-17T08:20:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-17T08:10:00+08:00",
+        "end_at": "2026-09-17T08:16:00+08:00",
+        "is_complete": true,
+        "scope": "arrival-to-cancellation"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "attempts": [
+          {
+            "channel": "IN_APP",
+            "at": "2026-09-17T08:11:00+08:00"
+          }
+        ]
+      },
+      "checksum": "sha256:c1e35aa9e8a73cb866bd0a508e8615fc256422ebef1f723516163c33879b74a9"
+    },
+    {
+      "evidence_id": "EV-NS_VALID_CHARGE-FARE",
+      "origin_case_id": "CASE-NS_VALID_CHARGE",
+      "source_record_id": "SRC-EV-NS_VALID_CHARGE-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-17T08:10:00+08:00",
+      "collected_at": "2026-09-17T08:20:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 360
+          }
+        ],
+        "total_paid_cents": 360
+      },
+      "checksum": "sha256:211989cb778e5ab177009e58bd49189c091f5aab2e8765dee7879c1b4eebc3a5"
+    },
+    {
+      "evidence_id": "EV-NS_DRIVER_TOO_FAR-GPS-A",
+      "origin_case_id": "CASE-NS_DRIVER_TOO_FAR",
+      "source_record_id": "SRC-EV-NS_DRIVER_TOO_FAR-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-20T19:35:00+08:00",
+      "collected_at": "2026-09-20T19:45:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrival_distance_m": 300
+      },
+      "checksum": "sha256:a394679fe4cad45bfbc9336b220a6466be445398b3227b56882d293a2336d09a"
+    },
+    {
+      "evidence_id": "EV-NS_DRIVER_TOO_FAR-EVENT",
+      "origin_case_id": "CASE-NS_DRIVER_TOO_FAR",
+      "source_record_id": "SRC-EV-NS_DRIVER_TOO_FAR-EVENT",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-20T19:35:00+08:00",
+      "collected_at": "2026-09-20T19:45:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrived_at": "2026-09-20T19:35:00+08:00",
+        "cancelled_at": "2026-09-20T19:41:00+08:00",
+        "cancelled_by": "RIDER"
+      },
+      "checksum": "sha256:d210370e4635981f1278524efb40724a7dd9192d2bf5d568197ef77bbf25556b"
+    },
+    {
+      "evidence_id": "EV-NS_DRIVER_TOO_FAR-CONTACT",
+      "origin_case_id": "CASE-NS_DRIVER_TOO_FAR",
+      "source_record_id": "SRC-EV-NS_DRIVER_TOO_FAR-CONTACT",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-20T19:35:00+08:00",
+      "collected_at": "2026-09-20T19:45:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-20T19:35:00+08:00",
+        "end_at": "2026-09-20T19:41:00+08:00",
+        "is_complete": true,
+        "scope": "arrival-to-cancellation"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "attempts": [
+          {
+            "channel": "IN_APP",
+            "at": "2026-09-20T19:36:00+08:00"
+          }
+        ]
+      },
+      "checksum": "sha256:9e143fcfa672ef050ca8f627700e8c8f75fb244628506498210afecbd3fa5b09"
+    },
+    {
+      "evidence_id": "EV-NS_DRIVER_TOO_FAR-FARE",
+      "origin_case_id": "CASE-NS_DRIVER_TOO_FAR",
+      "source_record_id": "SRC-EV-NS_DRIVER_TOO_FAR-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-20T19:35:00+08:00",
+      "collected_at": "2026-09-20T19:45:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 420
+          }
+        ],
+        "total_paid_cents": 420
+      },
+      "checksum": "sha256:44a25e5cdf12b334ca946e55b3f0ba2f80a6c9f4ceb187974e7b8d3a94cd39c1"
+    },
+    {
+      "evidence_id": "EV-NS_WAIT_TOO_SHORT-GPS-A",
+      "origin_case_id": "CASE-NS_WAIT_TOO_SHORT",
+      "source_record_id": "SRC-EV-NS_WAIT_TOO_SHORT-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-23T14:45:00+08:00",
+      "collected_at": "2026-09-23T14:55:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrival_distance_m": 110
+      },
+      "checksum": "sha256:0101b35a3ef35464e38d130bd0f23315a950b9a2da853d95e6fc8e998c944512"
+    },
+    {
+      "evidence_id": "EV-NS_WAIT_TOO_SHORT-EVENT",
+      "origin_case_id": "CASE-NS_WAIT_TOO_SHORT",
+      "source_record_id": "SRC-EV-NS_WAIT_TOO_SHORT-EVENT",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-23T14:45:00+08:00",
+      "collected_at": "2026-09-23T14:55:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrived_at": "2026-09-23T14:45:00+08:00",
+        "cancelled_at": "2026-09-23T14:47:00+08:00",
+        "cancelled_by": "RIDER"
+      },
+      "checksum": "sha256:ffc783e2651a2c51f40b5afffb1a11a259eed399d4c0ff302abe7460b6acb3a3"
+    },
+    {
+      "evidence_id": "EV-NS_WAIT_TOO_SHORT-CONTACT",
+      "origin_case_id": "CASE-NS_WAIT_TOO_SHORT",
+      "source_record_id": "SRC-EV-NS_WAIT_TOO_SHORT-CONTACT",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-23T14:45:00+08:00",
+      "collected_at": "2026-09-23T14:55:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-23T14:45:00+08:00",
+        "end_at": "2026-09-23T14:47:00+08:00",
+        "is_complete": true,
+        "scope": "arrival-to-cancellation"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "attempts": [
+          {
+            "channel": "IN_APP",
+            "at": "2026-09-23T14:46:00+08:00"
+          }
+        ]
+      },
+      "checksum": "sha256:3f10aca3e15717a5d89ded074635e26694d2d69b5f764c40163c02cf04916ae0"
+    },
+    {
+      "evidence_id": "EV-NS_WAIT_TOO_SHORT-FARE",
+      "origin_case_id": "CASE-NS_WAIT_TOO_SHORT",
+      "source_record_id": "SRC-EV-NS_WAIT_TOO_SHORT-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-23T14:45:00+08:00",
+      "collected_at": "2026-09-23T14:55:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 275
+          }
+        ],
+        "total_paid_cents": 275
+      },
+      "checksum": "sha256:6aacfa4a171c24fa16b4ebea494ebab85eb67c3ba14bf9a996d0fe2c27af809e"
+    },
+    {
+      "evidence_id": "EV-NS_CONTACT_COVERAGE_INCOMPLETE-GPS-A",
+      "origin_case_id": "CASE-NS_CONTACT_COVERAGE_INCOMPLETE",
+      "source_record_id": "SRC-EV-NS_CONTACT_COVERAGE_INCOMPLETE-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-27T02:05:00+08:00",
+      "collected_at": "2026-09-27T02:15:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrival_distance_m": 125
+      },
+      "checksum": "sha256:c23a3439abc990f7a63d71247e7b846eb569e928b629b3912d764cf0fd553630"
+    },
+    {
+      "evidence_id": "EV-NS_CONTACT_COVERAGE_INCOMPLETE-EVENT",
+      "origin_case_id": "CASE-NS_CONTACT_COVERAGE_INCOMPLETE",
+      "source_record_id": "SRC-EV-NS_CONTACT_COVERAGE_INCOMPLETE-EVENT",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-27T02:05:00+08:00",
+      "collected_at": "2026-09-27T02:15:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrived_at": "2026-09-27T02:05:00+08:00",
+        "cancelled_at": "2026-09-27T02:10:30+08:00",
+        "cancelled_by": "RIDER"
+      },
+      "checksum": "sha256:905cd169a358e51a61229d039f585119b0bb67b9385ea39fd74614060c7f9e1d"
+    },
+    {
+      "evidence_id": "EV-NS_CONTACT_COVERAGE_INCOMPLETE-CONTACT",
+      "origin_case_id": "CASE-NS_CONTACT_COVERAGE_INCOMPLETE",
+      "source_record_id": "SRC-EV-NS_CONTACT_COVERAGE_INCOMPLETE-CONTACT",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-27T02:05:00+08:00",
+      "collected_at": "2026-09-27T02:15:00+08:00",
+      "coverage": {
+        "start_at": "2026-09-27T02:05:00+08:00",
+        "end_at": "2026-09-27T02:10:30+08:00",
+        "is_complete": false,
+        "scope": "arrival-to-cancellation"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "attempts": []
+      },
+      "checksum": "sha256:219063ea0b2dab37d30548381d34ce725b9088373bde540bba33415799cd184d"
+    },
+    {
+      "evidence_id": "EV-NS_CONTACT_COVERAGE_INCOMPLETE-FARE",
+      "origin_case_id": "CASE-NS_CONTACT_COVERAGE_INCOMPLETE",
+      "source_record_id": "SRC-EV-NS_CONTACT_COVERAGE_INCOMPLETE-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-27T02:05:00+08:00",
+      "collected_at": "2026-09-27T02:15:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 390
+          }
+        ],
+        "total_paid_cents": 390
+      },
+      "checksum": "sha256:afa41fdac2e69abeee1bf395dfb79662d79cd207d8969ce73d8b2767365e558a"
+    },
+    {
+      "evidence_id": "EV-NS_MISSING_REQUIRED_EVIDENCE-GPS-A",
+      "origin_case_id": "CASE-NS_MISSING_REQUIRED_EVIDENCE",
+      "source_record_id": "SRC-EV-NS_MISSING_REQUIRED_EVIDENCE-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-30T06:30:00+08:00",
+      "collected_at": "2026-09-30T06:40:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrival_distance_m": 95
+      },
+      "checksum": "sha256:44628feb8e81497aacd458f3626ba08e8df672a33d71242eff5c544161e0b530"
+    },
+    {
+      "evidence_id": "EV-NS_MISSING_REQUIRED_EVIDENCE-EVENT",
+      "origin_case_id": "CASE-NS_MISSING_REQUIRED_EVIDENCE",
+      "source_record_id": "SRC-EV-NS_MISSING_REQUIRED_EVIDENCE-EVENT",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-30T06:30:00+08:00",
+      "collected_at": "2026-09-30T06:40:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrived_at": "2026-09-30T06:30:00+08:00",
+        "cancelled_at": "2026-09-30T06:35:40+08:00",
+        "cancelled_by": "RIDER"
+      },
+      "checksum": "sha256:a06395d06b04bbef10b350e51b1bf4e091e1d0bc6e3c8b0ec2946051d24357f0"
+    },
+    {
+      "evidence_id": "EV-NS_MISSING_REQUIRED_EVIDENCE-FARE",
+      "origin_case_id": "CASE-NS_MISSING_REQUIRED_EVIDENCE",
+      "source_record_id": "SRC-EV-NS_MISSING_REQUIRED_EVIDENCE-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-09-30T06:30:00+08:00",
+      "collected_at": "2026-09-30T06:40:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 315
+          }
+        ],
+        "total_paid_cents": 315
+      },
+      "checksum": "sha256:f22cfd8501501942385b4c33fca51350c56c48fd23fd0de572d37debb5ff7e59"
+    },
+    {
+      "evidence_id": "EV-NS_NO_PLATFORM_CONTACT-GPS-A",
+      "origin_case_id": "CASE-NS_NO_PLATFORM_CONTACT",
+      "source_record_id": "SRC-EV-NS_NO_PLATFORM_CONTACT-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-02T21:50:00+08:00",
+      "collected_at": "2026-10-02T22:00:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrival_distance_m": 120
+      },
+      "checksum": "sha256:1f5ffd9c6a4044b6ef4a3f23c624ffb8c294d9f9c2422041f5008becdc04f1ae"
+    },
+    {
+      "evidence_id": "EV-NS_NO_PLATFORM_CONTACT-EVENT",
+      "origin_case_id": "CASE-NS_NO_PLATFORM_CONTACT",
+      "source_record_id": "SRC-EV-NS_NO_PLATFORM_CONTACT-EVENT",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-02T21:50:00+08:00",
+      "collected_at": "2026-10-02T22:00:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrived_at": "2026-10-02T21:50:00+08:00",
+        "cancelled_at": "2026-10-02T21:55:20+08:00",
+        "cancelled_by": "RIDER"
+      },
+      "checksum": "sha256:23de01693de692f410564677aa1795846dc43cd76d14fbebd44dde801788c6a3"
+    },
+    {
+      "evidence_id": "EV-NS_NO_PLATFORM_CONTACT-CONTACT",
+      "origin_case_id": "CASE-NS_NO_PLATFORM_CONTACT",
+      "source_record_id": "SRC-EV-NS_NO_PLATFORM_CONTACT-CONTACT",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-02T21:50:00+08:00",
+      "collected_at": "2026-10-02T22:00:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-02T21:50:00+08:00",
+        "end_at": "2026-10-02T21:55:20+08:00",
+        "is_complete": true,
+        "scope": "arrival-to-cancellation"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "attempts": []
+      },
+      "checksum": "sha256:19a2698ffe779cb6fec43a3eeef1d10a969e44fad7be7ab7f543b6f5748e048b"
+    },
+    {
+      "evidence_id": "EV-NS_NO_PLATFORM_CONTACT-FARE",
+      "origin_case_id": "CASE-NS_NO_PLATFORM_CONTACT",
+      "source_record_id": "SRC-EV-NS_NO_PLATFORM_CONTACT-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-02T21:50:00+08:00",
+      "collected_at": "2026-10-02T22:00:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 465
+          }
+        ],
+        "total_paid_cents": 465
+      },
+      "checksum": "sha256:b5a376bcb89737977eeb91e5a0ba4ee6fa79956f5d326b92a8962dcece8810c8"
+    },
+    {
+      "evidence_id": "EV-NS_AUTHORITATIVE_CONFLICT-GPS-A",
+      "origin_case_id": "CASE-NS_AUTHORITATIVE_CONFLICT",
+      "source_record_id": "SRC-EV-NS_AUTHORITATIVE_CONFLICT-GPS-A",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-04T10:15:00+08:00",
+      "collected_at": "2026-10-04T10:25:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrival_distance_m": 80
+      },
+      "checksum": "sha256:1737845414f78b8200c66e47ad98d976fa99ab154430c607aae892c509f252c1"
+    },
+    {
+      "evidence_id": "EV-NS_AUTHORITATIVE_CONFLICT-GPS-B",
+      "origin_case_id": "CASE-NS_AUTHORITATIVE_CONFLICT",
+      "source_record_id": "SRC-EV-NS_AUTHORITATIVE_CONFLICT-GPS-B",
+      "source_type": "PLATFORM_GPS",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-04T10:15:05+08:00",
+      "collected_at": "2026-10-04T10:25:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic second authoritative GPS observation for conflict testing",
+      "payload": {
+        "arrival_distance_m": 260
+      },
+      "checksum": "sha256:a18bf6f8aa44903cb441727e7ce509bc6d785893ef4df0336b2e3f6a6eeaa818"
+    },
+    {
+      "evidence_id": "EV-NS_AUTHORITATIVE_CONFLICT-EVENT",
+      "origin_case_id": "CASE-NS_AUTHORITATIVE_CONFLICT",
+      "source_record_id": "SRC-EV-NS_AUTHORITATIVE_CONFLICT-EVENT",
+      "source_type": "TRIP_EVENT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-04T10:15:00+08:00",
+      "collected_at": "2026-10-04T10:25:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "arrived_at": "2026-10-04T10:15:00+08:00",
+        "cancelled_at": "2026-10-04T10:20:50+08:00",
+        "cancelled_by": "RIDER"
+      },
+      "checksum": "sha256:a9efa3be2520c07a54437cca72028d38a787d05cb9ec1ffd2489b9ec7f77a522"
+    },
+    {
+      "evidence_id": "EV-NS_AUTHORITATIVE_CONFLICT-CONTACT",
+      "origin_case_id": "CASE-NS_AUTHORITATIVE_CONFLICT",
+      "source_record_id": "SRC-EV-NS_AUTHORITATIVE_CONFLICT-CONTACT",
+      "source_type": "CONTACT_LOG",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-04T10:15:00+08:00",
+      "collected_at": "2026-10-04T10:25:00+08:00",
+      "coverage": {
+        "start_at": "2026-10-04T10:15:00+08:00",
+        "end_at": "2026-10-04T10:20:50+08:00",
+        "is_complete": true,
+        "scope": "arrival-to-cancellation"
+      },
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "attempts": [
+          {
+            "channel": "IN_APP",
+            "at": "2026-10-04T10:16:00+08:00"
+          }
+        ]
+      },
+      "checksum": "sha256:0df08a145784c7965c0c7349f80c398ace84fb3a614c77ae428c0ad7c1bef4f2"
+    },
+    {
+      "evidence_id": "EV-NS_AUTHORITATIVE_CONFLICT-FARE",
+      "origin_case_id": "CASE-NS_AUTHORITATIVE_CONFLICT",
+      "source_record_id": "SRC-EV-NS_AUTHORITATIVE_CONFLICT-FARE",
+      "source_type": "FARE_LEDGER",
+      "trust_tier": "AUTHORITATIVE",
+      "observed_at": "2026-10-04T10:15:00+08:00",
+      "collected_at": "2026-10-04T10:25:00+08:00",
+      "coverage": null,
+      "record_role": "ORIGINAL",
+      "related_evidence_ids": [],
+      "provenance_reason": "Synthetic RideResolve Gate A fixture",
+      "payload": {
+        "currency": "SGD",
+        "line_items": [
+          {
+            "fee_item": "cancellation_fee",
+            "amount_cents": 340
+          }
+        ],
+        "total_paid_cents": 340
+      },
+      "checksum": "sha256:b17abbc46b038a70d71473ca5c9850ffbed7bdae280736512690832e84375539"
     }
   ]
 }

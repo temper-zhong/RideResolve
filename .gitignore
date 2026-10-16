@@ -1,6 +1,7 @@
 .env
 .env.*
 !.env.example
+.venv/
 var/
 dist/
 build/
@@ -8,6 +9,7 @@ build/
 __pycache__/
 *.pyc
 .pytest_cache/
+.tmp_pytest*/
 .coverage
 coverage.xml
 *.log

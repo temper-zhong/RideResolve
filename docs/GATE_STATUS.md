@@ -1,78 +1,123 @@
-# Gate validation status
+# RideResolve verification and submission status
 
-Last updated: 2026-10-07
+Last updated: 2026-10-13
 
-## Gate A - Approved probe in progress; not passed and not a baseline change
+## Current verified baseline
 
-The ADP Rider Advocate, Driver Advocate, and Judge workflow completed one real-model orchestration smoke run with valid structured outputs and the expected synthetic `RD-004` recommendation. That run supplied evidence directly in the user input and therefore does not satisfy the autonomous-tool-use gate.
+- `86` pytest tests pass; `83` are also discoverable through the standard-library `unittest` runner.
+- Python compilation passes for `app.py`, `rideresolve/`, `scripts/`, and `tests/`.
+- Streamlit interaction tests cover Decision Delta v1, Decision Delta v2, and No-Show.
+- A browser-rendered core-demo preview is stored at `docs/streamlit-demo-preview.png`. It predates the three stretch panels and should be refreshed before final submission.
+- The application remains an honestly labelled `SYNTHETIC - OFFLINE DEMO`.
 
-The local read-only probe service is now implemented and tested for:
+## Gate B - Passed for the deterministic MVP scope
 
-- immutable case snapshot lookup;
-- snapshot-scoped evidence lookup with verified checksums;
-- versioned policy-rule lookup;
-- short-lived, role-specific run tokens whose raw values are not persisted in the registry or audit log;
-- server-side run manifests binding one case, version, policy, expiry, role, and request budget;
-- omission of evidence IDs from the case-summary response;
-- separate Rider and Driver evidence-return audits;
-- structured JSONL tool audit and single-server-instance correlation;
-- server-generated request IDs that ignore untrusted `X-Request-Id` input;
-- a fail-closed container startup acknowledgement for minimum and maximum instance counts of one;
-- probe verification that rejects citations not returned to that same role in that run;
-- strict request schemas and prompt-injection-like input rejection;
-- fixed-HTTPS OpenAPI 3.0 export for ADP.
+Verified behavior includes:
 
-Gate A still requires:
+- all eight human-prelabelled Route Deviation and No-Show cases;
+- fail-closed policy contracts for rule IDs, evaluators, parameters, and outcomes;
+- immutable snapshots, evidence membership, checksums, origin-case binding, and evaluation fingerprints;
+- deterministic GPS merge, overlap handling, coverage, distance, and conflict detection;
+- authoritative fare-ledger amount derivation;
+- No-Show authoritative-source, event-time, contact-window, and coverage rules;
+- explicit `NO_ACTION` invariants and Judge/program consistency validation.
 
-- public HTTPS deployment of the tool service;
-- importing the generated OpenAPI schema into ADP;
-- a real Rider and Driver run that autonomously selects and calls tools;
-- captured tool traces, timeout behavior, citation validation, and elapsed time.
+## Gate C - Persisted deterministic spine passed
 
-No mock model response is counted as Gate A evidence. Synthetic case data remains clearly labelled and is valid for the first end-to-end tool-call test. Raw role tokens must remain in ignored local credential files or masked ADP authorization fields and must not be committed or pasted into chat.
+The main pair exists in `data/cases/tool_cases.json`:
 
-## Gate B - Deterministic sample core and reviewed contracts pass
+- `CASE-RD-001 v1`: 70% GPS coverage, `RD-001`, `PENDING_HUMAN_REVIEW`;
+- `CASE-RD-001 v2`: the same business inputs plus one authoritative GPS supplement, 100% GPS coverage, `RD-004`, simulated SGD 3.25 refund;
+- `build_decision_delta()` returns `comparable=true`, `causal_claim_allowed=true`, `changed_evidence_id=EV-RD-GPS-SUPPLEMENT`, and `changed_fact_id=FACT-GPS-COVERAGE-SUFFICIENT`.
 
-The following claims are supported by automated tests:
+The permitted claim is deliberately narrow: under the fixed demo policy and fixed other synthetic inputs, the added evidence changed the program-evaluated fact, rule outcome, and simulated ruling. It does not prove real-world causality, fairness, or accuracy.
 
-- all eight human-prelabelled Route Deviation and No-Show fixtures produce their expected deterministic outcomes;
-- policy loading fails closed if the implemented rule IDs, evaluators, parameters, or allowed outcomes diverge from `DEMO_POLICY_V1.json`;
-- immutable evidence is selected through the current snapshot's `evidence_refs`, including v2 reuse of the v1 fare ledger;
-- evidence checksums are recomputed before evaluation, and missing, duplicate, cross-case, or checksum-mismatched evidence is treated as an integrity failure;
-- every policy evaluation carries a fingerprint of the exact snapshot, referenced evidence entities, and policy used to compute it;
-- GPS merge, overlap deduplication, coverage, Haversine distance, and same-time conflict handling are deterministic;
-- refund amounts come from one non-conflicting authoritative fare ledger;
-- No-Show GPS, event, and contact evidence must be authoritative; waiting time is derived from event timestamps; contact coverage must span the waiting interval; and only in-app attempts inside that interval count;
-- `NO_ACTION` and Judge-versus-program consistency contracts are enforced.
+## Stretch goals - Local implementation passed
 
-This is not a claim that every malformed-input and runtime-failure path in the v1.5 plan is complete. Gate B should remain qualified until the remaining fault matrix is implemented.
+### Evidence Collection Agent
 
-Evidence checksums provide post-ingestion tamper detection in this prototype. They do not independently prove that an external source is genuine.
+- Selects a bounded evidence-source plan from the dispute type.
+- Calls the same read-only case, evidence, and policy tools exposed to ADP.
+- Returns a shared version-pinned evidence package, query log, citations, and explicit gaps.
+- Detects the v1 GPS coverage gap, accepts the v2 supplement, and selects the separate No-Show source plan.
+- Cannot determine credibility, liability, status, action, or money.
 
-## Gate C - Deterministic and synthetic-Judge spine passes; real model pending
+The fourth role's read-only CloudBase tools and independent credential are deployed. Its tool-free ADP Agent completed the functional five-Agent No-Show workflow using three explicit upstream tool nodes. The result remains functional evidence rather than `LIVE` production data or a verified `REPLAY`.
 
-The tested Decision Delta path is:
+### Policy & Precedent Agent and Learning Feedback Loop
 
-- v1 GPS coverage: 70%;
-- v2 GPS coverage after one authoritative supplement: 100%;
-- v1: `PENDING_HUMAN_REVIEW` under `RD-001`;
-- v2: `RESOLVED` with a SGD 3.25 simulated distance-surcharge refund under `RD-004`;
-- one real evidence entity must be added, its checksum and lineage must validate, and it must be an authoritative GPS supplement;
-- both deterministic evaluations must be fingerprint-bound to the exact compared inputs;
-- nonexistent evidence, a stale evaluation, or a Judge mismatch disables the causal claim;
-- GPS or fare-ledger conflicts route to human review.
+- Human corrections must represent a genuine outcome change and include a reason, source rule IDs, and evidence citations.
+- Approved records are checksum-bound, unique, append-only, and restricted to `ADVISORY_PRECEDENT_ONLY`.
+- The fifth Agent retrieves only same-category, overlapping-rule precedents and supplies cited `ADVISORY_ONLY` context to the Judge.
+- Route Deviation v2 retrieves two comparable synthetic `RD-004` reviewer corrections; v1 and the default No-Show case correctly retrieve none.
+- The current policy evaluation object remains unchanged before and after precedent retrieval.
 
-The permitted wording remains narrow: under the fixed demo policy and fixed other business inputs, the added evidence changed the program-evaluated fact, rule outcome, and simulated ruling. This does not establish real-world causality or fairness.
+The knowledge base contains four clearly marked synthetic human-override fixtures: two same-rule Route Deviation records, No-Show coverage, and one historical outcome that conflicts with current policy while remaining advisory only. Eight dedicated tests cover ingestion, persistence, append-only enforcement, genuine-change validation, tamper rejection, relevant retrieval, policy-conflict isolation, and irrelevant-case rejection. The role-isolated policy and precedent bindings and the tool-free fifth ADP Agent completed the functional No-Show run; no approved precedent matched that case.
 
-Gate C is not complete until Gate A is available and real model recommendations pass the same consistency checks without retry cherry-picking.
+### Escalation Protocol
 
-## Verification
+- A deterministic review requirement always triggers a human-review packet.
+- Judge self-confidence below `70/100` also triggers safe escalation.
+- The packet contains the case/version, policy, evidence IDs, matched rules, trigger reasons, review queue, and next step.
+- Model confidence can only escalate; it can never release a case or bypass a hard gate.
 
-From the `rideresolve` directory:
+## Additional MVP evidence sources - Passed locally
+
+- Route Deviation fixtures include authenticated chat with structured synthetic annotations for sentiment, consent, disagreement, and threat.
+- Route Deviation and No-Show include `HISTORICAL_BEHAVIOR_PROFILE` evidence with account age, completed-trip count, recent-dispute count, and rating pattern.
+- Historical profiles are `SUPPORTING`, displayed as `CONTEXT ONLY`, and excluded from deterministic policy evaluation.
+- Regression tests verify that removing historical context does not change business status, matched rule, or action.
+
+The annotations remain `SYNTHETIC`; they do not prove that the cloud workflow emitted these fields.
+
+## Gate A - Functional ADP runs completed; formal sign-off pending
+
+The preserved historical Route Deviation run completed a three-core-Agent workflow:
+
+- Rider and Driver independently called bounded tools and returned cited arguments;
+- Judge returned `RESOLVED`, `RD-004`, and a 325-cent SGD full-refund recommendation;
+- the JSON parse node and End node kept the result structured.
+
+The newer No-Show run completed the workflow-first target:
+
+- all five Agent nodes had empty tool lists;
+- seven explicit, role-scoped workflow tool nodes completed successfully;
+- the deterministic gate accepted `RESOLVED / NS-002 / NO_ACTION / 0 SGD`;
+- the structured End JSON was preserved;
+- the matching CloudBase audit summary contains exactly seven successful HTTP 200 events, the expected call order, unique request IDs, and one server instance.
+
+Together, these artifacts support the statement **functional model/tool workflows completed**. They do not support formal Gate A sign-off because the complete native ADP trace export and the separate Rider/Driver Agent outputs for the No-Show run are unavailable. The run is not labelled `REPLAY`.
+
+Submission-safe screenshots, the No-Show End JSON, their hashes, supported findings, and limitations are indexed under `docs/evidence/` and recorded in `docs/GATE_A_FUNCTIONAL_RUN_REPORT.md`.
+
+## Security status
+
+- The deployed registry contains token hashes rather than raw role credentials. Its current test-window expiry is managed outside the submission repository.
+- Raw role tokens remain under ignored local `var/` storage and must be removed from ADP and revoked or rotated in CloudBase before final submission.
+- Submission-safe copies of the two development transcripts are stored under `docs/process_records/`.
+- Three manually reviewed WorkBuddy screenshots, their written development-process description, and matching SHA-256 approvals are stored under `docs/process_records/submission/`.
+- Raw source transcripts outside this repository remain sensitive and must not be submitted.
+- `.env`, `var/`, logs, JSONL audit files, caches, and raw credentials are excluded by `.gitignore`.
+
+## Remaining submission P0
+
+1. Refresh `docs/streamlit-demo-preview.png` if a newer product screenshot is required by the submission form.
+2. Rehearse the two-minute walkthrough with the stable local synthetic comparison.
+3. Complete final repository push, credential rotation, and package generation.
+
+## Optional work after P0
+
+- Obtain the complete native ADP trace export and separate Agent outputs for formal Gate A correlation.
+- Create a verified replay only after its complete original source artifacts exist.
+
+These optional tasks must not displace package hygiene, credential cleanup, repository publication, or rehearsal.
+
+## Verification commands
 
 ```powershell
+python -m scripts.check_no_show_readiness
 python -m unittest discover -s tests -v
-python -m compileall -q rideresolve tests
+python -m pytest -q
+python -m compileall -q app.py rideresolve scripts tests
+python -m streamlit run app.py
 ```
-
-Current result: 42 tests passed; compilation check passed.

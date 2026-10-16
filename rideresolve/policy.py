@@ -33,13 +33,14 @@ class PolicyFile(BaseModel):
     effective_to: str | None
     timezone: str
     rules: tuple[dict[str, Any], ...]
+    precedents: tuple[dict[str, Any], ...] = ()
 
 
 class OutputIntegrityError(ValueError):
     """The model output conflicts with deterministic policy evaluation."""
 
 
-EXPECTED_RULE_CONTRACTS: dict[str, dict[str, Any]] = {
+DEMO_RULE_CONTRACTS: dict[str, dict[str, Any]] = {
     "RD-001": {
         "evaluator": "route_deviation_required_evidence",
         "parameters": {
@@ -111,16 +112,135 @@ EXPECTED_RULE_CONTRACTS: dict[str, dict[str, Any]] = {
 }
 
 
+RYDE_V2_1_RULE_CONTRACTS: dict[str, dict[str, Any]] = {
+    "RD-101": {
+        "evaluator": "route_v21_required_evidence",
+        "parameters": {
+            "required_source_types": [
+                "PLATFORM_GPS",
+                "ROUTE_BASELINE",
+                "FARE_LEDGER",
+                "AUTHENTICATED_CHAT",
+                "DEMO_TRAFFIC_FEED",
+            ]
+        },
+        "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"},
+    },
+    "RD-102": {
+        "evaluator": "route_v21_within_absolute_tolerance",
+        "parameters": {"maximum_deviation_m": 1000},
+        "allowed_outcome": {"action": "NO_ACTION"},
+    },
+    "RD-103": {
+        "evaluator": "route_v21_justified_and_notified",
+        "parameters": {},
+        "allowed_outcome": {"action": "NO_ACTION"},
+    },
+    "RD-104": {
+        "evaluator": "route_v21_justified_not_notified",
+        "parameters": {"fee_item": "excess_distance_fare"},
+        "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_PARTIAL"},
+    },
+    "RD-105": {
+        "evaluator": "route_v21_unjustified_deviation",
+        "parameters": {"fee_item": "excess_distance_fare"},
+        "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"},
+    },
+    "RD-106": {
+        "evaluator": "route_v21_uncertain_material_fact",
+        "parameters": {},
+        "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"},
+    },
+    "NS-101": {
+        "evaluator": "no_show_v21_required_evidence",
+        "parameters": {
+            "required_source_types": [
+                "PLATFORM_GPS",
+                "TRIP_EVENT_LOG",
+                "CONTACT_LOG",
+                "FARE_LEDGER",
+            ]
+        },
+        "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"},
+    },
+    "NS-102": {
+        "evaluator": "no_show_v21_charge_valid",
+        "parameters": {
+            "fee_cents": 500,
+            "maximum_pickup_distance_m": 150,
+            "minimum_wait_from_scheduled_seconds": 300,
+            "required_contact_channels": ["IN_APP_CHAT", "PHONE"],
+        },
+        "allowed_outcome": {"action": "NO_ACTION"},
+    },
+    "NS-103": {
+        "evaluator": "no_show_v21_driver_absent",
+        "parameters": {"fee_item": "cancellation_fee"},
+        "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"},
+    },
+    "NS-104": {
+        "evaluator": "no_show_v21_wait_too_short",
+        "parameters": {"fee_item": "cancellation_fee"},
+        "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"},
+    },
+    "NS-105": {
+        "evaluator": "no_show_v21_contact_obligation_failed",
+        "parameters": {"fee_item": "cancellation_fee"},
+        "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"},
+    },
+    "NS-106": {
+        "evaluator": "no_show_v21_conflict_or_incomplete",
+        "parameters": {},
+        "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"},
+    },
+    "FD-101": {
+        "evaluator": "fare_v21_required_evidence",
+        "parameters": {
+            "required_source_types": [
+                "FARE_LEDGER",
+                "SURGE_PRICING_LOG",
+                "NOTIFICATION_LOG",
+            ]
+        },
+        "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"},
+    },
+    "FD-102": {
+        "evaluator": "fare_v21_no_refundable_surge_change",
+        "parameters": {},
+        "allowed_outcome": {"action": "NO_ACTION"},
+    },
+    "FD-103": {
+        "evaluator": "fare_v21_unnotified_surge_increase",
+        "parameters": {"fee_item": "surge_differential"},
+        "allowed_outcome": {"action": "REFUND_DISPUTED_FEE_FULL"},
+    },
+    "FD-104": {
+        "evaluator": "fare_v21_uncertain_or_conflicting",
+        "parameters": {},
+        "allowed_outcome": {"business_status": "PENDING_HUMAN_REVIEW"},
+    },
+}
+
+
+EXPECTED_RULE_CONTRACTS_BY_VERSION: dict[str, dict[str, dict[str, Any]]] = {
+    "DEMO_POLICY_V1": DEMO_RULE_CONTRACTS,
+    "RYDE_POLICY_V2_1": RYDE_V2_1_RULE_CONTRACTS,
+}
+
+
 def validate_policy_contract(policy: PolicyFile) -> None:
+    expected_contracts = EXPECTED_RULE_CONTRACTS_BY_VERSION.get(policy.policy_version)
+    if expected_contracts is None:
+        raise ValueError(f"policy version has no implemented evaluator contract: {policy.policy_version}")
     ids = [rule["rule_id"] for rule in policy.rules]
     if len(ids) != len(set(ids)):
         raise ValueError("policy rule IDs must be unique")
-    if not ids or any(not rule_id.startswith(("RD-", "NS-")) for rule_id in ids):
-        raise ValueError("policy JSON may contain only RD/NS business rules")
-    if set(ids) != set(EXPECTED_RULE_CONTRACTS):
+    if not ids or any(not rule_id.startswith(("RD-", "NS-", "FD-")) for rule_id in ids):
+        raise ValueError("policy JSON may contain only RD/NS/FD business rules")
+    if set(ids) != set(expected_contracts):
         raise ValueError("policy rule set does not match implemented evaluators")
     for rule in policy.rules:
-        expected = EXPECTED_RULE_CONTRACTS[rule["rule_id"]]
+        expected = expected_contracts[rule["rule_id"]]
         for field in ("evaluator", "parameters", "allowed_outcome"):
             if rule.get(field) != expected[field]:
                 raise ValueError(f"{rule['rule_id']} {field} conflicts with implemented evaluator contract")
@@ -278,22 +398,60 @@ def _evaluate_no_show(snapshot: CaseSnapshot, items: list[Evidence], params: dic
     gps = [item for item in _by_source(items, SourceType.PLATFORM_GPS) if item.trust_tier == TrustTier.AUTHORITATIVE]
     events = [item for item in _by_source(items, SourceType.TRIP_EVENT_LOG) if item.trust_tier == TrustTier.AUTHORITATIVE]
     contacts = [item for item in _by_source(items, SourceType.CONTACT_LOG) if item.trust_tier == TrustTier.AUTHORITATIVE]
-    if ledger is None or len(gps) != 1 or len(events) != 1 or len(contacts) != 1:
+    if ledger is None or not gps or not events or len(contacts) != 1:
         return _pending("NS-001", "Required authoritative no-show evidence is incomplete")
 
     try:
-        distance_m = float(gps[0].payload["arrival_distance_m"])
-        arrived_at = datetime.fromisoformat(events[0].payload["arrived_at"])
-        cancelled_at = datetime.fromisoformat(events[0].payload["cancelled_at"])
+        distances_m = [float(item.payload["arrival_distance_m"]) for item in gps]
+        event_intervals = [
+            (
+                datetime.fromisoformat(item.payload["arrived_at"]),
+                datetime.fromisoformat(item.payload["cancelled_at"]),
+            )
+            for item in events
+        ]
     except (KeyError, TypeError, ValueError):
         return _pending("NS-001", "Authoritative no-show evidence has an invalid payload")
-    if (
-        distance_m < 0
-        or arrived_at.tzinfo is None
+    if any(distance < 0 for distance in distances_m) or any(
+        arrived_at.tzinfo is None
         or cancelled_at.tzinfo is None
-        or not (snapshot.trip_started_at <= arrived_at < cancelled_at <= snapshot.trip_ended_at)
+        or not (
+            snapshot.trip_started_at
+            <= arrived_at
+            < cancelled_at
+            <= snapshot.trip_ended_at
+        )
+        for arrived_at, cancelled_at in event_intervals
     ):
         return _pending("NS-001", "Authoritative no-show event interval is invalid")
+    position_conflict_m = max(distances_m) - min(distances_m)
+    arrival_conflict_seconds = (
+        max(interval[0] for interval in event_intervals)
+        - min(interval[0] for interval in event_intervals)
+    ).total_seconds()
+    cancellation_conflict_seconds = (
+        max(interval[1] for interval in event_intervals)
+        - min(interval[1] for interval in event_intervals)
+    ).total_seconds()
+    conflict_metrics = {
+        "position_conflict_m": position_conflict_m,
+        "time_conflict_seconds": max(
+            arrival_conflict_seconds,
+            cancellation_conflict_seconds,
+        ),
+    }
+    if (
+        position_conflict_m > params["maximum_position_conflict_m"]
+        or conflict_metrics["time_conflict_seconds"]
+        > params["maximum_time_conflict_seconds"]
+    ):
+        return _pending(
+            "NS-006",
+            "Authoritative no-show observations conflict beyond policy tolerance",
+            metrics=conflict_metrics,
+        )
+    distance_m = distances_m[0]
+    arrived_at, cancelled_at = event_intervals[0]
 
     wait_seconds = (cancelled_at - arrived_at).total_seconds()
     contact_coverage = contacts[0].coverage
@@ -320,7 +478,11 @@ def _evaluate_no_show(snapshot: CaseSnapshot, items: list[Evidence], params: dic
             return _pending("NS-001", "Authoritative contact attempt time must include a timezone")
         if attempt.get("channel") == "IN_APP" and arrived_at <= attempted_at <= cancelled_at:
             valid_attempts.append(attempt)
-    metrics = {"arrival_distance_m": distance_m, "wait_seconds": wait_seconds}
+    metrics = {
+        "arrival_distance_m": distance_m,
+        "wait_seconds": wait_seconds,
+        **conflict_metrics,
+    }
     amount = _ledger_amount(ledger, "cancellation_fee", snapshot.currency)
     if amount is None:
         return _pending("NS-001", "Cancellation fee is unavailable", metrics=metrics)
@@ -346,6 +508,253 @@ def _evaluate_no_show(snapshot: CaseSnapshot, items: list[Evidence], params: dic
     )
 
 
+def _has_complete_source(items: list[Evidence], source_type: SourceType) -> bool:
+    candidates = _by_source(items, source_type)
+    return bool(candidates) and all(
+        item.coverage is None or item.coverage.is_complete for item in candidates
+    )
+
+
+def _evaluate_route_v21(
+    snapshot: CaseSnapshot,
+    items: list[Evidence],
+    params: dict[str, Any],
+) -> PolicyEvaluation:
+    required = tuple(SourceType(value) for value in params["required_source_types"])
+    if any(not _has_complete_source(items, source_type) for source_type in required):
+        return _pending("RD-101", "Official v2.1 route evidence is missing or incomplete")
+
+    ledger, ledger_conflict = _unique_authoritative_ledger(snapshot, items)
+    if ledger_conflict or ledger is None:
+        return _pending("RD-106", "The authoritative fare basis is missing or conflicting")
+    gps_records = [
+        item
+        for item in _by_source(items, SourceType.PLATFORM_GPS)
+        if item.trust_tier == TrustTier.AUTHORITATIVE
+    ]
+    baselines = [
+        item
+        for item in _by_source(items, SourceType.ROUTE_BASELINE)
+        if item.trust_tier == TrustTier.AUTHORITATIVE
+    ]
+    if len(gps_records) != 1 or len(baselines) != 1:
+        return _pending("RD-106", "The official route distance has no unique authoritative basis")
+    try:
+        actual_distance_m = float(gps_records[0].payload["reported_actual_distance_m"])
+        baseline_distance_m = float(baselines[0].payload["baseline_distance_m"])
+    except (KeyError, TypeError, ValueError):
+        return _pending("RD-101", "The official route distance payload is invalid")
+    if actual_distance_m < 0 or baseline_distance_m <= 0:
+        return _pending("RD-101", "The official route distance values are invalid")
+
+    deviation_m = actual_distance_m - baseline_distance_m
+    metrics = {
+        "actual_distance_m": actual_distance_m,
+        "baseline_distance_m": baseline_distance_m,
+        "deviation_m": deviation_m,
+    }
+    facts = {
+        "FACT-ROUTE-DEVIATION-OVER-1KM": (
+            FactStatus.PROVEN
+            if deviation_m > params["maximum_deviation_m"]
+            else FactStatus.DISPROVEN
+        )
+    }
+    if deviation_m <= params["maximum_deviation_m"]:
+        return PolicyEvaluation(
+            business_status=BusinessStatus.RESOLVED,
+            matched_rule_ids=("RD-102",),
+            allowed_action=Action(
+                type=ActionType.NO_ACTION,
+                fee_item=None,
+                amount_cents=0,
+                currency="SGD",
+            ),
+            facts=facts,
+            metrics=metrics,
+        )
+
+    chats = _by_source(items, SourceType.AUTHENTICATED_CHAT)
+    traffic = _by_source(items, SourceType.DEMO_TRAFFIC_FEED)
+    if len(chats) != 1 or len(traffic) != 1:
+        return _pending("RD-106", "Notification or traffic evidence is not uniquely established", facts, metrics)
+    reroute_justified = traffic[0].payload.get("reroute_justified") is True
+    rider_informed = (
+        chats[0].payload.get("route_notification_sent") is True
+        or chats[0].payload.get("verbal_notification_verified") is True
+    )
+    facts.update(
+        {
+            "FACT-TRAFFIC-REROUTE-JUSTIFIED": FactStatus.PROVEN if reroute_justified else FactStatus.DISPROVEN,
+            "FACT-RIDER-INFORMED-OF-DEVIATION": FactStatus.PROVEN if rider_informed else FactStatus.PROVEN_ABSENT,
+        }
+    )
+    if reroute_justified and rider_informed:
+        return PolicyEvaluation(
+            business_status=BusinessStatus.RESOLVED,
+            matched_rule_ids=("RD-103",),
+            allowed_action=Action(type=ActionType.NO_ACTION, fee_item=None, amount_cents=0, currency="SGD"),
+            facts=facts,
+            metrics=metrics,
+        )
+
+    amount = _ledger_amount(ledger, "excess_distance_fare", snapshot.currency)
+    if amount is None or amount <= 0:
+        return _pending("RD-106", "The official excess-distance fare is unavailable", facts, metrics)
+    if reroute_justified:
+        return PolicyEvaluation(
+            business_status=BusinessStatus.RESOLVED,
+            matched_rule_ids=("RD-104",),
+            allowed_action=Action(
+                type=ActionType.REFUND_DISPUTED_FEE_PARTIAL,
+                fee_item="excess_distance_fare",
+                amount_cents=amount,
+                currency="SGD",
+            ),
+            facts=facts,
+            metrics=metrics,
+        )
+    return PolicyEvaluation(
+        business_status=BusinessStatus.RESOLVED,
+        matched_rule_ids=("RD-105",),
+        allowed_action=Action(
+            type=ActionType.REFUND_DISPUTED_FEE_FULL,
+            fee_item="excess_distance_fare",
+            amount_cents=amount,
+            currency="SGD",
+        ),
+        facts=facts,
+        metrics=metrics,
+    )
+
+
+def _evaluate_no_show_v21(
+    snapshot: CaseSnapshot,
+    items: list[Evidence],
+    params: dict[str, Any],
+) -> PolicyEvaluation:
+    required = tuple(SourceType(value) for value in params["required_source_types"])
+    if any(not _has_complete_source(items, source_type) for source_type in required):
+        return _pending("NS-101", "Official v2.1 no-show evidence is missing or incomplete")
+    ledger, ledger_conflict = _unique_authoritative_ledger(snapshot, items)
+    gps = _by_source(items, SourceType.PLATFORM_GPS)
+    events = _by_source(items, SourceType.TRIP_EVENT_LOG)
+    contacts = _by_source(items, SourceType.CONTACT_LOG)
+    if ledger_conflict or ledger is None or len(gps) != 1 or len(events) != 1 or len(contacts) != 1:
+        return _pending("NS-106", "No-show evidence has no unique authoritative basis")
+    try:
+        scheduled_at = datetime.fromisoformat(events[0].payload["scheduled_at"])
+        arrived_at = datetime.fromisoformat(events[0].payload["arrived_at"])
+        cancelled_at = datetime.fromisoformat(events[0].payload["cancelled_at"])
+        arrival_distance_m = float(gps[0].payload["arrival_distance_m"])
+    except (KeyError, TypeError, ValueError):
+        return _pending("NS-101", "Official no-show evidence has an invalid payload")
+    wait_seconds = (cancelled_at - scheduled_at).total_seconds()
+    metrics = {
+        "arrival_distance_m": arrival_distance_m,
+        "wait_from_scheduled_seconds": wait_seconds,
+    }
+    amount = _ledger_amount(ledger, "cancellation_fee", snapshot.currency)
+    if amount is None or amount != params["fee_cents"]:
+        return _pending("NS-106", "Cancellation-fee amount conflicts with v2.1", metrics=metrics)
+    refund = Action(
+        type=ActionType.REFUND_DISPUTED_FEE_FULL,
+        fee_item="cancellation_fee",
+        amount_cents=amount,
+        currency="SGD",
+    )
+    if arrival_distance_m > params["maximum_pickup_distance_m"]:
+        return PolicyEvaluation(
+            business_status=BusinessStatus.RESOLVED,
+            matched_rule_ids=("NS-103",),
+            allowed_action=refund,
+            metrics=metrics,
+        )
+    if wait_seconds < params["minimum_wait_from_scheduled_seconds"]:
+        return PolicyEvaluation(
+            business_status=BusinessStatus.RESOLVED,
+            matched_rule_ids=("NS-104",),
+            allowed_action=refund,
+            metrics=metrics,
+        )
+
+    valid_channels: set[str] = set()
+    for attempt in contacts[0].payload.get("attempts", []):
+        if not isinstance(attempt, dict):
+            continue
+        try:
+            attempted_at = datetime.fromisoformat(str(attempt["at"]))
+        except (KeyError, ValueError):
+            continue
+        if arrived_at <= attempted_at <= cancelled_at:
+            valid_channels.add(str(attempt.get("channel")))
+    required_channels = set(params["required_contact_channels"])
+    metrics["contact_channel_count"] = float(len(valid_channels & required_channels))
+    if not required_channels.issubset(valid_channels):
+        return PolicyEvaluation(
+            business_status=BusinessStatus.RESOLVED,
+            matched_rule_ids=("NS-105",),
+            allowed_action=refund,
+            metrics=metrics,
+        )
+    return PolicyEvaluation(
+        business_status=BusinessStatus.RESOLVED,
+        matched_rule_ids=("NS-102",),
+        allowed_action=Action(type=ActionType.NO_ACTION, fee_item=None, amount_cents=0, currency="SGD"),
+        metrics=metrics,
+    )
+
+
+def _evaluate_fare_v21(
+    snapshot: CaseSnapshot,
+    items: list[Evidence],
+    params: dict[str, Any],
+) -> PolicyEvaluation:
+    required = tuple(SourceType(value) for value in params["required_source_types"])
+    if any(not _has_complete_source(items, source_type) for source_type in required):
+        return _pending("FD-101", "Official v2.1 fare evidence is missing or incomplete")
+    ledger, ledger_conflict = _unique_authoritative_ledger(snapshot, items)
+    surge = _by_source(items, SourceType.SURGE_PRICING_LOG)
+    notifications = _by_source(items, SourceType.NOTIFICATION_LOG)
+    if ledger_conflict or ledger is None or len(surge) != 1 or len(notifications) != 1:
+        return _pending("FD-104", "Fare evidence has no unique authoritative basis")
+    try:
+        quote_multiplier = float(surge[0].payload["quote_time_surge"])
+        trip_start_multiplier = float(surge[0].payload["trip_start_surge"])
+        rider_notified = notifications[0].payload["rider_notified"] is True
+    except (KeyError, TypeError, ValueError):
+        return _pending("FD-101", "Official fare evidence has an invalid payload")
+    metrics = {
+        "quote_time_surge": quote_multiplier,
+        "trip_start_surge": trip_start_multiplier,
+    }
+    if trip_start_multiplier <= quote_multiplier or rider_notified:
+        return PolicyEvaluation(
+            business_status=BusinessStatus.RESOLVED,
+            matched_rule_ids=("FD-102",),
+            allowed_action=Action(type=ActionType.NO_ACTION, fee_item=None, amount_cents=0, currency="SGD"),
+            metrics=metrics,
+        )
+    amount = _ledger_amount(ledger, "surge_differential", snapshot.currency)
+    if amount is None or amount <= 0:
+        return _pending("FD-104", "The ledger does not isolate a positive surge differential", metrics=metrics)
+    return PolicyEvaluation(
+        business_status=BusinessStatus.RESOLVED,
+        matched_rule_ids=("FD-103",),
+        allowed_action=Action(
+            type=ActionType.REFUND_DISPUTED_FEE_FULL,
+            fee_item="surge_differential",
+            amount_cents=amount,
+            currency="SGD",
+        ),
+        facts={
+            "FACT-SURGE-INCREASED": FactStatus.PROVEN,
+            "FACT-RIDER-NOTIFIED": FactStatus.PROVEN_ABSENT,
+        },
+        metrics=metrics,
+    )
+
+
 def evaluate_case(snapshot: CaseSnapshot, evidence: list[Evidence], policy: PolicyFile) -> PolicyEvaluation:
     validate_policy_contract(policy)
     evidence_by_id = index_evidence(evidence)
@@ -365,12 +774,26 @@ def evaluate_case(snapshot: CaseSnapshot, evidence: list[Evidence], policy: Poli
         return with_fingerprint(_pending("GEN-007", "No loaded policy version covers the trip start time"))
     items = _snapshot_evidence(snapshot, evidence_by_id)
     rules = {rule["rule_id"]: rule for rule in policy.rules}
+    if policy.policy_version == "RYDE_POLICY_V2_1":
+        if snapshot.dispute_type == DisputeType.ROUTE_DEVIATION:
+            params = dict(rules["RD-101"]["parameters"])
+            params.update(rules["RD-102"]["parameters"])
+            return with_fingerprint(_evaluate_route_v21(snapshot, items, params))
+        if snapshot.dispute_type == DisputeType.NO_SHOW:
+            params = dict(rules["NS-101"]["parameters"])
+            params.update(rules["NS-102"]["parameters"])
+            return with_fingerprint(_evaluate_no_show_v21(snapshot, items, params))
+        params = dict(rules["FD-101"]["parameters"])
+        return with_fingerprint(_evaluate_fare_v21(snapshot, items, params))
     if snapshot.dispute_type == DisputeType.ROUTE_DEVIATION:
         params = dict(rules["RD-001"]["parameters"])
         params["maximum_allowed_ratio"] = rules["RD-002"]["parameters"]["maximum_allowed_ratio"]
         return with_fingerprint(_evaluate_route(snapshot, items, evidence_by_id, params))
-    params = dict(rules["NS-002"]["parameters"])
-    return with_fingerprint(_evaluate_no_show(snapshot, items, params))
+    if snapshot.dispute_type == DisputeType.NO_SHOW:
+        params = dict(rules["NS-002"]["parameters"])
+        params.update(rules["NS-006"]["parameters"])
+        return with_fingerprint(_evaluate_no_show(snapshot, items, params))
+    return with_fingerprint(_pending("GEN-007", "Dispute type is unsupported by the loaded policy"))
 
 
 def validate_judge_recommendation(

@@ -1,0 +1,22 @@
+{
+  "source_kind": "OFFICIAL_HACKATHON_SAMPLE_DATASET",
+  "precedence": "OFFICIAL_VALUES_OVERRIDE_CONFLICTING_MOCK_VALUES",
+  "files": [
+    {
+      "name": "RydeResolve Route Deviation Dataset — DISP-001.md",
+      "sha256": "dffee7ba2c2e8777e51b1dde4bc258992c902bed6d408c4518eec9b288d9c494"
+    },
+    {
+      "name": "RydeResolve Sample Dataset — DISP-002 No-Show Charge Dispute (SG).md",
+      "sha256": "a11fb5b04672c15b56be01a637726945be192e26e276e3367fe7dc7d80685167"
+    },
+    {
+      "name": "Document 1 — Fare Dispute Sample Data (JSON).md",
+      "sha256": "fec27ef148ff8ab047bf182eeb4b21c6eb5d6eb0f91c2af66de78d8d9f663c90"
+    },
+    {
+      "name": "Document 2 — Ryde Dispute Resolution Policy v2.1 (Markdown).md",
+      "sha256": "827c4d2cab2d4db9e176521000b079632bbe80c20f69c3ffd0addecc8cbc8699"
+    }
+  ]
+}

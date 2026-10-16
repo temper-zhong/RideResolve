@@ -1,0 +1,10 @@
+{
+  "approved": true,
+  "reviewed_at": "2026-10-16",
+  "review_scope": "Manual review for credentials, tokens, personal identifiers, local absolute paths, workspace identifiers, and run/request/trace identifiers.",
+  "files": {
+    "workbuddy-agent-optimization-correction.png": "CEE409C9590BE9620D3E7AE7D5AEA0A8059B77273A48F3D9DB8C6226C24FF7D9",
+    "workbuddy-agent-optimization-rule-coverage.png": "FF8957AA2543915B3383298C35688881434C17FBE985B849E5A11DE7299AD0B8",
+    "workbuddy-project-audit.png": "A6302C161B96B3C215D636A2E2C0250EF3587C1B87E00639D791E1F5F1B74406"
+  }
+}

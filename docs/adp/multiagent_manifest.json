@@ -1,0 +1,147 @@
+{
+  "schema_version": "2.0",
+  "status": "EXPERIMENTAL_UNDEPLOYED_NOT_VALIDATED",
+  "canonical_for_submission": false,
+  "superseded_by": "docs/adp/accuracy_first_manifest.json",
+  "architecture": "AGENTS_OWN_TOOLS",
+  "adp_application_mode": "MULTI_AGENT",
+  "collaboration_mode": "WORKFLOW_ORCHESTRATION",
+  "note": "Historical experimental target only. It was not deployed or validated and must not be described as the submitted architecture. The canonical v0.6 source is accuracy_first_manifest.json: SYS.UserQuery -> Official Case Intake -> signed internal run context -> strictly serial tool-free Agents -> deterministic Gate -> one End.",
+  "agents": {
+    "Evidence Collection Agent": {
+      "tools": ["get_case_snapshot", "get_trip_evidence", "get_policy_rules"],
+      "credential_role": "EVIDENCE_COLLECTION",
+      "handoff_description": "Prepares a version-pinned shared evidence package and reports evidence gaps."
+    },
+    "Rider Advocate": {
+      "tools": ["get_trip_evidence"],
+      "credential_role": "RIDER_ADVOCATE",
+      "handoff_description": "Represents the rider's position, gathers rider-side evidence, and argues for rider-favorable outcomes."
+    },
+    "Driver Advocate": {
+      "tools": ["get_trip_evidence"],
+      "credential_role": "DRIVER_ADVOCATE",
+      "handoff_description": "Represents the driver's position, gathers driver-side evidence, and argues for driver-favorable outcomes."
+    },
+    "Policy & Precedent Agent": {
+      "tools": ["get_policy_rules", "search_precedents"],
+      "credential_role": "POLICY_PRECEDENT",
+      "handoff_description": "Retrieves applicable policy and reviewer-approved precedents, supplying advisory context."
+    },
+    "Judge": {
+      "tools": [],
+      "credential_role": null,
+      "handoff_description": "Weighs both arguments, applies policy, and issues a recommendation with a confidence score and explanations."
+    }
+  },
+  "tool_defaults": {
+    "get_case_snapshot": {
+      "body": {}
+    },
+    "get_trip_evidence": {
+      "evidence_types_route_deviation": [
+        "PLATFORM_GPS",
+        "ROUTE_BASELINE",
+        "FARE_LEDGER",
+        "AUTHENTICATED_CHAT",
+        "DEMO_TRAFFIC_FEED"
+      ],
+      "evidence_types_no_show": [
+        "PLATFORM_GPS",
+        "TRIP_EVENT_LOG",
+        "CONTACT_LOG",
+        "FARE_LEDGER"
+      ],
+      "detail": "SUMMARY",
+      "excluded_source_types": ["PARTY_STATEMENT", "HISTORICAL_BEHAVIOR_PROFILE"]
+    },
+    "get_policy_rules": {
+      "scope": "APPLICABLE_DISPUTE"
+    },
+    "search_precedents": {
+      "limit": 3
+    }
+  },
+  "workflow_nodes": [
+    {
+      "id": "start",
+      "type": "START",
+      "next": "evidence_collection_agent"
+    },
+    {
+      "id": "evidence_collection_agent",
+      "type": "AGENT",
+      "agent_ref": "Evidence Collection Agent",
+      "autonomous_tools": true,
+      "next": "rider_advocate"
+    },
+    {
+      "id": "rider_advocate",
+      "type": "AGENT",
+      "agent_ref": "Rider Advocate",
+      "autonomous_tools": true,
+      "next": "driver_advocate"
+    },
+    {
+      "id": "driver_advocate",
+      "type": "AGENT",
+      "agent_ref": "Driver Advocate",
+      "autonomous_tools": true,
+      "next": "policy_precedent_agent"
+    },
+    {
+      "id": "policy_precedent_agent",
+      "type": "AGENT",
+      "agent_ref": "Policy & Precedent Agent",
+      "autonomous_tools": true,
+      "next": "judge"
+    },
+    {
+      "id": "judge",
+      "type": "AGENT",
+      "agent_ref": "Judge",
+      "autonomous_tools": false,
+      "next": "parse_judge_json"
+    },
+    {
+      "id": "parse_judge_json",
+      "type": "CODE",
+      "purpose": "Parse and validate one unescaped Judge JSON object; fail closed on malformed output.",
+      "next": "end"
+    },
+    {
+      "id": "end",
+      "type": "END",
+      "output": "parse_judge_json.Output"
+    }
+  ],
+  "server_side_authorization": {
+    "note": "Unchanged fail-closed allowlist. Unauthorized operations return HTTP 403 and are audited.",
+    "EVIDENCE_COLLECTION": ["get_case_snapshot", "get_trip_evidence", "get_policy_rules"],
+    "RIDER_ADVOCATE": ["get_trip_evidence"],
+    "DRIVER_ADVOCATE": ["get_trip_evidence"],
+    "POLICY_PRECEDENT": ["get_policy_rules", "search_precedents"],
+    "JUDGE": []
+  },
+  "deterministic_boundary": {
+    "owner": "PYTHON",
+    "unchanged": true,
+    "responsibilities": [
+      "evidence membership, provenance, checksum, input fingerprint",
+      "policy version and effective period",
+      "evidence completeness and conflicts",
+      "allowed action type, fee item, currency, ledger-derived amount",
+      "exact agreement between Judge recommendation and program-allowed status/action"
+    ]
+  },
+  "acceptance_checks": [
+    "The ADP application shows MULTI_AGENT mode.",
+    "Every Agent except the Judge has a non-empty tool list.",
+    "Each Agent's tool calls appear under that Agent's own execution in the trace.",
+    "Rider and Driver call get_trip_evidence with different credentials and receive different request IDs.",
+    "Route Deviation and No-Show both complete end to end.",
+    "The Python deterministic gate accepts the Judge recommendation without repair.",
+    "The End output is a single unescaped JSON object.",
+    "No credential appears in model-visible data or exported logs."
+  ]
+}

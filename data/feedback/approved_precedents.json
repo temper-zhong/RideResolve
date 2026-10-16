@@ -1,0 +1,136 @@
+{
+  "knowledge_base_id": "RIDERESOLVE_PRECEDENT_MEMORY_V1",
+  "synthetic": true,
+  "records": [
+    {
+      "feedback_id": "FB-RD-004-001",
+      "source_case_id": "CASE-RD-HIST-042",
+      "source_case_version": 2,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "reviewed_at": "2026-10-08T10:30:00Z",
+      "reviewer_role": "HUMAN_REVIEWER",
+      "original_status": "RESOLVED",
+      "original_action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "distance_surcharge",
+        "amount_cents": 325,
+        "currency": "SGD"
+      },
+      "corrected_status": "PENDING_HUMAN_REVIEW",
+      "corrected_action": null,
+      "source_rule_ids": [
+        "RD-004"
+      ],
+      "evidence_citations": [
+        "HIST-EV-RD-042-LEDGER-A",
+        "HIST-EV-RD-042-LEDGER-LATE"
+      ],
+      "correction_reason": "A second authoritative fare ledger arrived after the original review and conflicted with the amount basis, so the case required reconciliation instead of automatic refund.",
+      "synthetic": true,
+      "publication_status": "APPROVED_FOR_PRECEDENT",
+      "learning_scope": "ADVISORY_PRECEDENT_ONLY",
+      "checksum": "sha256:cee7a9242fcffa0ced834d6ecdf46c3368f5e297fa62f36bea165f55b4ef4dd4"
+    },
+    {
+      "feedback_id": "FB-RD-004-002",
+      "source_case_id": "CASE-RD-HIST-087",
+      "source_case_version": 1,
+      "dispute_type": "ROUTE_DEVIATION",
+      "policy_version": "DEMO_POLICY_V1",
+      "reviewed_at": "2026-10-09T03:20:00Z",
+      "reviewer_role": "HUMAN_REVIEWER",
+      "original_status": "RESOLVED",
+      "original_action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "distance_surcharge",
+        "amount_cents": 510,
+        "currency": "SGD"
+      },
+      "corrected_status": "PENDING_HUMAN_REVIEW",
+      "corrected_action": null,
+      "source_rule_ids": [
+        "RD-004"
+      ],
+      "evidence_citations": [
+        "HIST-EV-RD-087-GPS",
+        "HIST-EV-RD-087-BASELINE-CORRECTION"
+      ],
+      "correction_reason": "A reviewer found that a corrected route baseline materially changed the distance ratio, so the automatic refund was withdrawn pending reconciliation.",
+      "synthetic": true,
+      "publication_status": "APPROVED_FOR_PRECEDENT",
+      "learning_scope": "ADVISORY_PRECEDENT_ONLY",
+      "checksum": "sha256:4d26c0133d99187e9bbdfcf2d0f2a902640cf0f2052494c6fcf92858d2243ec8"
+    },
+    {
+      "feedback_id": "FB-NS-005-001",
+      "source_case_id": "CASE-NS-HIST-019",
+      "source_case_version": 1,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "reviewed_at": "2026-10-09T14:05:00Z",
+      "reviewer_role": "HUMAN_REVIEWER",
+      "original_status": "RESOLVED",
+      "original_action": {
+        "type": "NO_ACTION",
+        "fee_item": null,
+        "amount_cents": 0,
+        "currency": "SGD"
+      },
+      "corrected_status": "RESOLVED",
+      "corrected_action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "cancellation_fee",
+        "amount_cents": 465,
+        "currency": "SGD"
+      },
+      "source_rule_ids": [
+        "NS-005"
+      ],
+      "evidence_citations": [
+        "HIST-EV-NS-019-CONTACT",
+        "HIST-EV-NS-019-LEDGER"
+      ],
+      "correction_reason": "The approved contact export proved that no in-app attempt occurred during the complete waiting interval, so the cancellation fee was refunded.",
+      "synthetic": true,
+      "publication_status": "APPROVED_FOR_PRECEDENT",
+      "learning_scope": "ADVISORY_PRECEDENT_ONLY",
+      "checksum": "sha256:61a7bbb2bda93d54e361b80cb8ad79a2c37ea6dc03cbafad7d34c62cd8c16efe"
+    },
+    {
+      "feedback_id": "FB-NS-003-POLICY-CONFLICT-001",
+      "source_case_id": "CASE-NS-HIST-061",
+      "source_case_version": 3,
+      "dispute_type": "NO_SHOW",
+      "policy_version": "DEMO_POLICY_V1",
+      "reviewed_at": "2026-10-10T01:40:00Z",
+      "reviewer_role": "HUMAN_REVIEWER",
+      "original_status": "RESOLVED",
+      "original_action": {
+        "type": "REFUND_DISPUTED_FEE_FULL",
+        "fee_item": "cancellation_fee",
+        "amount_cents": 340,
+        "currency": "SGD"
+      },
+      "corrected_status": "RESOLVED",
+      "corrected_action": {
+        "type": "NO_ACTION",
+        "fee_item": null,
+        "amount_cents": 0,
+        "currency": "SGD"
+      },
+      "source_rule_ids": [
+        "NS-003"
+      ],
+      "evidence_citations": [
+        "HIST-EV-NS-061-GPS",
+        "HIST-EV-NS-061-PICKUP-ZONE-NOTICE"
+      ],
+      "correction_reason": "A historical reviewer accepted a temporary staging-zone exception and kept the fee; that exception is absent from the current policy and is advisory only.",
+      "synthetic": true,
+      "publication_status": "APPROVED_FOR_PRECEDENT",
+      "learning_scope": "ADVISORY_PRECEDENT_ONLY",
+      "checksum": "sha256:83da9c4791146a2d0f6e0c9d8ba546011a96ed89b83a1701dcfce3b9ab324847"
+    }
+  ]
+}

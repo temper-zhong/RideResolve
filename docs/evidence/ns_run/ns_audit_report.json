@@ -1,0 +1,105 @@
+{
+    "schema_version":  1,
+    "source":  "CloudBase SearchClsLog API response",
+    "source_api_request_id":  "5397e217-228f-4527-a46e-75173e190dc2",
+    "generated_at":  "2026-10-12T17:31:07.2878039+00:00",
+    "target":  {
+                   "run_id":  "RUN-cf0a51719e794c15b9536ad73eb1f1a1",
+                   "case_id":  "CASE-NS-TOOL-001",
+                   "case_version":  1,
+                   "policy_version":  "DEMO_POLICY_V1"
+               },
+    "summary":  {
+                    "event_count":  7,
+                    "first_started_at":  "2026-10-12T17:09:37.036265+00:00",
+                    "last_ended_at":  "2026-10-12T17:10:41.142061+00:00",
+                    "server_instance_ids":  [
+                                                "INSTANCE-087fcfd0c4804598b5cbab38f0920c28"
+                                            ]
+                },
+    "checks":  {
+                   "exactly_seven_events":  true,
+                   "complete_api_result":  true,
+                   "one_run_id":  true,
+                   "one_case_identity":  true,
+                   "one_policy_version":  true,
+                   "one_server_instance":  true,
+                   "unique_request_ids":  true,
+                   "all_http_200":  true,
+                   "all_success":  true,
+                   "no_error_codes":  true,
+                   "expected_call_sequence":  true
+               },
+    "events":  [
+                   {
+                       "actor_role":  "EVIDENCE_COLLECTION",
+                       "endpoint":  "/tools/get_case_snapshot",
+                       "request_id":  "rr-0cf154f1849448638447ef757ccb6328",
+                       "request_number_for_role":  7,
+                       "started_at":  "2026-10-12T17:09:37.036265+00:00",
+                       "ended_at":  "2026-10-12T17:09:37.036831+00:00",
+                       "http_status":  200,
+                       "outcome":  "SUCCESS"
+                   },
+                   {
+                       "actor_role":  "EVIDENCE_COLLECTION",
+                       "endpoint":  "/tools/get_trip_evidence",
+                       "request_id":  "rr-e3986137dff74af0902451257843750b",
+                       "request_number_for_role":  8,
+                       "started_at":  "2026-10-12T17:09:37.730482+00:00",
+                       "ended_at":  "2026-10-12T17:09:37.731310+00:00",
+                       "http_status":  200,
+                       "outcome":  "SUCCESS"
+                   },
+                   {
+                       "actor_role":  "EVIDENCE_COLLECTION",
+                       "endpoint":  "/tools/get_policy_rules",
+                       "request_id":  "rr-0574ac5f50f8456ca6cc1907a3df6634",
+                       "request_number_for_role":  9,
+                       "started_at":  "2026-10-12T17:09:51.614949+00:00",
+                       "ended_at":  "2026-10-12T17:09:51.615509+00:00",
+                       "http_status":  200,
+                       "outcome":  "SUCCESS"
+                   },
+                   {
+                       "actor_role":  "RIDER_ADVOCATE",
+                       "endpoint":  "/tools/get_trip_evidence",
+                       "request_id":  "rr-be929bed1e0445d8b7b9a1d3347d5a61",
+                       "request_number_for_role":  2,
+                       "started_at":  "2026-10-12T17:10:13.411802+00:00",
+                       "ended_at":  "2026-10-12T17:10:13.412605+00:00",
+                       "http_status":  200,
+                       "outcome":  "SUCCESS"
+                   },
+                   {
+                       "actor_role":  "DRIVER_ADVOCATE",
+                       "endpoint":  "/tools/get_trip_evidence",
+                       "request_id":  "rr-393c5e8392dc467e8b19586197647b01",
+                       "request_number_for_role":  2,
+                       "started_at":  "2026-10-12T17:10:31.469908+00:00",
+                       "ended_at":  "2026-10-12T17:10:31.470674+00:00",
+                       "http_status":  200,
+                       "outcome":  "SUCCESS"
+                   },
+                   {
+                       "actor_role":  "POLICY_PRECEDENT",
+                       "endpoint":  "/tools/get_policy_rules",
+                       "request_id":  "rr-cd3f2abbc8954c7f84e1d680d0b88fd4",
+                       "request_number_for_role":  3,
+                       "started_at":  "2026-10-12T17:10:40.690405+00:00",
+                       "ended_at":  "2026-10-12T17:10:40.690936+00:00",
+                       "http_status":  200,
+                       "outcome":  "SUCCESS"
+                   },
+                   {
+                       "actor_role":  "POLICY_PRECEDENT",
+                       "endpoint":  "/tools/search_precedents",
+                       "request_id":  "rr-6842481fe34d4df081b1febebe6a69b8",
+                       "request_number_for_role":  4,
+                       "started_at":  "2026-10-12T17:10:41.140682+00:00",
+                       "ended_at":  "2026-10-12T17:10:41.142061+00:00",
+                       "http_status":  200,
+                       "outcome":  "SUCCESS"
+                   }
+               ]
+}

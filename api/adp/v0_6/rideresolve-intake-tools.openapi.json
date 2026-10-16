@@ -1,0 +1,138 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "RideResolve Official Case Intake v0.6 ADP Safe",
+    "version": "0.6.0-adp.1",
+    "description": "Resolve an explicit official case or trip reference from a user's description and create a protected internal workflow session. Vague descriptions are never matched by similarity and return NEEDS_CLARIFICATION. The ADP-facing request exposes only SYS.UserQuery to avoid empty optional-field serialization."
+  },
+  "servers": [
+    {
+      "url": "https://rideresolve-gate-a-probe-325140-12-1501522460.sh.run.tcloudbase.com"
+    }
+  ],
+  "paths": {
+    "/tools/resolve_case_context": {
+      "post": {
+        "operationId": "resolve_case_context",
+        "summary": "Resolve an official reference and create a workflow session",
+        "description": "Use first with SYS.UserQuery. Continue to downstream nodes only when resolution_status is MATCHED and run_created is true.",
+        "security": [
+          {
+            "IntakeToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "user_query"
+                ],
+                "properties": {
+                  "user_query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000,
+                    "description": "The original external user request from SYS.UserQuery."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resolution outcome",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "result",
+                    "request_id"
+                  ],
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "resolution_status",
+                        "message",
+                        "run_created"
+                      ],
+                      "properties": {
+                        "resolution_status": {
+                          "type": "string",
+                          "enum": [
+                            "MATCHED",
+                            "NEEDS_CLARIFICATION",
+                            "NOT_FOUND"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "run_created": {
+                          "type": "boolean"
+                        },
+                        "run_id": {
+                          "type": "string"
+                        },
+                        "run_context": {
+                          "type": "string"
+                        },
+                        "case_id": {
+                          "type": "string"
+                        },
+                        "case_version": {
+                          "type": "integer"
+                        },
+                        "policy_version": {
+                          "type": "string"
+                        },
+                        "expires_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "reference_kind": {
+                          "type": "string",
+                          "enum": [
+                            "CASE_REFERENCE",
+                            "TRIP_REFERENCE"
+                          ]
+                        },
+                        "data_precedence": {
+                          "type": "string",
+                          "enum": [
+                            "OFFICIAL_OVER_LEGACY_MOCK"
+                          ]
+                        }
+                      }
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "IntakeToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-RideResolve-Intake-Token",
+        "description": "Expiry-bounded secret stored only in ADP connector settings."
+      }
+    }
+  }
+}

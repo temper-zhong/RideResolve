@@ -1,0 +1,62 @@
+{
+  "result": {
+    "authoritative_evaluation": {
+      "allowed_action": {
+        "amount_cents": 344,
+        "currency": "SGD",
+        "fee_item": "excess_distance_fare",
+        "type": "REFUND_DISPUTED_FEE_PARTIAL"
+      },
+      "business_status": "RESOLVED",
+      "evaluated_by": "DETERMINISTIC_POLICY_CODE",
+      "facts": {},
+      "input_fingerprint": "sha256:05a6b20348bb9507a74fe832bd8425411b9bcb174d0f0850eb179ae014150d17",
+      "matched_rule_ids": [
+        "RD-104"
+      ],
+      "metrics": {},
+      "review_reasons": []
+    },
+    "case_id": "DISP-001",
+    "case_version": 1,
+    "dataset_id": "RIDERESOLVE_MERGED_MOCK_AND_OFFICIAL_SAMPLES_V1",
+    "message": "Recommend to partially refund SGD 3.44 for excess_distance_fare. Policy: RD-104. Synthetic recommendation only; no refund, fee adjustment, or notification was executed.",
+    "policy_version": "RYDE_POLICY_V2_1",
+    "recommendation": {
+      "driver_explanation": "The route excess and related fee are documented, and policy RD-104 supports a partial refund recommendation without asserting fault.",
+      "evidence_citations": [
+        "OFFICIAL-DISP-001-GPS",
+        "OFFICIAL-DISP-001-BASELINE",
+        "OFFICIAL-DISP-001-FARE",
+        "OFFICIAL-DISP-001-CHAT",
+        "OFFICIAL-DISP-001-TRAFFIC"
+      ],
+      "judge_confidence": {
+        "label": "UNCALIBRATED_MODEL_SELF_ASSESSMENT",
+        "rationale": "The authoritative evaluation and cited official evidence are internally consistent.",
+        "score": 98
+      },
+      "policy_citations": [
+        "RD-104"
+      ],
+      "reasoning_summary": "The official records establish excess distance and a corresponding disputed fee, and policy RD-104 supports a partial refund of SGD 3.44. This is a synthetic recommendation only and no action has been executed.",
+      "recommended_action": {
+        "amount_cents": 344,
+        "currency": "SGD",
+        "fee_item": "excess_distance_fare",
+        "type": "REFUND_DISPUTED_FEE_PARTIAL"
+      },
+      "recommended_case_status": "RESOLVED",
+      "rider_explanation": "The recommendation is to partially refund SGD 3.44 for the excess-distance fare under policy RD-104.",
+      "uncertainties": [
+        "The authenticated chat contains no messages confirming route authorization.",
+        "Traffic incidents may explain some route deviation, but their effect is not established."
+      ]
+    },
+    "run_id": "RUN-513291b9be874a73b99daf2fd19f14bb",
+    "synthetic": true,
+    "tool_actor_role": "JUDGE",
+    "validated_by": "PYTHON_DETERMINISTIC_GATE",
+    "validation_status": "PASSED"
+  }
+}

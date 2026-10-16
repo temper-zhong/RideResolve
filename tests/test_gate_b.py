@@ -443,7 +443,60 @@ class GateBTests(unittest.TestCase):
                     replaced.append(item)
                 result = evaluate_case(snapshot, replaced, self.policy)
                 self.assertEqual(BusinessStatus.PENDING_HUMAN_REVIEW, result.business_status)
-                self.assertEqual(("NS-001",), result.matched_rule_ids)
+        self.assertEqual(("NS-001",), result.matched_rule_ids)
+
+    def test_no_show_conflicting_authoritative_positions_require_review(self):
+        snapshot, items = make_no_show_fixture("NS_VALID_CHARGE")
+        conflicting_gps = evidence(
+            "EV-NS-GPS-CONFLICT",
+            snapshot.case_id,
+            SourceType.PLATFORM_GPS,
+            {"arrival_distance_m": 260},
+        )
+        conflicted_snapshot = snapshot.model_copy(
+            update={
+                "evidence_refs": snapshot.evidence_refs + (conflicting_gps.evidence_id,)
+            }
+        )
+
+        result = evaluate_case(
+            conflicted_snapshot,
+            [*items, conflicting_gps],
+            self.policy,
+        )
+
+        self.assertEqual(BusinessStatus.PENDING_HUMAN_REVIEW, result.business_status)
+        self.assertEqual(("NS-006",), result.matched_rule_ids)
+        self.assertGreater(result.metrics["position_conflict_m"], 100)
+
+    def test_no_show_conflicting_authoritative_times_require_review(self):
+        snapshot, items = make_no_show_fixture("NS_VALID_CHARGE")
+        conflicting_event = evidence(
+            "EV-NS-EVENT-CONFLICT",
+            snapshot.case_id,
+            SourceType.TRIP_EVENT_LOG,
+            {
+                "arrived_at": (START + timedelta(seconds=120)).isoformat(),
+                "cancelled_at": (START + timedelta(seconds=480)).isoformat(),
+                "cancelled_by": "RIDER",
+            },
+        )
+        conflicted_snapshot = snapshot.model_copy(
+            update={
+                "evidence_refs": snapshot.evidence_refs
+                + (conflicting_event.evidence_id,)
+            }
+        )
+
+        result = evaluate_case(
+            conflicted_snapshot,
+            [*items, conflicting_event],
+            self.policy,
+        )
+
+        self.assertEqual(BusinessStatus.PENDING_HUMAN_REVIEW, result.business_status)
+        self.assertEqual(("NS-006",), result.matched_rule_ids)
+        self.assertGreater(result.metrics["time_conflict_seconds"], 60)
 
     def test_tampered_evidence_checksum_is_rejected_as_integrity_failure(self):
         snapshot, items = make_route_fixture("RD_UNJUSTIFIED_DEVIATION")

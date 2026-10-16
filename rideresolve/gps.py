@@ -67,6 +67,7 @@ def _merge_intervals(intervals: Iterable[tuple[datetime, datetime]]) -> float:
 
 def aggregate_gps(snapshot: CaseSnapshot, evidence_by_id: dict[str, Evidence]) -> GpsAggregationResult:
     samples: list[_Sample] = []
+    complete_reported_distances: list[tuple[int, str, float]] = []
     reasons: list[str] = []
 
     for evidence_id in snapshot.evidence_refs:
@@ -79,6 +80,28 @@ def aggregate_gps(snapshot: CaseSnapshot, evidence_by_id: dict[str, Evidence]) -
         if evidence.trust_tier != TrustTier.AUTHORITATIVE:
             reasons.append(f"{evidence_id}: GPS must be authoritative")
             continue
+
+        reported_distance = evidence.payload.get("reported_actual_distance_m")
+        coverage = evidence.coverage
+        if (
+            reported_distance is not None
+            and coverage is not None
+            and coverage.is_complete
+            and coverage.start_at <= snapshot.trip_started_at
+            and coverage.end_at >= snapshot.trip_ended_at
+        ):
+            try:
+                parsed_distance = float(reported_distance)
+            except (TypeError, ValueError):
+                reasons.append(f"{evidence_id}: invalid reported_actual_distance_m")
+            else:
+                if parsed_distance < 0:
+                    reasons.append(f"{evidence_id}: reported distance must be non-negative")
+                else:
+                    complete_reported_distances.append(
+                        (ROLE_PRIORITY[evidence.record_role], evidence_id, parsed_distance)
+                    )
+
         for raw in evidence.payload.get("samples", []):
             timestamp = datetime.fromisoformat(raw["timestamp"])
             latitude = float(raw["latitude"])
@@ -135,6 +158,25 @@ def aggregate_gps(snapshot: CaseSnapshot, evidence_by_id: dict[str, Evidence]) -
     trip_seconds = (snapshot.trip_ended_at - snapshot.trip_started_at).total_seconds()
     covered_seconds = _merge_intervals(intervals)
     coverage_percent = 100.0 * covered_seconds / trip_seconds
+
+    # Some authoritative platform exports provide a verified trip-level distance
+    # together with representative (rather than high-frequency) GPS samples. In
+    # that contract the complete coverage window and reported distance are the
+    # canonical business facts; the samples remain useful for provenance and
+    # coordinate validation but must not be reinterpreted as missing telemetry.
+    if complete_reported_distances:
+        complete_reported_distances.sort(key=lambda item: (item[0], item[1]))
+        selected_priority, selected_evidence_id, selected_distance = complete_reported_distances[0]
+        for priority, evidence_id, distance in complete_reported_distances[1:]:
+            if priority != selected_priority:
+                continue
+            if abs(distance - selected_distance) > DUPLICATE_TOLERANCE_METERS:
+                reasons.append(
+                    "conflicting authoritative reported GPS distances: "
+                    f"{selected_evidence_id} vs {evidence_id}"
+                )
+        coverage_percent = 100.0
+        actual_distance_m = selected_distance
 
     return GpsAggregationResult(
         coverage_percent=coverage_percent,

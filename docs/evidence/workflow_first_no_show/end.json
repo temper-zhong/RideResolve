@@ -1,0 +1,29 @@
+{
+  "run_id": "RUN-cf0a51719e794c15b9536ad73eb1f1a1",
+  "recommendation": {
+    "recommended_case_status": "RESOLVED",
+    "recommended_action": {
+      "type": "NO_ACTION",
+      "fee_item": null,
+      "amount_cents": 0,
+      "currency": "SGD"
+    },
+    "evidence_citations": [
+      "EV-NS-GPS",
+      "EV-NS-EVENT",
+      "EV-NS-CONTACT"
+    ],
+    "policy_citations": [
+      "NS-002"
+    ],
+    "judge_confidence": {
+      "score": 98,
+      "label": "UNCALIBRATED_MODEL_SELF_ASSESSMENT",
+      "rationale": "The supplied arguments and validated evidence consistently establish a 100 m arrival, a six-minute wait, complete contact coverage, and a valid in-app contact attempt."
+    },
+    "reasoning_summary": "The authoritative records establish arrival within the 150 m pickup radius, a wait of at least 300 seconds, complete contact coverage, and a valid in-app contact attempt during the waiting interval. Under NS-002, the cancellation fee is not refunded.",
+    "uncertainties": [],
+    "rider_explanation": "The records show that the driver arrived within the pickup radius, waited at least five minutes, and made a valid in-app contact attempt. Under the no-show policy, the cancellation fee remains valid, so no refund action is recommended.",
+    "driver_explanation": "The records support that you arrived within the pickup radius, waited through the required period, and maintained required contact coverage with an in-app attempt. The disputed cancellation fee is therefore upheld with no action."
+  }
+}

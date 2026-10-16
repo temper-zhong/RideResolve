@@ -1,0 +1,244 @@
+{
+  "policy_id": "RYDE_DISPUTE_RESOLUTION_POLICY",
+  "policy_version": "RYDE_POLICY_V2_1",
+  "effective_from": "2026-01-01T00:00:00+08:00",
+  "effective_to": null,
+  "timezone": "Asia/Singapore",
+  "rules": [
+    {
+      "rule_id": "RD-101",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 10,
+      "evaluator": "route_v21_required_evidence",
+      "parameters": {
+        "required_source_types": [
+          "PLATFORM_GPS",
+          "ROUTE_BASELINE",
+          "FARE_LEDGER",
+          "AUTHENTICATED_CHAT",
+          "DEMO_TRAFFIC_FEED"
+        ]
+      },
+      "allowed_outcome": {
+        "business_status": "PENDING_HUMAN_REVIEW"
+      }
+    },
+    {
+      "rule_id": "RD-102",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 20,
+      "evaluator": "route_v21_within_absolute_tolerance",
+      "parameters": {
+        "maximum_deviation_m": 1000
+      },
+      "allowed_outcome": {
+        "action": "NO_ACTION"
+      }
+    },
+    {
+      "rule_id": "RD-103",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 30,
+      "evaluator": "route_v21_justified_and_notified",
+      "parameters": {},
+      "allowed_outcome": {
+        "action": "NO_ACTION"
+      }
+    },
+    {
+      "rule_id": "RD-104",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 40,
+      "evaluator": "route_v21_justified_not_notified",
+      "parameters": {
+        "fee_item": "excess_distance_fare"
+      },
+      "allowed_outcome": {
+        "action": "REFUND_DISPUTED_FEE_PARTIAL"
+      }
+    },
+    {
+      "rule_id": "RD-105",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 50,
+      "evaluator": "route_v21_unjustified_deviation",
+      "parameters": {
+        "fee_item": "excess_distance_fare"
+      },
+      "allowed_outcome": {
+        "action": "REFUND_DISPUTED_FEE_FULL"
+      }
+    },
+    {
+      "rule_id": "RD-106",
+      "dispute_type": "ROUTE_DEVIATION",
+      "priority": 60,
+      "evaluator": "route_v21_uncertain_material_fact",
+      "parameters": {},
+      "allowed_outcome": {
+        "business_status": "PENDING_HUMAN_REVIEW"
+      }
+    },
+    {
+      "rule_id": "NS-101",
+      "dispute_type": "NO_SHOW",
+      "priority": 10,
+      "evaluator": "no_show_v21_required_evidence",
+      "parameters": {
+        "required_source_types": [
+          "PLATFORM_GPS",
+          "TRIP_EVENT_LOG",
+          "CONTACT_LOG",
+          "FARE_LEDGER"
+        ]
+      },
+      "allowed_outcome": {
+        "business_status": "PENDING_HUMAN_REVIEW"
+      }
+    },
+    {
+      "rule_id": "NS-102",
+      "dispute_type": "NO_SHOW",
+      "priority": 20,
+      "evaluator": "no_show_v21_charge_valid",
+      "parameters": {
+        "fee_cents": 500,
+        "maximum_pickup_distance_m": 150,
+        "minimum_wait_from_scheduled_seconds": 300,
+        "required_contact_channels": [
+          "IN_APP_CHAT",
+          "PHONE"
+        ]
+      },
+      "allowed_outcome": {
+        "action": "NO_ACTION"
+      }
+    },
+    {
+      "rule_id": "NS-103",
+      "dispute_type": "NO_SHOW",
+      "priority": 30,
+      "evaluator": "no_show_v21_driver_absent",
+      "parameters": {
+        "fee_item": "cancellation_fee"
+      },
+      "allowed_outcome": {
+        "action": "REFUND_DISPUTED_FEE_FULL"
+      }
+    },
+    {
+      "rule_id": "NS-104",
+      "dispute_type": "NO_SHOW",
+      "priority": 40,
+      "evaluator": "no_show_v21_wait_too_short",
+      "parameters": {
+        "fee_item": "cancellation_fee"
+      },
+      "allowed_outcome": {
+        "action": "REFUND_DISPUTED_FEE_FULL"
+      }
+    },
+    {
+      "rule_id": "NS-105",
+      "dispute_type": "NO_SHOW",
+      "priority": 50,
+      "evaluator": "no_show_v21_contact_obligation_failed",
+      "parameters": {
+        "fee_item": "cancellation_fee"
+      },
+      "allowed_outcome": {
+        "action": "REFUND_DISPUTED_FEE_FULL"
+      }
+    },
+    {
+      "rule_id": "NS-106",
+      "dispute_type": "NO_SHOW",
+      "priority": 60,
+      "evaluator": "no_show_v21_conflict_or_incomplete",
+      "parameters": {},
+      "allowed_outcome": {
+        "business_status": "PENDING_HUMAN_REVIEW"
+      }
+    },
+    {
+      "rule_id": "FD-101",
+      "dispute_type": "FARE_DISPUTE",
+      "priority": 10,
+      "evaluator": "fare_v21_required_evidence",
+      "parameters": {
+        "required_source_types": [
+          "FARE_LEDGER",
+          "SURGE_PRICING_LOG",
+          "NOTIFICATION_LOG"
+        ]
+      },
+      "allowed_outcome": {
+        "business_status": "PENDING_HUMAN_REVIEW"
+      }
+    },
+    {
+      "rule_id": "FD-102",
+      "dispute_type": "FARE_DISPUTE",
+      "priority": 20,
+      "evaluator": "fare_v21_no_refundable_surge_change",
+      "parameters": {},
+      "allowed_outcome": {
+        "action": "NO_ACTION"
+      }
+    },
+    {
+      "rule_id": "FD-103",
+      "dispute_type": "FARE_DISPUTE",
+      "priority": 30,
+      "evaluator": "fare_v21_unnotified_surge_increase",
+      "parameters": {
+        "fee_item": "surge_differential"
+      },
+      "allowed_outcome": {
+        "action": "REFUND_DISPUTED_FEE_FULL"
+      }
+    },
+    {
+      "rule_id": "FD-104",
+      "dispute_type": "FARE_DISPUTE",
+      "priority": 40,
+      "evaluator": "fare_v21_uncertain_or_conflicting",
+      "parameters": {},
+      "allowed_outcome": {
+        "business_status": "PENDING_HUMAN_REVIEW"
+      }
+    }
+  ],
+  "precedents": [
+    {
+      "precedent_id": "RYDE-V2.1-7.1",
+      "dispute_type": "ROUTE_DEVIATION",
+      "rule_ids": [
+        "RD-104"
+      ],
+      "outcome": "PARTIAL_REFUND_EXCESS_DISTANCE_FARE",
+      "amount_cents": 320,
+      "authority": "ADVISORY_ONLY"
+    },
+    {
+      "precedent_id": "RYDE-V2.1-7.2",
+      "dispute_type": "FARE_DISPUTE",
+      "rule_ids": [
+        "FD-103"
+      ],
+      "outcome": "REFUND_SURGE_DIFFERENTIAL",
+      "amount_cents": 320,
+      "authority": "ADVISORY_ONLY"
+    },
+    {
+      "precedent_id": "RYDE-V2.1-7.3",
+      "dispute_type": "NO_SHOW",
+      "rule_ids": [
+        "NS-105"
+      ],
+      "outcome": "REFUND_CANCELLATION_FEE",
+      "amount_cents": 500,
+      "authority": "ADVISORY_ONLY"
+    }
+  ]
+}

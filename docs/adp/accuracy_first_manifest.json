@@ -1,0 +1,307 @@
+{
+  "schema_version": "4.0",
+  "release": "0.6.0-session-intake",
+  "architecture": "ACCURACY_FIRST_SERIAL_WORKFLOW_OWNS_TOOLS",
+  "data_precedence": "OFFICIAL_OVER_LEGACY_MOCK",
+  "external_input": "SYS.UserQuery",
+  "prompt_directory": "docs/adp/prompts/accuracy_first",
+  "openapi_directory": "api/adp/v0_6",
+  "invariants": {
+    "agent_count": 5,
+    "agent_execution": "STRICTLY_SEQUENTIAL",
+    "judge_agent_has_tools": false,
+    "deterministic_policy_is_authoritative": true,
+    "description_only_case_guessing": false,
+    "technical_failure_is_not_human_review": true,
+    "end_node_count": 1,
+    "end_output_source": "WF.final_result"
+  },
+  "workflow_variables": {
+    "final_result": {
+      "type": "object",
+      "initial_value": {
+        "status": "TECHNICAL_FAILURE",
+        "validated": false,
+        "message": "The workflow stopped before a validated decision was produced."
+      }
+    }
+  },
+  "tool_defaults": {
+    "trip_evidence": {
+      "evidence_types": [
+        "PLATFORM_GPS",
+        "ROUTE_BASELINE",
+        "FARE_LEDGER",
+        "AUTHENTICATED_CHAT",
+        "DEMO_TRAFFIC_FEED",
+        "TRIP_EVENT_LOG",
+        "CONTACT_LOG",
+        "SURGE_PRICING_LOG",
+        "NOTIFICATION_LOG"
+      ],
+      "detail": "DECISION_FACTS"
+    },
+    "policy_rules": {
+      "scope": "APPLICABLE_DISPUTE"
+    },
+    "precedent_search": {
+      "limit": 3
+    },
+    "deterministic_evaluation": {
+      "scope": "LOCKED_RUN"
+    }
+  },
+  "main_sequence": [
+    {
+      "id": "start",
+      "type": "START",
+      "input": "SYS.UserQuery"
+    },
+    {
+      "id": "resolve_case_context",
+      "type": "TOOL",
+      "operation": "resolve_case_context",
+      "credential": "INTAKE",
+      "request": {
+        "user_query": "SYS.UserQuery"
+      }
+    },
+    {
+      "id": "require_matched_case",
+      "type": "CONDITION",
+      "condition": "resolve_case_context.Output.result.resolution_status == 'MATCHED' && resolve_case_context.Output.result.run_created == true",
+      "false_branch": "set_clarification_result"
+    },
+    {
+      "id": "get_case_snapshot",
+      "type": "TOOL",
+      "operation": "get_case_snapshot",
+      "credential_role": "EVIDENCE_COLLECTION",
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context"
+      }
+    },
+    {
+      "id": "evidence_get_trip_evidence",
+      "type": "TOOL",
+      "operation": "get_trip_evidence",
+      "credential_role": "EVIDENCE_COLLECTION",
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "defaults_ref": "tool_defaults.trip_evidence"
+      }
+    },
+    {
+      "id": "evidence_get_policy_rules",
+      "type": "TOOL",
+      "operation": "get_policy_rules",
+      "credential_role": "EVIDENCE_COLLECTION",
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "defaults_ref": "tool_defaults.policy_rules"
+      }
+    },
+    {
+      "id": "evidence_collection_agent",
+      "type": "AGENT",
+      "agent_ref": "Evidence Collection Agent",
+      "inputs": {
+        "run_id": "resolve_case_context.Output.result.run_id",
+        "case_snapshot_result": "get_case_snapshot.Output.result",
+        "trip_evidence_result": "evidence_get_trip_evidence.Output.result",
+        "policy_rules_result": "evidence_get_policy_rules.Output.result"
+      },
+      "max_reply_tokens": 450
+    },
+    {
+      "id": "rider_get_trip_evidence",
+      "type": "TOOL",
+      "operation": "get_trip_evidence",
+      "credential_role": "RIDER_ADVOCATE",
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "defaults_ref": "tool_defaults.trip_evidence"
+      }
+    },
+    {
+      "id": "rider_advocate_agent",
+      "type": "AGENT",
+      "agent_ref": "Rider Advocate",
+      "inputs": {
+        "run_id": "resolve_case_context.Output.result.run_id",
+        "evidence_package": "evidence_collection_agent.Output.Content",
+        "advocate_evidence_result": "rider_get_trip_evidence.Output.result"
+      },
+      "max_reply_tokens": 550
+    },
+    {
+      "id": "driver_get_trip_evidence",
+      "type": "TOOL",
+      "operation": "get_trip_evidence",
+      "credential_role": "DRIVER_ADVOCATE",
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "defaults_ref": "tool_defaults.trip_evidence"
+      }
+    },
+    {
+      "id": "driver_advocate_agent",
+      "type": "AGENT",
+      "agent_ref": "Driver Advocate",
+      "inputs": {
+        "run_id": "resolve_case_context.Output.result.run_id",
+        "evidence_package": "evidence_collection_agent.Output.Content",
+        "advocate_evidence_result": "driver_get_trip_evidence.Output.result"
+      },
+      "max_reply_tokens": 550
+    },
+    {
+      "id": "policy_get_policy_rules",
+      "type": "TOOL",
+      "operation": "get_policy_rules",
+      "credential_role": "POLICY_PRECEDENT",
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "defaults_ref": "tool_defaults.policy_rules"
+      }
+    },
+    {
+      "id": "search_precedents",
+      "type": "TOOL",
+      "operation": "search_precedents",
+      "credential_role": "POLICY_PRECEDENT",
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "defaults_ref": "tool_defaults.precedent_search"
+      }
+    },
+    {
+      "id": "policy_precedent_agent",
+      "type": "AGENT",
+      "agent_ref": "Policy & Precedent Agent",
+      "inputs": {
+        "run_id": "resolve_case_context.Output.result.run_id",
+        "policy_rules_result": "policy_get_policy_rules.Output.result",
+        "precedent_search_result": "search_precedents.Output.result"
+      },
+      "max_reply_tokens": 450
+    },
+    {
+      "id": "get_deterministic_evaluation",
+      "type": "TOOL",
+      "operation": "get_deterministic_evaluation",
+      "credential_role": "JUDGE",
+      "attach_to_agent": false,
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "defaults_ref": "tool_defaults.deterministic_evaluation"
+      }
+    },
+    {
+      "id": "judge_agent",
+      "type": "AGENT",
+      "agent_ref": "Judge",
+      "tools": [],
+      "inputs": {
+        "run_id": "resolve_case_context.Output.result.run_id",
+        "deterministic_evaluation_result": "get_deterministic_evaluation.Output.result",
+        "evidence_package": "evidence_collection_agent.Output.Content",
+        "rider_argument": "rider_advocate_agent.Output.Content",
+        "driver_argument": "driver_advocate_agent.Output.Content",
+        "precedent_advisory": "policy_precedent_agent.Output.Content"
+      },
+      "max_reply_tokens": 700
+    },
+    {
+      "id": "parse_judge_json",
+      "type": "CODE",
+      "purpose": "Parse exactly one unescaped Judge JSON object; fail closed on malformed output."
+    },
+    {
+      "id": "serialize_judge_recommendation",
+      "type": "CODE",
+      "purpose": "Serialize parse_judge_json.Output.recommendation to compact JSON text for the ADP-to-Gate handoff.",
+      "inputs": {
+        "recommendation": "parse_judge_json.Output.recommendation"
+      },
+      "outputs": {
+        "recommendation_json": "string"
+      }
+    },
+    {
+      "id": "validate_recommendation",
+      "type": "TOOL",
+      "operation": "validate_recommendation",
+      "credential_role": "JUDGE",
+      "attach_to_agent": false,
+      "request": {
+        "run_context": "resolve_case_context.Output.result.run_context",
+        "run_id": "parse_judge_json.Output.run_id",
+        "recommendation": "serialize_judge_recommendation.Output.recommendation_json"
+      }
+    },
+    {
+      "id": "set_success_result",
+      "type": "ASSIGN",
+      "assignment": {
+        "WF.final_result": "validate_recommendation.Output.result"
+      }
+    },
+    {
+      "id": "success_reply",
+      "type": "REPLY",
+      "message": "validate_recommendation.Output.result.message"
+    },
+    {
+      "id": "end",
+      "type": "END",
+      "output": {
+        "result": "WF.final_result"
+      }
+    }
+  ],
+  "clarification_branch": [
+    {
+      "id": "set_clarification_result",
+      "type": "ASSIGN",
+      "assignment": {
+        "WF.final_result": {
+          "status": "NEEDS_CLARIFICATION",
+          "validated": false,
+          "message": "resolve_case_context.Output.result.message"
+        }
+      }
+    },
+    {
+      "id": "clarification_reply",
+      "type": "REPLY",
+      "message": "resolve_case_context.Output.result.message",
+      "next": "end"
+    }
+  ],
+  "failure_branch": [
+    {
+      "id": "set_technical_failure_result",
+      "type": "ASSIGN",
+      "assignment": {
+        "WF.final_result": {
+          "status": "TECHNICAL_FAILURE",
+          "validated": false,
+          "message": "The workflow stopped before a validated decision was produced."
+        }
+      }
+    },
+    {
+      "id": "technical_failure_reply",
+      "type": "REPLY",
+      "message": "Technical failure: the workflow stopped before a validated decision was produced. No refund, fee adjustment, notification, or final case decision was executed.",
+      "next": "end"
+    }
+  ],
+  "failure_behavior": {
+    "all_main_nodes_route_errors_to": "set_technical_failure_result",
+    "tool_or_gate_failure": "STOP_WITH_TECHNICAL_FAILURE",
+    "recommendation_conflict_http_status": 409,
+    "never_convert_technical_failure_to": "PENDING_HUMAN_REVIEW"
+  }
+}

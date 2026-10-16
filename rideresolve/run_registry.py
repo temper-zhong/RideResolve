@@ -16,8 +16,10 @@ from .case_store import CaseStore
 
 
 class AgentRole(StrEnum):
+    EVIDENCE_COLLECTION = "EVIDENCE_COLLECTION"
     RIDER_ADVOCATE = "RIDER_ADVOCATE"
     DRIVER_ADVOCATE = "DRIVER_ADVOCATE"
+    POLICY_PRECEDENT = "POLICY_PRECEDENT"
     JUDGE = "JUDGE"
 
 
@@ -110,10 +112,10 @@ class RunRegistry:
         ttl_seconds: int = 3600,
         max_requests_per_role: int = 12,
     ) -> IssuedRun:
-        if ttl_seconds < 60 or ttl_seconds > 24 * 3600:
-            raise ValueError("ttl_seconds must be between 60 and 86400")
-        if max_requests_per_role < 1 or max_requests_per_role > 30:
-            raise ValueError("max_requests_per_role must be between 1 and 30")
+        if ttl_seconds < 60 or ttl_seconds > 3 * 24 * 3600:
+            raise ValueError("ttl_seconds must be between 60 and 259200")
+        if max_requests_per_role < 1 or max_requests_per_role > 300:
+            raise ValueError("max_requests_per_role must be between 1 and 300")
         snapshot = self.store.get_snapshot(case_id, case_version)
         created_at = self._now()
         expires_at = created_at + timedelta(seconds=ttl_seconds)
@@ -181,6 +183,46 @@ class RunRegistry:
                         request_number=request_number,
                     )
         raise RunAuthorizationError("invalid run credential")
+
+    def authorize_context_and_consume(
+        self,
+        run_id: str,
+        role: AgentRole,
+        *,
+        token_id: str,
+    ) -> RunAuthorization:
+        """Consume a role request for a signed-session connector call.
+
+        Connector credentials authenticate the role, while the signed context
+        identifies the run. Scope and limits are still read from this registry.
+        """
+        with self._lock:
+            raw = self._load()
+            for manifest in raw["runs"]:
+                if manifest["run_id"] != run_id:
+                    continue
+                expires_at = datetime.fromisoformat(manifest["expires_at"])
+                if manifest.get("status") != "ACTIVE":
+                    raise RunAuthorizationError("run is not active")
+                if self._now() >= expires_at:
+                    raise RunTokenExpiredError("run credential expired")
+                credential = manifest["credentials"][role.value]
+                if credential["request_count"] >= manifest["max_requests_per_role"]:
+                    raise RunRequestLimitError("run request limit exceeded")
+                credential["request_count"] += 1
+                request_number = credential["request_count"]
+                self._save(raw)
+                return RunAuthorization(
+                    run_id=manifest["run_id"],
+                    role=role,
+                    case_id=manifest["case_id"],
+                    case_version=manifest["case_version"],
+                    policy_version=manifest["policy_version"],
+                    expires_at=expires_at,
+                    token_id=token_id,
+                    request_number=request_number,
+                )
+        raise RunAuthorizationError("run is not active")
 
     def revoke_run(self, run_id: str) -> None:
         with self._lock:

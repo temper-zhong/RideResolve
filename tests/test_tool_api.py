@@ -23,6 +23,7 @@ from rideresolve.tool_audit import JsonlAuditLogger
 from rideresolve.tool_service import (
     CaseSnapshotRequest,
     PolicyRulesRequest,
+    PrecedentSearchRequest,
     ToolScope,
     ToolService,
     TripEvidenceRequest,
@@ -84,6 +85,47 @@ class ToolServiceTests(unittest.TestCase):
         response = self.service.get_policy_rules(self.scope, PolicyRulesRequest())
         ids = {rule["rule_id"] for rule in response["rules"]}
         self.assertEqual({f"RD-{index:03d}" for index in range(1, 7)}, ids)
+        self.assertEqual("CASE-RD-TOOL-001", response["case_id"])
+        self.assertEqual(1, response["case_version"])
+        self.assertEqual("ROUTE_DEVIATION", response["dispute_type"])
+        self.assertEqual("APPLICABLE_DISPUTE", PolicyRulesRequest().scope)
+
+    def test_precedent_search_uses_server_derived_policy_context(self) -> None:
+        response = self.service.search_precedents(
+            self.scope,
+            PrecedentSearchRequest(limit=3),
+        )
+        self.assertEqual("ADVISORY_ONLY", response["authority"])
+        self.assertFalse(response["may_override_policy"])
+        self.assertEqual(["RD-004"], response["query_context"]["matched_rule_ids"])
+        self.assertEqual(
+            ["FB-RD-004-001", "FB-RD-004-002"],
+            [item["precedent_id"] for item in response["matches"]],
+        )
+
+    def test_model_cannot_supply_precedent_case_or_rule_scope(self) -> None:
+        with self.assertRaises(ValidationError):
+            PrecedentSearchRequest.model_validate(
+                {
+                    "case_id": "CASE-NS-TOOL-001",
+                    "rule_ids": ["NS-002"],
+                }
+            )
+
+    def test_precedent_search_does_not_cross_dispute_boundaries(self) -> None:
+        no_show_scope = ToolScope(
+            run_id="RUN-NO-SHOW-PRECEDENT",
+            actor_role="POLICY_PRECEDENT",
+            case_id="CASE-NS-TOOL-001",
+            case_version=1,
+            policy_version="DEMO_POLICY_V1",
+        )
+        response = self.service.search_precedents(
+            no_show_scope,
+            PrecedentSearchRequest(),
+        )
+        self.assertEqual("NO_SHOW", response["query_context"]["dispute_type"])
+        self.assertEqual([], response["matches"])
 
     def test_model_cannot_add_case_scope_to_request(self) -> None:
         with self.assertRaises(ValidationError):
@@ -105,13 +147,26 @@ class RunRegistryTests(unittest.TestCase):
         registry = RunRegistry(self.path, self.store)
         issued = registry.create_run("CASE-RD-TOOL-001", 1)
         persisted = self.path.read_text(encoding="utf-8")
+        expected_roles = {
+            AgentRole.EVIDENCE_COLLECTION,
+            AgentRole.RIDER_ADVOCATE,
+            AgentRole.DRIVER_ADVOCATE,
+            AgentRole.POLICY_PRECEDENT,
+            AgentRole.JUDGE,
+        }
+        self.assertEqual(expected_roles, set(issued.tokens))
+        self.assertEqual(len(expected_roles), len(set(issued.tokens.values())))
         for token in issued.tokens.values():
             self.assertNotIn(token, persisted)
-        rider = registry.authorize_and_consume(issued.tokens[AgentRole.RIDER_ADVOCATE])
-        driver = registry.authorize_and_consume(issued.tokens[AgentRole.DRIVER_ADVOCATE])
-        self.assertEqual(issued.run_id, rider.run_id)
-        self.assertEqual(AgentRole.RIDER_ADVOCATE, rider.role)
-        self.assertEqual(AgentRole.DRIVER_ADVOCATE, driver.role)
+        persisted_manifest = json.loads(persisted)["runs"][0]
+        self.assertEqual(
+            {role.value for role in expected_roles},
+            set(persisted_manifest["credentials"]),
+        )
+        for role in expected_roles:
+            authorization = registry.authorize_and_consume(issued.tokens[role])
+            self.assertEqual(issued.run_id, authorization.run_id)
+            self.assertEqual(role, authorization.role)
 
     def test_expired_token_is_rejected(self) -> None:
         current = datetime(2026, 10, 7, tzinfo=UTC)
@@ -127,23 +182,40 @@ class RunRegistryTests(unittest.TestCase):
                 issued.tokens[AgentRole.RIDER_ADVOCATE]
             )
 
-    def test_run_ttl_allows_at_most_twenty_four_hours(self) -> None:
+    def test_run_ttl_allows_at_most_three_days(self) -> None:
         current = datetime(2026, 10, 9, tzinfo=UTC)
         registry = RunRegistry(self.path, self.store, now=lambda: current)
         issued = registry.create_run(
             "CASE-RD-TOOL-001",
             1,
-            ttl_seconds=24 * 3600,
+            ttl_seconds=3 * 24 * 3600,
         )
         self.assertEqual(
-            current + timedelta(hours=24),
+            current + timedelta(days=3),
             issued.expires_at,
         )
-        with self.assertRaisesRegex(ValueError, "between 60 and 86400"):
+        with self.assertRaisesRegex(ValueError, "between 60 and 259200"):
             registry.create_run(
                 "CASE-RD-TOOL-001",
                 1,
-                ttl_seconds=24 * 3600 + 1,
+                ttl_seconds=3 * 24 * 3600 + 1,
+            )
+
+    def test_debug_run_allows_at_most_300_requests_per_role(self) -> None:
+        registry = RunRegistry(self.path, self.store)
+        issued = registry.create_run(
+            "CASE-RD-TOOL-001",
+            1,
+            max_requests_per_role=300,
+        )
+        persisted_manifest = json.loads(self.path.read_text(encoding="utf-8"))["runs"][0]
+        self.assertEqual(300, persisted_manifest["max_requests_per_role"])
+        self.assertEqual("CASE-RD-TOOL-001", issued.case_id)
+        with self.assertRaisesRegex(ValueError, "between 1 and 300"):
+            registry.create_run(
+                "CASE-RD-TOOL-001",
+                1,
+                max_requests_per_role=301,
             )
 
 
@@ -211,6 +283,9 @@ class ToolHttpTests(unittest.TestCase):
             "/tools/get_case_snapshot",
             "/tools/get_trip_evidence",
             "/tools/get_policy_rules",
+            "/tools/search_precedents",
+            "/tools/get_deterministic_evaluation",
+            "/tools/validate_recommendation",
         ):
             response_schema = schema["paths"][path]["post"]["responses"]["200"][
                 "content"
@@ -218,12 +293,31 @@ class ToolHttpTests(unittest.TestCase):
             self.assertEqual("object", response_schema["type"])
             self.assertEqual(["result", "request_id"], response_schema["required"])
             self.assertIn("properties", response_schema["properties"]["result"])
+        role_enum = schema["paths"]["/tools/get_case_snapshot"]["post"][
+            "responses"
+        ]["200"]["content"]["application/json"]["schema"]["properties"][
+            "result"
+        ]["properties"]["tool_actor_role"]["enum"]
+        self.assertEqual(
+            {
+                "EVIDENCE_COLLECTION",
+                "RIDER_ADVOCATE",
+                "DRIVER_ADVOCATE",
+                "POLICY_PRECEDENT",
+                "JUDGE",
+            },
+            set(role_enum),
+        )
         evidence_result = schema["paths"]["/tools/get_trip_evidence"]["post"][
             "responses"
         ]["200"]["content"]["application/json"]["schema"]["properties"][
             "result"
         ]
         evidence_item = evidence_result["properties"]["evidence"]["items"]
+        self.assertIn(
+            "HISTORICAL_BEHAVIOR_PROFILE",
+            evidence_item["properties"]["source_type"]["enum"],
+        )
         self.assertIn("start_at", evidence_item["properties"]["coverage"]["properties"])
         payload_properties = evidence_item["properties"]["payload"]["properties"]
         for field in (
@@ -243,6 +337,16 @@ class ToolHttpTests(unittest.TestCase):
         ]["200"]["content"]["application/json"]["schema"]["properties"][
             "result"
         ]
+        policy_request = schema["paths"]["/tools/get_policy_rules"]["post"][
+            "requestBody"
+        ]["content"]["application/json"]["schema"]
+        self.assertEqual(["scope"], policy_request["required"])
+        self.assertEqual(
+            ["APPLICABLE_DISPUTE"],
+            policy_request["properties"]["scope"]["enum"],
+        )
+        for field in ("case_id", "case_version", "dispute_type"):
+            self.assertIn(field, policy_result["properties"])
         policy_rule = policy_result["properties"]["rules"]["items"]
         parameter_properties = policy_rule["properties"]["parameters"]["properties"]
         for field in (
@@ -263,6 +367,149 @@ class ToolHttpTests(unittest.TestCase):
         self.assertIn("business_status", allowed_outcome_properties)
         self.assertIn("action", allowed_outcome_properties)
 
+    def test_judge_credential_is_limited_to_workflow_gate_operations(self) -> None:
+        judge_token = self.issued.tokens[AgentRole.JUDGE]
+        with self.post(
+            "/tools/get_deterministic_evaluation",
+            {"scope": "LOCKED_RUN"},
+            token=judge_token,
+        ) as response:
+            body = json.load(response)
+        self.assertEqual("DETERMINISTIC_POLICY_CODE", body["result"]["evaluation"]["evaluated_by"])
+        self.assertEqual(["RD-004"], body["result"]["evaluation"]["matched_rule_ids"])
+
+        invalid_recommendation = {
+            "recommended_case_status": "PENDING_HUMAN_REVIEW",
+            "recommended_action": None,
+            "evidence_citations": ["EV-RD-GPS-FULL"],
+            "policy_citations": ["RD-001"],
+            "judge_confidence": {
+                "score": 80,
+                "label": "UNCALIBRATED_MODEL_SELF_ASSESSMENT",
+                "rationale": "test",
+            },
+            "reasoning_summary": "test",
+            "uncertainties": [],
+            "rider_explanation": "test",
+            "driver_explanation": "test",
+        }
+        with self.assertRaises(HTTPError) as caught:
+            self.post(
+                "/tools/validate_recommendation",
+                {
+                    "run_id": self.issued.run_id,
+                    "recommendation": invalid_recommendation,
+                },
+                token=judge_token,
+            )
+        self.assertEqual(409, caught.exception.code)
+        conflict_body = json.loads(caught.exception.read().decode("utf-8"))
+        self.assertEqual("RECOMMENDATION_CONFLICT", conflict_body["error"]["code"])
+
+        with self.assertRaises(HTTPError) as caught:
+            self.post(
+                "/tools/get_trip_evidence",
+                {"evidence_types": ["PLATFORM_GPS"], "detail": "DECISION_FACTS"},
+                token=judge_token,
+            )
+        self.assertEqual(403, caught.exception.code)
+
+    def test_checked_in_openapi_matches_the_schema_builder(self) -> None:
+        path = Path(__file__).resolve().parents[1] / "api" / "rideresolve-tools.openapi.json"
+        persisted = json.loads(path.read_text(encoding="utf-8"))
+        expected = build_openapi_schema(persisted["servers"][0]["url"])
+        self.assertEqual(expected, persisted)
+
+    def test_role_permissions_and_precedent_ids_are_audited(self) -> None:
+        policy_token = self.issued.tokens[AgentRole.POLICY_PRECEDENT]
+        with self.post(
+            "/tools/search_precedents",
+            {"limit": 3},
+            token=policy_token,
+        ) as response:
+            body = json.load(response)
+        self.assertEqual("POLICY_PRECEDENT", body["result"]["tool_actor_role"])
+        self.assertEqual("ADVISORY_ONLY", body["result"]["authority"])
+        self.assertEqual("FB-RD-004-001", body["result"]["matches"][0]["precedent_id"])
+        event = self.audit.read_all()[-1]
+        self.assertEqual(
+            ["FB-RD-004-001", "FB-RD-004-002"],
+            event["returned_ids"]["precedent_ids"],
+        )
+
+        with self.assertRaises(HTTPError) as caught:
+            self.post(
+                "/tools/get_trip_evidence",
+                {"evidence_types": ["FARE_LEDGER"]},
+                token=policy_token,
+            )
+        self.assertEqual(403, caught.exception.code)
+
+        with self.assertRaises(HTTPError) as caught:
+            self.post(
+                "/tools/get_case_snapshot",
+                {},
+                token=self.issued.tokens[AgentRole.RIDER_ADVOCATE],
+            )
+        self.assertEqual(403, caught.exception.code)
+
+        with self.assertRaises(HTTPError) as caught:
+            self.post(
+                "/tools/get_policy_rules",
+                {"scope": "APPLICABLE_DISPUTE"},
+                token=self.issued.tokens[AgentRole.DRIVER_ADVOCATE],
+            )
+        self.assertEqual(403, caught.exception.code)
+
+        with self.assertRaises(HTTPError) as caught:
+            self.post(
+                "/tools/get_case_snapshot",
+                {},
+                token=self.issued.tokens[AgentRole.JUDGE],
+            )
+        self.assertEqual(403, caught.exception.code)
+
+        with self.assertRaises(HTTPError) as caught:
+            self.post(
+                "/tools/search_precedents",
+                {},
+                token=self.issued.tokens[AgentRole.RIDER_ADVOCATE],
+            )
+        self.assertEqual(403, caught.exception.code)
+
+        with self.post(
+            "/tools/get_trip_evidence",
+            {"evidence_types": ["HISTORICAL_BEHAVIOR_PROFILE"]},
+            token=self.issued.tokens[AgentRole.EVIDENCE_COLLECTION],
+        ) as response:
+            collector_body = json.load(response)
+        self.assertEqual(
+            "EVIDENCE_COLLECTION",
+            collector_body["result"]["tool_actor_role"],
+        )
+
+    def test_explicit_policy_scope_is_accepted_and_audited(self) -> None:
+        scoped_run = self.registry.create_run("CASE-RD-TOOL-001", 1)
+        with self.post(
+            "/tools/get_policy_rules",
+            {"scope": "APPLICABLE_DISPUTE"},
+            token=scoped_run.tokens[AgentRole.POLICY_PRECEDENT],
+        ) as response:
+            body = json.load(response)
+
+        result = body["result"]
+        self.assertEqual(scoped_run.run_id, result["run_id"])
+        self.assertEqual("CASE-RD-TOOL-001", result["case_id"])
+        self.assertEqual(1, result["case_version"])
+        self.assertEqual("ROUTE_DEVIATION", result["dispute_type"])
+        self.assertEqual(
+            {f"RD-{index:03d}" for index in range(1, 7)},
+            {rule["rule_id"] for rule in result["rules"]},
+        )
+        event = self.audit.read_all()[-1]
+        self.assertEqual("APPLICABLE_DISPUTE", event["parameters"]["scope"])
+        self.assertEqual(0, event["parameters"]["rule_id_count"])
+
     def test_tool_requires_run_token(self) -> None:
         with self.assertRaises(HTTPError) as caught:
             self.post("/tools/get_case_snapshot", {})
@@ -272,11 +519,11 @@ class ToolHttpTests(unittest.TestCase):
         with self.post(
             "/tools/get_case_snapshot",
             {},
-            token=self.issued.tokens[AgentRole.RIDER_ADVOCATE],
+            token=self.issued.tokens[AgentRole.EVIDENCE_COLLECTION],
         ) as response:
             body = json.load(response)
         self.assertEqual(self.issued.run_id, body["result"]["run_id"])
-        self.assertEqual("RIDER_ADVOCATE", body["result"]["tool_actor_role"])
+        self.assertEqual("EVIDENCE_COLLECTION", body["result"]["tool_actor_role"])
         self.assertNotIn("evidence_refs", body["result"]["case"])
 
     def test_model_cannot_switch_case(self) -> None:
@@ -284,7 +531,7 @@ class ToolHttpTests(unittest.TestCase):
             self.post(
                 "/tools/get_case_snapshot",
                 {"case_id": "CASE-NS-TOOL-001", "case_version": 1},
-                token=self.issued.tokens[AgentRole.RIDER_ADVOCATE],
+                token=self.issued.tokens[AgentRole.EVIDENCE_COLLECTION],
             )
         self.assertEqual(422, caught.exception.code)
 
@@ -299,7 +546,7 @@ class ToolHttpTests(unittest.TestCase):
                     self.post(
                         "/tools/get_case_snapshot",
                         {fake_secret: fake_secret, "case_id": fake_secret},
-                        token=self.issued.tokens[AgentRole.DRIVER_ADVOCATE],
+                        token=self.issued.tokens[AgentRole.EVIDENCE_COLLECTION],
                     )
                 response_body = caught.exception.read().decode("utf-8")
         finally:
@@ -322,7 +569,7 @@ class ToolHttpTests(unittest.TestCase):
                 with self.post(
                     "/tools/get_case_snapshot",
                     {},
-                    token=self.issued.tokens[AgentRole.JUDGE],
+                    token=self.issued.tokens[AgentRole.EVIDENCE_COLLECTION],
                     supplied_request_id=fake_secret,
                 ) as response:
                     response_body = response.read().decode("utf-8")
@@ -367,11 +614,19 @@ class ToolHttpTests(unittest.TestCase):
         limited = self.registry.create_run(
             "CASE-RD-TOOL-001", 1, max_requests_per_role=1
         )
-        token = limited.tokens[AgentRole.JUDGE]
-        with self.post("/tools/get_policy_rules", {}, token=token):
+        token = limited.tokens[AgentRole.EVIDENCE_COLLECTION]
+        with self.post(
+            "/tools/get_policy_rules",
+            {"scope": "APPLICABLE_DISPUTE"},
+            token=token,
+        ):
             pass
         with self.assertRaises(HTTPError) as caught:
-            self.post("/tools/get_policy_rules", {}, token=token)
+            self.post(
+                "/tools/get_policy_rules",
+                {"scope": "APPLICABLE_DISPUTE"},
+                token=token,
+            )
         self.assertEqual(429, caught.exception.code)
 
     def test_http_openapi_url_is_rejected_by_builder(self) -> None:

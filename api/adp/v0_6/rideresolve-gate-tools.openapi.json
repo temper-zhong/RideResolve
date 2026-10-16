@@ -1,0 +1,546 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "RideResolve Deterministic Gate Tools v0.6 ADP Safe",
+    "version": "0.6.1-adp-json.1",
+    "description": "Role-isolated tools for a server-created workflow session. The static connector credential authenticates the role; the signed run_context locks the official case, case version, policy version, expiry, and request budget."
+  },
+  "servers": [
+    {
+      "url": "https://rideresolve-gate-a-probe-325140-12-1501522460.sh.run.tcloudbase.com"
+    }
+  ],
+  "paths": {
+    "/tools/get_deterministic_evaluation": {
+      "post": {
+        "operationId": "get_deterministic_evaluation",
+        "summary": "Evaluate the locked run with deterministic policy code",
+        "description": "Workflow-owned gate operation. Official case data and its pinned policy version take precedence over legacy mock assumptions.",
+        "security": [
+          {
+            "ConnectorToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "run_context",
+                  "scope"
+                ],
+                "properties": {
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "LOCKED_RUN"
+                    ]
+                  },
+                  "run_context": {
+                    "type": "string",
+                    "minLength": 40,
+                    "maxLength": 2048,
+                    "description": "Opaque signed context returned by resolve_case_context. Pass it unchanged; never ask a model to create or edit it."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful run-scoped tool response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "result",
+                    "request_id"
+                  ],
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "run_id",
+                        "tool_actor_role",
+                        "dataset_id",
+                        "synthetic",
+                        "case_id",
+                        "case_version",
+                        "dispute_type",
+                        "policy_version",
+                        "data_precedence",
+                        "decision_evidence_ids",
+                        "evaluation",
+                        "message"
+                      ],
+                      "properties": {
+                        "run_id": {
+                          "type": "string"
+                        },
+                        "tool_actor_role": {
+                          "type": "string",
+                          "enum": [
+                            "EVIDENCE_COLLECTION",
+                            "RIDER_ADVOCATE",
+                            "DRIVER_ADVOCATE",
+                            "POLICY_PRECEDENT",
+                            "JUDGE"
+                          ]
+                        },
+                        "dataset_id": {
+                          "type": "string"
+                        },
+                        "synthetic": {
+                          "type": "boolean"
+                        },
+                        "case_id": {
+                          "type": "string"
+                        },
+                        "case_version": {
+                          "type": "integer"
+                        },
+                        "dispute_type": {
+                          "type": "string"
+                        },
+                        "policy_version": {
+                          "type": "string"
+                        },
+                        "data_precedence": {
+                          "type": "string",
+                          "enum": [
+                            "OFFICIAL_OVER_LEGACY_MOCK"
+                          ]
+                        },
+                        "decision_evidence_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "evaluation": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "business_status",
+                            "matched_rule_ids",
+                            "allowed_action",
+                            "evaluated_by",
+                            "facts",
+                            "metrics",
+                            "review_reasons",
+                            "input_fingerprint"
+                          ],
+                          "properties": {
+                            "business_status": {
+                              "type": "string"
+                            },
+                            "matched_rule_ids": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "allowed_action": {
+                              "type": "object",
+                              "nullable": true,
+                              "additionalProperties": false,
+                              "required": [
+                                "type",
+                                "fee_item",
+                                "amount_cents",
+                                "currency"
+                              ],
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "fee_item": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "amount_cents": {
+                                  "type": "integer"
+                                },
+                                "currency": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "evaluated_by": {
+                              "type": "string",
+                              "enum": [
+                                "DETERMINISTIC_POLICY_CODE"
+                              ]
+                            },
+                            "facts": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            },
+                            "metrics": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            },
+                            "review_reasons": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "input_fingerprint": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/validate_recommendation": {
+      "post": {
+        "operationId": "validate_recommendation",
+        "summary": "Reject a Judge recommendation that conflicts with the locked run",
+        "description": "Workflow-owned final gate. It verifies run identity, citations, status, action, amount, currency, and the deterministic policy result.",
+        "security": [
+          {
+            "ConnectorToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "run_context",
+                  "run_id",
+                  "recommendation"
+                ],
+                "properties": {
+                  "run_id": {
+                    "type": "string"
+                  },
+                  "recommendation": {
+                    "type": "string",
+                    "minLength": 2,
+                    "description": "JSON.stringify of parse_judge_json.Output.recommendation. The server parses and strictly validates this JSON object before evaluating the Gate."
+                  },
+                  "run_context": {
+                    "type": "string",
+                    "minLength": 40,
+                    "maxLength": 2048,
+                    "description": "Opaque signed context returned by resolve_case_context. Pass it unchanged; never ask a model to create or edit it."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful run-scoped tool response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "result",
+                    "request_id"
+                  ],
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "run_id",
+                        "tool_actor_role",
+                        "dataset_id",
+                        "synthetic",
+                        "case_id",
+                        "case_version",
+                        "policy_version",
+                        "validation_status",
+                        "validated_by",
+                        "message",
+                        "recommendation",
+                        "authoritative_evaluation"
+                      ],
+                      "properties": {
+                        "run_id": {
+                          "type": "string"
+                        },
+                        "tool_actor_role": {
+                          "type": "string",
+                          "enum": [
+                            "EVIDENCE_COLLECTION",
+                            "RIDER_ADVOCATE",
+                            "DRIVER_ADVOCATE",
+                            "POLICY_PRECEDENT",
+                            "JUDGE"
+                          ]
+                        },
+                        "dataset_id": {
+                          "type": "string"
+                        },
+                        "synthetic": {
+                          "type": "boolean"
+                        },
+                        "case_id": {
+                          "type": "string"
+                        },
+                        "case_version": {
+                          "type": "integer"
+                        },
+                        "policy_version": {
+                          "type": "string"
+                        },
+                        "validation_status": {
+                          "type": "string",
+                          "enum": [
+                            "PASSED"
+                          ]
+                        },
+                        "validated_by": {
+                          "type": "string",
+                          "enum": [
+                            "PYTHON_DETERMINISTIC_GATE"
+                          ]
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "recommendation": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "recommended_case_status",
+                            "recommended_action",
+                            "evidence_citations",
+                            "policy_citations",
+                            "judge_confidence",
+                            "reasoning_summary",
+                            "uncertainties",
+                            "rider_explanation",
+                            "driver_explanation"
+                          ],
+                          "properties": {
+                            "recommended_case_status": {
+                              "type": "string",
+                              "enum": [
+                                "RESOLVED",
+                                "PENDING_HUMAN_REVIEW"
+                              ]
+                            },
+                            "recommended_action": {
+                              "type": "object",
+                              "nullable": true,
+                              "additionalProperties": false,
+                              "required": [
+                                "type",
+                                "fee_item",
+                                "amount_cents",
+                                "currency"
+                              ],
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "fee_item": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "amount_cents": {
+                                  "type": "integer"
+                                },
+                                "currency": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "evidence_citations": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "policy_citations": {
+                              "type": "array",
+                              "minItems": 1,
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "judge_confidence": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "score",
+                                "label",
+                                "rationale"
+                              ],
+                              "properties": {
+                                "score": {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 100
+                                },
+                                "label": {
+                                  "type": "string",
+                                  "enum": [
+                                    "UNCALIBRATED_MODEL_SELF_ASSESSMENT"
+                                  ]
+                                },
+                                "rationale": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "reasoning_summary": {
+                              "type": "string"
+                            },
+                            "uncertainties": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "rider_explanation": {
+                              "type": "string"
+                            },
+                            "driver_explanation": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "authoritative_evaluation": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "business_status",
+                            "matched_rule_ids",
+                            "allowed_action",
+                            "evaluated_by",
+                            "facts",
+                            "metrics",
+                            "review_reasons",
+                            "input_fingerprint"
+                          ],
+                          "properties": {
+                            "business_status": {
+                              "type": "string"
+                            },
+                            "matched_rule_ids": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "allowed_action": {
+                              "type": "object",
+                              "nullable": true,
+                              "additionalProperties": false,
+                              "required": [
+                                "type",
+                                "fee_item",
+                                "amount_cents",
+                                "currency"
+                              ],
+                              "properties": {
+                                "type": {
+                                  "type": "string"
+                                },
+                                "fee_item": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "amount_cents": {
+                                  "type": "integer"
+                                },
+                                "currency": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "evaluated_by": {
+                              "type": "string",
+                              "enum": [
+                                "DETERMINISTIC_POLICY_CODE"
+                              ]
+                            },
+                            "facts": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "string"
+                              }
+                            },
+                            "metrics": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            },
+                            "review_reasons": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "input_fingerprint": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Recommendation conflicts with deterministic policy"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ConnectorToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-RideResolve-Run-Token",
+        "description": "Static, role-specific connector secret. It is expiry-bounded and stored only in ADP connector authentication settings."
+      }
+    }
+  }
+}

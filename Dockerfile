@@ -6,7 +6,6 @@ COPY pyproject.toml README.md ./
 COPY rideresolve ./rideresolve
 COPY data ./data
 COPY api ./api
-COPY scripts ./scripts
 COPY container_entrypoint.py ./
 
 RUN pip install --no-cache-dir .

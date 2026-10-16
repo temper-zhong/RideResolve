@@ -17,6 +17,9 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "AUTHENTICATED_CHAT",
         "DEMO_TRAFFIC_FEED",
         "PARTY_STATEMENT",
+        "HISTORICAL_BEHAVIOR_PROFILE",
+        "SURGE_PRICING_LOG",
+        "NOTIFICATION_LOG",
     ]
     empty_object = {"type": "object", "additionalProperties": False, "properties": {}}
 
@@ -42,7 +45,13 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "run_id": {"type": "string"},
         "tool_actor_role": {
             "type": "string",
-            "enum": ["RIDER_ADVOCATE", "DRIVER_ADVOCATE", "JUDGE"],
+            "enum": [
+                "EVIDENCE_COLLECTION",
+                "RIDER_ADVOCATE",
+                "DRIVER_ADVOCATE",
+                "POLICY_PRECEDENT",
+                "JUDGE",
+            ],
         },
         "dataset_id": {"type": "string"},
         "synthetic": {"type": "boolean"},
@@ -107,7 +116,10 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
     }
     evidence_payload_schema = {
         "type": "object",
-        "additionalProperties": False,
+        # Evidence payloads are source-specific and the official hackathon datasets add
+        # fields that were not present in the original mock. Keep the envelope strict,
+        # while allowing versioned evidence payloads to evolve without breaking ADP.
+        "additionalProperties": True,
         "properties": {
             "samples": {
                 "type": "array",
@@ -133,6 +145,7 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                 "nullable": True,
             },
             "arrival_distance_m": {"type": "number"},
+            "reported_actual_distance_m": {"type": "number"},
             "baseline_distance_m": {"type": "number"},
             "currency": {"type": "string"},
             "line_items": {
@@ -186,6 +199,21 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
             "cancelled_at": {"type": "string", "format": "date-time"},
             "cancelled_by": {"type": "string"},
             "claims_oral_stop_request": {"type": "boolean"},
+            "decision_use": {"type": "string"},
+            "profiles": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "party": {"type": "string"},
+                        "account_age_days": {"type": "integer"},
+                        "completed_trips": {"type": "integer"},
+                        "prior_disputes_180d": {"type": "integer"},
+                        "rating_pattern": {"type": "string"},
+                    },
+                },
+            },
         },
     }
     evidence_item_schema = {
@@ -193,13 +221,10 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "additionalProperties": False,
         "required": [
             "evidence_id",
-            "source_record_id",
             "source_type",
             "trust_tier",
-            "observed_at",
-            "collected_at",
+            "coverage",
             "record_role",
-            "related_evidence_ids",
             "payload",
             "checksum_verified",
         ],
@@ -238,7 +263,10 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
             **common_result_properties,
             "case_id": {"type": "string"},
             "case_version": {"type": "integer"},
-            "detail": {"type": "string", "enum": ["SUMMARY", "FULL"]},
+            "detail": {
+                "type": "string",
+                "enum": ["DECISION_FACTS", "SUMMARY", "FULL"],
+            },
             "evidence": {"type": "array", "items": evidence_item_schema},
             "gps_aggregate": {
                 "type": "object",
@@ -246,12 +274,14 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                 "required": [
                     "coverage_percent",
                     "actual_distance_m",
+                    "unique_sample_count",
                     "conflict",
                     "conflict_reasons",
                 ],
                 "properties": {
                     "coverage_percent": {"type": "number"},
                     "actual_distance_m": {"type": "number"},
+                    "unique_sample_count": {"type": "integer"},
                     "conflict": {"type": "boolean"},
                     "conflict_reasons": {
                         "type": "array",
@@ -280,6 +310,13 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
             "minimum_wait_seconds": {"type": "integer"},
             "maximum_time_conflict_seconds": {"type": "integer"},
             "maximum_position_conflict_m": {"type": "number"},
+            "maximum_deviation_m": {"type": "number"},
+            "minimum_wait_from_scheduled_seconds": {"type": "integer"},
+            "required_contact_channels": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "fee_cents": {"type": "integer"},
         },
     }
     allowed_outcome_schema = {
@@ -296,15 +333,22 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
         "required": [
             "run_id",
             "tool_actor_role",
+            "case_id",
+            "case_version",
+            "dispute_type",
             "policy_id",
             "policy_version",
             "effective_from",
             "timezone",
             "rules",
+            "policy_precedents",
         ],
         "properties": {
             "run_id": {"type": "string"},
             "tool_actor_role": common_result_properties["tool_actor_role"],
+            "case_id": {"type": "string"},
+            "case_version": {"type": "integer"},
+            "dispute_type": {"type": "string"},
             "policy_id": {"type": "string"},
             "policy_version": {"type": "string"},
             "effective_from": {"type": "string", "format": "date-time"},
@@ -330,13 +374,278 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                     },
                 },
             },
+            "policy_precedents": {
+                "type": "array",
+                "items": {"type": "object", "additionalProperties": True},
+            },
+        },
+    }
+    action_schema = {
+        "type": "object",
+        "nullable": True,
+        "additionalProperties": False,
+        "required": ["type", "fee_item", "amount_cents", "currency"],
+        "properties": {
+            "type": {"type": "string"},
+            "fee_item": {"type": "string", "nullable": True},
+            "amount_cents": {"type": "integer"},
+            "currency": {"type": "string"},
+        },
+    }
+    precedent_result_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "run_id",
+            "tool_actor_role",
+            "dataset_id",
+            "synthetic",
+            "knowledge_base_id",
+            "authority",
+            "may_override_policy",
+            "query_context",
+            "matches",
+            "advisory",
+        ],
+        "properties": {
+            **common_result_properties,
+            "knowledge_base_id": {"type": "string"},
+            "authority": {"type": "string", "enum": ["ADVISORY_ONLY"]},
+            "may_override_policy": {"type": "boolean", "enum": [False]},
+            "query_context": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": [
+                    "case_id",
+                    "case_version",
+                    "dispute_type",
+                    "policy_version",
+                    "matched_rule_ids",
+                ],
+                "properties": {
+                    "case_id": {"type": "string"},
+                    "case_version": {"type": "integer"},
+                    "dispute_type": {"type": "string"},
+                    "policy_version": {"type": "string"},
+                    "matched_rule_ids": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                    },
+                },
+            },
+            "matches": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "required": [
+                        "precedent_id",
+                        "similarity_score",
+                        "source_case_id",
+                        "source_rule_ids",
+                        "corrected_status",
+                        "corrected_action",
+                        "correction_reason",
+                    ],
+                    "properties": {
+                        "precedent_id": {"type": "string"},
+                        "similarity_score": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 100,
+                        },
+                        "source_case_id": {"type": "string"},
+                        "source_rule_ids": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                        },
+                        "corrected_status": {"type": "string"},
+                        "corrected_action": action_schema,
+                        "correction_reason": {"type": "string"},
+                    },
+                },
+            },
+            "advisory": {"type": "string"},
+        },
+    }
+    judge_confidence_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["score", "label", "rationale"],
+        "properties": {
+            "score": {"type": "integer", "minimum": 0, "maximum": 100},
+            "label": {
+                "type": "string",
+                "enum": ["UNCALIBRATED_MODEL_SELF_ASSESSMENT"],
+            },
+            "rationale": {"type": "string"},
+        },
+    }
+    recommendation_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "recommended_case_status",
+            "recommended_action",
+            "evidence_citations",
+            "policy_citations",
+            "judge_confidence",
+            "reasoning_summary",
+            "uncertainties",
+            "rider_explanation",
+            "driver_explanation",
+        ],
+        "properties": {
+            "recommended_case_status": {
+                "type": "string",
+                "enum": ["RESOLVED", "PENDING_HUMAN_REVIEW"],
+            },
+            "recommended_action": action_schema,
+            "evidence_citations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string"},
+            },
+            "policy_citations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string"},
+            },
+            "judge_confidence": judge_confidence_schema,
+            "reasoning_summary": {"type": "string"},
+            "uncertainties": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "rider_explanation": {"type": "string"},
+            "driver_explanation": {"type": "string"},
+        },
+    }
+    recommendation_transport_schema = {
+        "oneOf": [
+            recommendation_schema,
+            {
+                "type": "string",
+                "minLength": 2,
+                "description": (
+                    "Serialized JudgeRecommendation accepted for ADP transport. "
+                    "The service unwraps one additional JSON-string transport layer "
+                    "before applying the same strict validation."
+                ),
+            },
+        ]
+    }
+    policy_evaluation_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "business_status",
+            "matched_rule_ids",
+            "allowed_action",
+            "evaluated_by",
+            "facts",
+            "metrics",
+            "review_reasons",
+            "input_fingerprint",
+        ],
+        "properties": {
+            "business_status": {"type": "string"},
+            "matched_rule_ids": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "allowed_action": action_schema,
+            "evaluated_by": {
+                "type": "string",
+                "enum": ["DETERMINISTIC_POLICY_CODE"],
+            },
+            "facts": {
+                "type": "object",
+                "additionalProperties": {"type": "string"},
+            },
+            "metrics": {
+                "type": "object",
+                "additionalProperties": {"type": "number"},
+            },
+            "review_reasons": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "input_fingerprint": {"type": "string"},
+        },
+    }
+    deterministic_evaluation_result_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "run_id",
+            "tool_actor_role",
+            "dataset_id",
+            "synthetic",
+            "case_id",
+            "case_version",
+            "dispute_type",
+            "policy_version",
+            "data_precedence",
+            "decision_evidence_ids",
+            "evaluation",
+            "message",
+        ],
+        "properties": {
+            **common_result_properties,
+            "case_id": {"type": "string"},
+            "case_version": {"type": "integer"},
+            "dispute_type": {"type": "string"},
+            "policy_version": {"type": "string"},
+            "data_precedence": {
+                "type": "string",
+                "enum": ["OFFICIAL_OVER_LEGACY_MOCK"],
+            },
+            "decision_evidence_ids": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "evaluation": policy_evaluation_schema,
+            "message": {"type": "string"},
+        },
+    }
+    validation_result_schema = {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "run_id",
+            "tool_actor_role",
+            "dataset_id",
+            "synthetic",
+            "case_id",
+            "case_version",
+            "policy_version",
+            "validation_status",
+            "validated_by",
+            "message",
+            "recommendation",
+            "authoritative_evaluation",
+        ],
+        "properties": {
+            **common_result_properties,
+            "case_id": {"type": "string"},
+            "case_version": {"type": "integer"},
+            "policy_version": {"type": "string"},
+            "validation_status": {"type": "string", "enum": ["PASSED"]},
+            "validated_by": {
+                "type": "string",
+                "enum": ["PYTHON_DETERMINISTIC_GATE"],
+            },
+            "message": {"type": "string"},
+            "recommendation": recommendation_schema,
+            "authoritative_evaluation": policy_evaluation_schema,
         },
     }
     return {
         "openapi": "3.0.3",
         "info": {
-            "title": "RideResolve Gate A Probe Tools",
-            "version": "0.2.3",
+            "title": "RideResolve Multi-Agent Read-Only Tools",
+            "version": "0.6.2",
             "description": (
                 "Read-only tools for synthetic RideResolve cases. The secure connector credential "
                 "is a short-lived, role-specific run token and must never appear in model input."
@@ -365,8 +674,8 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                     "operationId": "get_trip_evidence",
                     "summary": "Get selected evidence authorized for this probe run",
                     "description": (
-                        "Returns only evidence in the server-side run manifest. Prefer SUMMARY "
-                        "unless raw GPS samples are necessary."
+                        "Returns only evidence in the server-side run manifest. Prefer "
+                        "DECISION_FACTS; request SUMMARY or FULL only for human audit."
                     ),
                     "security": [{"RunToken": []}],
                     "requestBody": {
@@ -381,13 +690,13 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                                         "evidence_types": {
                                             "type": "array",
                                             "minItems": 1,
-                                            "maxItems": 8,
+                                            "maxItems": 12,
                                             "items": {"type": "string", "enum": source_types},
                                         },
                                         "detail": {
                                             "type": "string",
-                                            "enum": ["SUMMARY", "FULL"],
-                                            "default": "SUMMARY",
+                                            "enum": ["DECISION_FACTS", "SUMMARY", "FULL"],
+                                            "default": "DECISION_FACTS",
                                         },
                                     },
                                 }
@@ -410,7 +719,16 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                                 "schema": {
                                     "type": "object",
                                     "additionalProperties": False,
+                                    "required": ["scope"],
                                     "properties": {
+                                        "scope": {
+                                            "type": "string",
+                                            "enum": ["APPLICABLE_DISPUTE"],
+                                            "description": (
+                                                "Return the current run's policy rules for its "
+                                                "locked dispute type."
+                                            ),
+                                        },
                                         "rule_ids": {
                                             "type": "array",
                                             "minItems": 1,
@@ -423,6 +741,100 @@ def build_openapi_schema(server_url: str) -> dict[str, Any]:
                         },
                     },
                     "responses": {"200": successful_response(policy_result_schema)},
+                }
+            },
+            "/tools/search_precedents": {
+                "post": {
+                    "operationId": "search_precedents",
+                    "summary": "Search approved advisory precedents for this run",
+                    "description": (
+                        "Policy context and matched rules are derived server-side from the locked "
+                        "case snapshot. Results are advisory-only and cannot override policy."
+                    ),
+                    "security": [{"RunToken": []}],
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": False,
+                                    "properties": {
+                                        "limit": {
+                                            "type": "integer",
+                                            "minimum": 1,
+                                            "maximum": 3,
+                                            "default": 3,
+                                        }
+                                    },
+                                }
+                            }
+                        },
+                    },
+                    "responses": {"200": successful_response(precedent_result_schema)},
+                }
+            },
+            "/tools/get_deterministic_evaluation": {
+                "post": {
+                    "operationId": "get_deterministic_evaluation",
+                    "summary": "Evaluate the locked run with deterministic policy code",
+                    "description": (
+                        "Workflow-owned gate operation. Official case data and its pinned policy "
+                        "version take precedence over legacy mock assumptions."
+                    ),
+                    "security": [{"RunToken": []}],
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": False,
+                                    "required": ["scope"],
+                                    "properties": {
+                                        "scope": {
+                                            "type": "string",
+                                            "enum": ["LOCKED_RUN"],
+                                        }
+                                    },
+                                }
+                            }
+                        },
+                    },
+                    "responses": {
+                        "200": successful_response(deterministic_evaluation_result_schema)
+                    },
+                }
+            },
+            "/tools/validate_recommendation": {
+                "post": {
+                    "operationId": "validate_recommendation",
+                    "summary": "Reject a Judge recommendation that conflicts with the locked run",
+                    "description": (
+                        "Workflow-owned final gate. It verifies run identity, citations, status, "
+                        "action, amount, currency, and the deterministic policy result."
+                    ),
+                    "security": [{"RunToken": []}],
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": False,
+                                    "required": ["run_id", "recommendation"],
+                                    "properties": {
+                                        "run_id": {"type": "string"},
+                            "recommendation": recommendation_transport_schema,
+                                    },
+                                }
+                            }
+                        },
+                    },
+                    "responses": {
+                        "200": successful_response(validation_result_schema),
+                        "409": {"description": "Recommendation conflicts with deterministic policy"},
+                    },
                 }
             },
         },

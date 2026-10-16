@@ -1,0 +1,455 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "RideResolve Policy Tools",
+    "version": "0.5.0",
+    "description": "Read-only, run-scoped policy and precedent tools for the Policy & Precedent role."
+  },
+  "servers": [
+    {
+      "url": "https://rideresolve-gate-a-probe-325140-12-1501522460.sh.run.tcloudbase.com"
+    }
+  ],
+  "paths": {
+    "/tools/get_policy_rules": {
+      "post": {
+        "operationId": "get_policy_rules",
+        "summary": "Get policy rules authorized for this probe run",
+        "description": "The policy version and dispute type come from the server-side run manifest.",
+        "security": [
+          {
+            "RunToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scope"
+                ],
+                "properties": {
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "APPLICABLE_DISPUTE"
+                    ],
+                    "description": "Return the current run's policy rules for its locked dispute type."
+                  },
+                  "rule_ids": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful run-scoped tool response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "result",
+                    "request_id"
+                  ],
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "run_id",
+                        "tool_actor_role",
+                        "case_id",
+                        "case_version",
+                        "dispute_type",
+                        "policy_id",
+                        "policy_version",
+                        "effective_from",
+                        "timezone",
+                        "rules",
+                        "policy_precedents"
+                      ],
+                      "properties": {
+                        "run_id": {
+                          "type": "string"
+                        },
+                        "tool_actor_role": {
+                          "type": "string",
+                          "enum": [
+                            "EVIDENCE_COLLECTION",
+                            "RIDER_ADVOCATE",
+                            "DRIVER_ADVOCATE",
+                            "POLICY_PRECEDENT",
+                            "JUDGE"
+                          ]
+                        },
+                        "case_id": {
+                          "type": "string"
+                        },
+                        "case_version": {
+                          "type": "integer"
+                        },
+                        "dispute_type": {
+                          "type": "string"
+                        },
+                        "policy_id": {
+                          "type": "string"
+                        },
+                        "policy_version": {
+                          "type": "string"
+                        },
+                        "effective_from": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "effective_to": {
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true
+                        },
+                        "timezone": {
+                          "type": "string"
+                        },
+                        "rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "required": [
+                              "rule_id",
+                              "dispute_type",
+                              "priority",
+                              "evaluator"
+                            ],
+                            "properties": {
+                              "rule_id": {
+                                "type": "string"
+                              },
+                              "dispute_type": {
+                                "type": "string"
+                              },
+                              "priority": {
+                                "type": "integer"
+                              },
+                              "evaluator": {
+                                "type": "string"
+                              },
+                              "parameters": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "minimum_gps_coverage_percent": {
+                                    "type": "number"
+                                  },
+                                  "required_source_types": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "maximum_allowed_ratio": {
+                                    "type": "number"
+                                  },
+                                  "verifiable_exception_sources": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "fee_item": {
+                                    "type": "string"
+                                  },
+                                  "maximum_pickup_distance_m": {
+                                    "type": "number"
+                                  },
+                                  "minimum_wait_seconds": {
+                                    "type": "integer"
+                                  },
+                                  "maximum_time_conflict_seconds": {
+                                    "type": "integer"
+                                  },
+                                  "maximum_position_conflict_m": {
+                                    "type": "number"
+                                  },
+                                  "maximum_deviation_m": {
+                                    "type": "number"
+                                  },
+                                  "minimum_wait_from_scheduled_seconds": {
+                                    "type": "integer"
+                                  },
+                                  "required_contact_channels": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "fee_cents": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "allowed_outcome": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "business_status": {
+                                    "type": "string"
+                                  },
+                                  "action": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "policy_precedents": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": true
+                          }
+                        }
+                      }
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/search_precedents": {
+      "post": {
+        "operationId": "search_precedents",
+        "summary": "Search approved advisory precedents for this run",
+        "description": "Policy context and matched rules are derived server-side from the locked case snapshot. Results are advisory-only and cannot override policy.",
+        "security": [
+          {
+            "RunToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "limit": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3,
+                    "default": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful run-scoped tool response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "result",
+                    "request_id"
+                  ],
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "run_id",
+                        "tool_actor_role",
+                        "dataset_id",
+                        "synthetic",
+                        "knowledge_base_id",
+                        "authority",
+                        "may_override_policy",
+                        "query_context",
+                        "matches",
+                        "advisory"
+                      ],
+                      "properties": {
+                        "run_id": {
+                          "type": "string"
+                        },
+                        "tool_actor_role": {
+                          "type": "string",
+                          "enum": [
+                            "EVIDENCE_COLLECTION",
+                            "RIDER_ADVOCATE",
+                            "DRIVER_ADVOCATE",
+                            "POLICY_PRECEDENT",
+                            "JUDGE"
+                          ]
+                        },
+                        "dataset_id": {
+                          "type": "string"
+                        },
+                        "synthetic": {
+                          "type": "boolean"
+                        },
+                        "knowledge_base_id": {
+                          "type": "string"
+                        },
+                        "authority": {
+                          "type": "string",
+                          "enum": [
+                            "ADVISORY_ONLY"
+                          ]
+                        },
+                        "may_override_policy": {
+                          "type": "boolean",
+                          "enum": [
+                            false
+                          ]
+                        },
+                        "query_context": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "case_id",
+                            "case_version",
+                            "dispute_type",
+                            "policy_version",
+                            "matched_rule_ids"
+                          ],
+                          "properties": {
+                            "case_id": {
+                              "type": "string"
+                            },
+                            "case_version": {
+                              "type": "integer"
+                            },
+                            "dispute_type": {
+                              "type": "string"
+                            },
+                            "policy_version": {
+                              "type": "string"
+                            },
+                            "matched_rule_ids": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "matches": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "precedent_id",
+                              "similarity_score",
+                              "source_case_id",
+                              "source_rule_ids",
+                              "corrected_status",
+                              "corrected_action",
+                              "correction_reason"
+                            ],
+                            "properties": {
+                              "precedent_id": {
+                                "type": "string"
+                              },
+                              "similarity_score": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              },
+                              "source_case_id": {
+                                "type": "string"
+                              },
+                              "source_rule_ids": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "corrected_status": {
+                                "type": "string"
+                              },
+                              "corrected_action": {
+                                "type": "object",
+                                "nullable": true,
+                                "additionalProperties": false,
+                                "required": [
+                                  "type",
+                                  "fee_item",
+                                  "amount_cents",
+                                  "currency"
+                                ],
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "fee_item": {
+                                    "type": "string",
+                                    "nullable": true
+                                  },
+                                  "amount_cents": {
+                                    "type": "integer"
+                                  },
+                                  "currency": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "correction_reason": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "advisory": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "RunToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-RideResolve-Run-Token",
+        "description": "Short-lived role-specific credential configured only in the connector secret store."
+      }
+    }
+  }
+}

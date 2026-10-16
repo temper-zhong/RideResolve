@@ -31,17 +31,67 @@ The service contains synthetic, read-only data. It cannot access real accounts, 
 python scripts/build_openapi.py --server-url https://ACTUAL_CONTROLLED_HOST
 ```
 
-## ADP credential setup
+## ADP workflow credential setup
 
-Create/configure three role-specific copies of the API tool so each Agent receives only its own short-lived token through the APIKey authorization field:
+Import the five workflow-scoped OpenAPI documents under `api/adp/` instead of
+giving every role the complete service document:
 
-| ADP Agent | Header | Credential source |
+| ADP custom tool | OpenAPI document |
+|---|---|
+| RideResolve Evidence Tools | `rideresolve-evidence-tools.openapi.json` |
+| RideResolve Rider Tools | `rideresolve-rider-tools.openapi.json` |
+| RideResolve Driver Tools | `rideresolve-driver-tools.openapi.json` |
+| RideResolve Policy Tools | `rideresolve-policy-tools.openapi.json` |
+| RideResolve Deterministic Gate Tools | `rideresolve-gate-tools.openapi.json` |
+
+All five documents use the same CloudBase `0.5.0` server and API-key header,
+but expose only the operations authorized for that workflow role. The Gate document is used only
+by workflow tool nodes; do not attach it to the Judge Agent.
+
+Every newly created run issues five independent, short-lived role credentials. Configure the
+role-specific APIKey only on the corresponding workflow tool nodes. Agents must have empty tool
+lists and must never receive a credential as an input variable:
+
+| Workflow tool nodes | Header | Credential source |
 |---|---|---|
-| Rider Advocate | `X-RideResolve-Run-Token` | local Rider token |
-| Driver Advocate | `X-RideResolve-Run-Token` | local Driver token |
-| Judge | `X-RideResolve-Run-Token` | local Judge token |
+| Evidence snapshot/evidence/policy | `X-RideResolve-Run-Token` | local Evidence Collection token |
+| Rider evidence | `X-RideResolve-Run-Token` | local Rider token |
+| Driver evidence | `X-RideResolve-Run-Token` | local Driver token |
+| Policy rules/precedents | `X-RideResolve-Run-Token` | local Policy & Precedent token |
+| Deterministic evaluation/final validation | `X-RideResolve-Run-Token` | local Judge token |
 
-Attach each copy only to its corresponding Agent. Confirm in ADP that authorization values are masked and do not appear in the model prompt, tool description, node input/output, or exported trace. If this cannot be demonstrated, stop the experiment.
+The Judge Agent performs no HTTP call. Its credential is configured only on the two workflow-owned
+Gate nodes and is never mapped into an Agent input.
+Confirm in ADP that authorization values are masked and do not appear in the model prompt, tool
+description, node input/output, or exported trace. If this cannot be demonstrated, stop the
+experiment. The complete node order, fixed bodies, and variable mappings are in
+`adp/ACCURACY_FIRST_DEPLOYMENT.md` and `adp/accuracy_first_manifest.json`.
+
+The role credential and workflow tool layer does not by itself prove a five-Agent ADP run. The
+existing Gate A artifact verifier continues to validate the already established core
+Rider/Driver/Judge run until the two optional ADP nodes are run and the five-role artifact checks
+are completed.
+
+Server-side operation permissions are fail-closed:
+
+| Role | Allowed operations |
+|---|---|
+| Evidence Collection | `get_case_snapshot`, `get_trip_evidence`, `get_policy_rules` |
+| Rider Advocate | `get_trip_evidence` |
+| Driver Advocate | `get_trip_evidence` |
+| Policy & Precedent | `get_policy_rules`, `search_precedents` |
+| Judge workflow Gate | `get_deterministic_evaluation`, `validate_recommendation` |
+
+`get_deterministic_evaluation` returns the authoritative result from version-locked Python policy
+code. `validate_recommendation` returns HTTP 409 if the Judge changes the run ID, citations,
+status, rule, action, fee item, amount, or currency. Neither operation is available to the model.
+
+`search_precedents` derives the case, policy version, dispute type, and matched rule IDs on the server. The model may supply only `limit` from 1 to 3. Any attempt by the Policy & Precedent Agent to read raw trip evidence, or by another role to search precedents, returns HTTP 403 and is audited.
+
+`get_policy_rules` uses one explicit input, `scope="APPLICABLE_DISPUTE"`. The server still
+derives the case, case version, dispute type, and policy version from the signed run credential;
+the scope value exists only to avoid ambiguous empty-body tool calls in ADP. It cannot widen the
+authorized policy scope.
 
 ## Model-visible input
 
@@ -51,7 +101,8 @@ The initial model-visible input contains only the non-secret `run_id`; it must n
 {"run_id":"RUN-..."}
 ```
 
-`get_case_snapshot` intentionally omits evidence IDs. Each Advocate must call `get_trip_evidence` itself before it can cite an evidence ID.
+`get_case_snapshot` intentionally omits evidence IDs. Each Advocate receives the successful
+output of its own role-scoped workflow `get_trip_evidence` node before it may cite an evidence ID.
 
 ## Passing evidence
 

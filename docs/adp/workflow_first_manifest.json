@@ -1,0 +1,163 @@
+{
+  "schema_version": "1.0",
+  "architecture": "WORKFLOW_OWNS_TOOLS",
+  "agent_tool_bindings": {
+    "Evidence Collection Agent": [],
+    "Rider Advocate": [],
+    "Driver Advocate": [],
+    "Policy & Precedent Agent": [],
+    "Judge": []
+  },
+  "tool_defaults": {
+    "trip_evidence": {
+      "evidence_types": [
+        "PLATFORM_GPS",
+        "ROUTE_BASELINE",
+        "FARE_LEDGER",
+        "AUTHENTICATED_CHAT",
+        "DEMO_TRAFFIC_FEED",
+        "TRIP_EVENT_LOG",
+        "CONTACT_LOG"
+      ],
+      "detail": "SUMMARY"
+    },
+    "policy_rules": {
+      "scope": "APPLICABLE_DISPUTE"
+    },
+    "precedent_search": {
+      "limit": 3
+    }
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "type": "START",
+      "next": "evidence_case_snapshot"
+    },
+    {
+      "id": "evidence_case_snapshot",
+      "type": "TOOL",
+      "operation": "get_case_snapshot",
+      "credential_role": "EVIDENCE_COLLECTION",
+      "request": {},
+      "next": "evidence_trip_evidence"
+    },
+    {
+      "id": "evidence_trip_evidence",
+      "type": "TOOL",
+      "operation": "get_trip_evidence",
+      "credential_role": "EVIDENCE_COLLECTION",
+      "request_ref": "tool_defaults.trip_evidence",
+      "next": "evidence_policy_rules"
+    },
+    {
+      "id": "evidence_policy_rules",
+      "type": "TOOL",
+      "operation": "get_policy_rules",
+      "credential_role": "EVIDENCE_COLLECTION",
+      "request_ref": "tool_defaults.policy_rules",
+      "next": "evidence_collection_agent"
+    },
+    {
+      "id": "evidence_collection_agent",
+      "type": "AGENT",
+      "tools": [],
+      "inputs": {
+        "case_input": "SYS.UserQuery",
+        "case_snapshot_result": "evidence_case_snapshot.Output",
+        "trip_evidence_result": "evidence_trip_evidence.Output",
+        "policy_rules_result": "evidence_policy_rules.Output"
+      },
+      "next": "rider_trip_evidence"
+    },
+    {
+      "id": "rider_trip_evidence",
+      "type": "TOOL",
+      "operation": "get_trip_evidence",
+      "credential_role": "RIDER_ADVOCATE",
+      "request_ref": "tool_defaults.trip_evidence",
+      "next": "rider_advocate"
+    },
+    {
+      "id": "rider_advocate",
+      "type": "AGENT",
+      "tools": [],
+      "inputs": {
+        "case_input": "SYS.UserQuery",
+        "evidence_package": "evidence_collection_agent.Output.Content",
+        "advocate_evidence_result": "rider_trip_evidence.Output"
+      },
+      "next": "driver_trip_evidence"
+    },
+    {
+      "id": "driver_trip_evidence",
+      "type": "TOOL",
+      "operation": "get_trip_evidence",
+      "credential_role": "DRIVER_ADVOCATE",
+      "request_ref": "tool_defaults.trip_evidence",
+      "next": "driver_advocate"
+    },
+    {
+      "id": "driver_advocate",
+      "type": "AGENT",
+      "tools": [],
+      "inputs": {
+        "case_input": "SYS.UserQuery",
+        "evidence_package": "evidence_collection_agent.Output.Content",
+        "advocate_evidence_result": "driver_trip_evidence.Output"
+      },
+      "next": "policy_rules"
+    },
+    {
+      "id": "policy_rules",
+      "type": "TOOL",
+      "operation": "get_policy_rules",
+      "credential_role": "POLICY_PRECEDENT",
+      "request_ref": "tool_defaults.policy_rules",
+      "next": "precedent_search"
+    },
+    {
+      "id": "precedent_search",
+      "type": "TOOL",
+      "operation": "search_precedents",
+      "credential_role": "POLICY_PRECEDENT",
+      "request_ref": "tool_defaults.precedent_search",
+      "next": "policy_precedent_agent"
+    },
+    {
+      "id": "policy_precedent_agent",
+      "type": "AGENT",
+      "tools": [],
+      "inputs": {
+        "case_input": "SYS.UserQuery",
+        "policy_rules_result": "policy_rules.Output",
+        "precedent_search_result": "precedent_search.Output"
+      },
+      "next": "judge"
+    },
+    {
+      "id": "judge",
+      "type": "AGENT",
+      "tools": [],
+      "inputs": {
+        "case_input": "SYS.UserQuery",
+        "evidence_package": "evidence_collection_agent.Output.Content",
+        "rider_argument": "rider_advocate.Output.Content",
+        "driver_argument": "driver_advocate.Output.Content",
+        "precedent_advisory": "policy_precedent_agent.Output.Content"
+      },
+      "next": "parse_judge_json"
+    },
+    {
+      "id": "parse_judge_json",
+      "type": "CODE",
+      "purpose": "Parse and validate one unescaped Judge JSON object; fail closed on malformed output.",
+      "next": "end"
+    },
+    {
+      "id": "end",
+      "type": "END",
+      "output": "parse_judge_json.Output"
+    }
+  ]
+}

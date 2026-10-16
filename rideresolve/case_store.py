@@ -26,6 +26,7 @@ class CaseStore:
         *,
         dataset_id: str,
         synthetic: bool,
+        official_case_keys: set[tuple[str, int]] | None = None,
     ) -> None:
         self.dataset_id = dataset_id
         self.synthetic = synthetic
@@ -37,23 +38,49 @@ class CaseStore:
             self._cases[key] = snapshot
         self._evidence = index_evidence(evidence)
         self._policies = policies
+        self._official_case_keys = frozenset(official_case_keys or ())
         self._validate()
 
     @classmethod
     def load_default(cls) -> "CaseStore":
         root = Path(__file__).resolve().parents[1]
-        data_path = root / "data" / "cases" / "tool_cases.json"
-        policy_path = root / "data" / "policies" / "DEMO_POLICY_V1.json"
-        raw: dict[str, Any] = json.loads(data_path.read_text(encoding="utf-8"))
-        cases = [CaseSnapshot.model_validate(item) for item in raw["cases"]]
-        evidence = [Evidence.model_validate(item) for item in raw["evidence"]]
-        policy = load_policy(policy_path)
+        data_paths = (
+            root / "data" / "cases" / "tool_cases.json",
+            root / "data" / "cases" / "official_cases.json",
+        )
+        policy_paths = (
+            root / "data" / "policies" / "DEMO_POLICY_V1.json",
+            root / "data" / "policies" / "RYDE_POLICY_V2_1.json",
+        )
+        datasets: list[dict[str, Any]] = [
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in data_paths
+            if path.exists()
+        ]
+        cases = [
+            CaseSnapshot.model_validate(item)
+            for dataset in datasets
+            for item in dataset["cases"]
+        ]
+        evidence = [
+            Evidence.model_validate(item)
+            for dataset in datasets
+            for item in dataset["evidence"]
+        ]
+        policies = [load_policy(path) for path in policy_paths if path.exists()]
+        official_case_keys = {
+            (str(item["case_id"]), int(item["case_version"]))
+            for dataset in datasets
+            if dataset.get("source_kind") == "OFFICIAL_HACKATHON_SAMPLE_DATASET"
+            for item in dataset["cases"]
+        }
         return cls(
             cases,
             evidence,
-            {policy.policy_version: policy},
-            dataset_id=raw["dataset_id"],
-            synthetic=bool(raw["synthetic"]),
+            {policy.policy_version: policy for policy in policies},
+            dataset_id="RIDERESOLVE_MERGED_MOCK_AND_OFFICIAL_SAMPLES_V1",
+            synthetic=all(bool(dataset["synthetic"]) for dataset in datasets),
+            official_case_keys=official_case_keys,
         )
 
     def _validate(self) -> None:
@@ -90,3 +117,10 @@ class CaseStore:
             return self._policies[policy_version]
         except KeyError as exc:
             raise PolicyNotFoundError(f"policy not found: {policy_version}") from exc
+
+    def list_official_snapshots(self) -> tuple[CaseSnapshot, ...]:
+        """Return only snapshots supplied by the official dataset, in stable order."""
+        return tuple(
+            self._cases[key]
+            for key in sorted(self._official_case_keys)
+        )

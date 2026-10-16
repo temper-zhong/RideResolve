@@ -15,6 +15,15 @@ from .policy import OutputIntegrityError, evaluate_case, validate_judge_recommen
 from .run_registry import AgentRole, RunManifestScope
 
 
+CORE_GATE_A_ROLES = frozenset(
+    {
+        AgentRole.RIDER_ADVOCATE,
+        AgentRole.DRIVER_ADVOCATE,
+        AgentRole.JUDGE,
+    }
+)
+
+
 class ProbeArtifact(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -36,12 +45,16 @@ class AdpToolCall(ProbeArtifact):
     request_id: str = Field(min_length=1)
     role: AgentRole
     operation_id: Literal[
-        "get_case_snapshot", "get_trip_evidence", "get_policy_rules"
+        "get_case_snapshot",
+        "get_trip_evidence",
+        "get_policy_rules",
+        "search_precedents",
     ]
     started_at: datetime
     ended_at: datetime
     returned_evidence_ids: tuple[str, ...] = ()
     returned_rule_ids: tuple[str, ...] = ()
+    returned_precedent_ids: tuple[str, ...] = ()
 
     @model_validator(mode="after")
     def validate_times(self) -> "AdpToolCall":
@@ -228,6 +241,7 @@ def _tool_calls_match_request_by_request(
         "/tools/get_case_snapshot": "get_case_snapshot",
         "/tools/get_trip_evidence": "get_trip_evidence",
         "/tools/get_policy_rules": "get_policy_rules",
+        "/tools/search_precedents": "search_precedents",
     }
     adp_by_request_id = {item.request_id: item for item in trace.tool_calls}
     successful = [item for item in audit_events if item.get("outcome") == "SUCCESS"]
@@ -245,10 +259,15 @@ def _tool_calls_match_request_by_request(
             mismatches.append(f"{request_id}:role")
         audit_evidence = set(event.get("returned_ids", {}).get("evidence_ids", []))
         audit_rules = set(event.get("returned_ids", {}).get("rule_ids", []))
+        audit_precedents = set(
+            event.get("returned_ids", {}).get("precedent_ids", [])
+        )
         if set(adp_call.returned_evidence_ids) != audit_evidence:
             mismatches.append(f"{request_id}:evidence_ids")
         if set(adp_call.returned_rule_ids) != audit_rules:
             mismatches.append(f"{request_id}:rule_ids")
+        if set(adp_call.returned_precedent_ids) != audit_precedents:
+            mismatches.append(f"{request_id}:precedent_ids")
         audit_start = _parse_timestamp(event.get("started_at"))
         audit_end = _parse_timestamp(event.get("ended_at"))
         tolerance = timedelta(seconds=5)
@@ -322,7 +341,7 @@ def verify_probe_artifacts(
     roles = {item.role for item in adp_trace.model_calls}
     check(
         "three_model_roles_observed",
-        set(AgentRole).issubset(roles),
+        CORE_GATE_A_ROLES.issubset(roles),
         f"ADP exported roles: {sorted(item.value for item in roles)}",
     )
     check(

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "rideresolve-adp": {
+      "command": "REPLACE_WITH_ABSOLUTE_PATH_TO_PYTHON_EXE",
+      "args": [
+        "REPLACE_WITH_ABSOLUTE_PATH_TO_ADP_MCP_SERVER"
+      ],
+      "env": {
+        "ADP_APP_KEY": "REPLACE_WITH_PUBLISHED_ADP_APP_KEY",
+        "ADP_CHAT_URL": "https://wss.lke.tencentcloud.com/adp/v2/chat",
+        "ADP_VISITOR_ID": "rideresolve-workbuddy-user",
+        "ADP_TIMEOUT": "120"
+      }
+    }
+  }
+}
