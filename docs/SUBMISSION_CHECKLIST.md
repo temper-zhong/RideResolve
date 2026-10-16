@@ -48,7 +48,7 @@ python -m compileall -q app.py rideresolve scripts tests
 python -m streamlit run app.py
 ```
 
-Expected automated result: `137` pytest tests and `133` unittest tests pass, `pip check` reports no broken requirements, and compilation exits successfully.
+Expected automated result: `141` pytest tests and `137` unittest tests pass, `pip check` reports no broken requirements, and compilation exits successfully.
 
 Then confirm in a fresh browser session:
 

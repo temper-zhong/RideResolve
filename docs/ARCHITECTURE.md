@@ -1,5 +1,7 @@
 # RideResolve architecture
 
+![RideResolve multi-agent architecture](assets/rideresolve-architecture.png)
+
 ```mermaid
 flowchart LR
     U["User problem description"] --> IN["Official Case Intake"]

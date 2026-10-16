@@ -120,7 +120,7 @@ Verified prototype scope:
 - 4 implemented stretch capabilities: Evidence Collection, Policy & Precedent, Learning Feedback, and Escalation;
 - 13 versioned business rules;
 - 8 human-prelabelled policy cases;
-- 86 passing pytest tests, with 83 also discoverable through the standard-library `unittest` runner;
+- 141 passing pytest tests;
 - 1 preserved historical three-core-Agent Route Deviation run;
 - 1 preserved functional five-Agent workflow-first No-Show run with a structured End result and matching seven-event CloudBase audit summary;
 - deterministic simulated refund derivation from an authoritative fare ledger;
